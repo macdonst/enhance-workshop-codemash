@@ -27,6 +27,7 @@
     }
   },
   "dependencies": {
-    "@enhance/arc-plugin-enhance": "^5.0.1"
+    "@enhance/arc-plugin-enhance": "^5.0.1",
+    "@ryanbethel/enhance-styles-cheatsheet": "github:ryanbethel/enhance-styles-cheatsheet"
   }
 }
