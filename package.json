@@ -6,6 +6,7 @@
     "lint": "eslint ./app/**/*.mjs --fix"
   },
   "devDependencies": {
+    "@enhance/cli": "^0.0.7",
     "@enhance/types": "^0.5.0",
     "eslint": "^8.30.0"
   },
@@ -27,7 +28,9 @@
     }
   },
   "dependencies": {
+    "@begin/validator": "github:beginner-corp/validator#normalization",
     "@enhance/arc-plugin-enhance": "^5.0.1",
+    "@enhance/form-elements": "github:enhance-dev/form-elements",
     "@ryanbethel/enhance-styles-cheatsheet": "github:ryanbethel/enhance-styles-cheatsheet"
   }
 }
