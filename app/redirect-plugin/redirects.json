@@ -1,0 +1,6 @@
+{
+  "/test": {
+    "permanent": false,
+    "location": "/"
+  }
+}

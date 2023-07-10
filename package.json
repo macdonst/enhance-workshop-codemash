@@ -1,13 +1,28 @@
 {
-  "name": "begin-app",
+  "name": "enhance-workshop",
   "version": "0.0.1",
   "scripts": {
-    "start": "begin dev",
+    "start": "npx enhance dev",
     "lint": "eslint ./app/**/*.mjs --fix"
   },
+  "dependencies": {
+    "@architect/functions": "^5.4.0",
+    "@begin/data": "^4.0.2",
+    "@begin/validator": "^1.0.1",
+    "@enhance/arc-plugin-enhance": "^6.1.3",
+    "@enhance/form-elements": "github:enhance-dev/form-elements",
+    "@enhance/image": "^0.0.0-alpha.9",
+    "@enhance/layout-elements": "^0.0.1-alpha.8",
+    "@enhance/styles-cribsheet": "^0.0.8",
+    "@sendgrid/mail": "^7.7.0",
+    "bcryptjs": "^2.4.3",
+    "newbase60": "^1.3.1",
+    "twilio": "^4.10.0",
+    "xss": "^1.0.14"
+  },
   "devDependencies": {
-    "@enhance/cli": "^0.0.7",
-    "@enhance/types": "^0.5.0",
+    "@enhance/cli": "^0.0.8",
+    "@enhance/types": "^0.6.0",
     "eslint": "^8.30.0"
   },
   "eslintConfig": {
@@ -26,11 +41,5 @@
       "sourceType": "module",
       "ecmaVersion": 2022
     }
-  },
-  "dependencies": {
-    "@begin/validator": "github:beginner-corp/validator#normalization",
-    "@enhance/arc-plugin-enhance": "^5.0.1",
-    "@enhance/form-elements": "github:enhance-dev/form-elements",
-    "@ryanbethel/enhance-styles-cheatsheet": "github:ryanbethel/enhance-styles-cheatsheet"
   }
 }
