@@ -1,28 +1,28 @@
 import db from '@begin/data'
 async function main() {
   await db.set({
-    table: 'workshops',
-    key: 'wksp1',
-    title: 'Begginer HTML First Development',
-    description: 'Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.',
-    image_url: '/_public/workshops/brooke-cagle-unsplash.jpg',
-    location: 'maineJS meetup',
-    start_date: 'January 10 2023',
-    end_date: 'January 11 2023',
-    capacity: 10,
-    number_enrolled: 5
+    table: 'link_pages',
+    key: 'link1',
+    title: 'First Link Page',
+    description: 'A cool page of links',
+    page_url: 'linkpage1',
+    theme: 'default',
+    link_text_1: 'google',
+    link_url_1: 'http://google.com',
+    link_text_2: 'google',
+    link_url_2: 'http://google.com',
+    link_text_3: 'google',
+    link_url_3: 'http://google.com',
+    link_text_4: 'google',
+    link_url_4: 'http://google.com',
   })
   await db.set({
-    table: 'workshops',
-    key: 'wksp2',
-    title: 'Intermediate HTML First Development',
-    description: 'Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.',
-    image_url: '/_public/workshops/brooke-cagle-unsplash.jpg',
-    location: 'maineJS meetup',
-    start_date: 'January 10 2023',
-    end_date: 'January 11 2023',
-    capacity: 10,
-    number_enrolled: 5
+    table: 'short_links',
+    key: 'short1',
+    short_url: 'catdog',
+    long_url: 'https://wikipedia.com',
+    type: 'temporary',
+    same_site: false,
   })
 }
 main()
