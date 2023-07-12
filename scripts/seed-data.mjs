@@ -1,28 +1,27 @@
 import db from '@begin/data'
 async function main() {
   await db.set({
-    table: 'link_pages',
+    table: 'linkpages',
     key: 'link1',
     title: 'First Link Page',
     description: 'A cool page of links',
-    page_url: 'linkpage1',
+    pageUrl: 'linkpage1',
     theme: 'default',
-    link_text_1: 'google',
-    link_url_1: 'http://google.com',
-    link_text_2: 'google',
-    link_url_2: 'http://google.com',
-    link_text_3: 'google',
-    link_url_3: 'http://google.com',
-    link_text_4: 'google',
-    link_url_4: 'http://google.com',
+    linkText1: 'google',
+    linkUrl1: 'http://google.com',
+    linkText2: 'google',
+    linkUrl2: 'http://google.com',
+    linkText3: 'google',
+    linkUrl3: 'http://google.com',
+    linkText4: 'google',
+    linkUrl4: 'http://google.com',
   })
   await db.set({
-    table: 'short_links',
+    table: 'shortlinks',
     key: 'short1',
-    short_url: 'catdog',
-    long_url: 'https://wikipedia.com',
+    shortUrl: 'catdog',
+    longUrl: 'https://wikipedia.com',
     type: 'temporary',
-    same_site: false,
   })
 }
 main()
