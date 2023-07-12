@@ -8,8 +8,6 @@ prune true
 enhance/arc-plugin-enhance
 enhance/styles-cribsheet
 enhance/arc-image-plugin
-redirects
-  src app/redirect-plugin/index.mjs
 
 @enhance-styles
 config styleguide.json
