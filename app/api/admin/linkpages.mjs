@@ -2,14 +2,14 @@
 /**
   * @typedef {import('@enhance/types').EnhanceApiFn} EnhanceApiFn
   */
-import { getLinkpages, upsertLinkpage, validate } from '../models/linkpages.mjs'
+import { getLinkpages, upsertLinkpage, validate } from '../../models/linkpages.mjs'
 
 
 /**
  * @type {EnhanceApiFn}
  */
 export async function get (req) {
-  const authorized = !!(req.session.authorized?.scopes?.includes('admin'))
+  const authorized = !!(req.session.authorized?.scopes?.includes('linkpages:edit'))
   if (!authorized) return { location: '/login' }
 
   const linkpages = await getLinkpages()
@@ -30,7 +30,7 @@ export async function get (req) {
  * @type {EnhanceApiFn}
  */
 export async function post (req) {
-  const authorized = !!(req.session.authorized?.scopes?.includes('admin'))
+  const authorized = !!(req.session.authorized?.scopes?.includes('linkpages:edit'))
   if (!authorized) return { status: 401 }
 
   const session = req.session

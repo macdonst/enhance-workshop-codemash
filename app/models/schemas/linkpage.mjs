@@ -8,23 +8,18 @@ export const Linkpage = {
     "description": {
       "type": "string"
     },
-    "pageUrl": {
+    "path": {
       "type": "string"
     },
-    "linkText1": {
-      "type": "string"
-    },
-    "linkUrl1": {
-      "type": "string"
-    },
-    "linkText2": {
-      "type": "string"
-    },
-    "linkUrl2": {
-      "type": "string"
-    },
-    "key": {
-      "type": "string"
+    "links":{ 
+      "type":"array",
+      "items":{
+        "type":"object",
+        "properties":{
+          "url":{"type":"string"},
+          "text":{"type":"string"}
+        }
+      }
     }
   }
 }

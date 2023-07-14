@@ -1,5 +1,5 @@
 // View documentation at: https://enhance.dev/docs/learn/starter-project/api
-import { deleteAccount } from '../../../models/accounts.mjs'
+import { deleteAccount } from '../../../../models/accounts.mjs'
 
 /**
  * @type {import('@enhance/types').EnhanceApiFn}

@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
 import xss from 'xss'
-import { getAccounts } from '../../models/accounts.mjs'
+import { getAccounts } from '../models/accounts.mjs'
 // Hardcoded admin account to bootstrap accounts.
 // The password is defined in environment variables
 const hardcodedAdmin = {

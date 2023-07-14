@@ -1,4 +1,4 @@
-import { getAccounts, upsertAccount, validate } from '../../models/accounts.mjs'
+import { getAccounts, upsertAccount, validate } from '../../../models/accounts.mjs'
 import bcrypt from 'bcryptjs'
 
 export async function get(req) {
@@ -48,7 +48,7 @@ export async function post(req) {
   if (problems) {
     return {
       session: { ...session, problems, account:sanitizedAccount },
-      location: '/accounts'
+      location: '/admin/accounts'
     }
   }
 
@@ -62,13 +62,13 @@ export async function post(req) {
 
     return {
       session: newSession,
-      location: '/accounts'
+      location: '/admin/accounts'
     }
   }
   catch (err) {
     return {
       session: { ...newSession, error: err.message },
-      location: '/accounts'
+      location: '/admin/accounts'
     }
   }
 }

@@ -17,7 +17,7 @@ export default function login({ html, state }) {
           <ul>${problems.form}</ul>
         </div>
         <enhance-form
-          action="/login/username"
+          action="/login"
           method="post"
         >
           <div class='grid gap-2'>

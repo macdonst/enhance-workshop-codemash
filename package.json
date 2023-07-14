@@ -8,7 +8,7 @@
   "dependencies": {
     "@architect/functions": "^5.4.0",
     "@begin/data": "^4.0.2",
-    "@begin/validator": "^0.0.10",
+    "@begin/validator": "^1.0.1",
     "@enhance/arc-plugin-enhance": "^6.1.3",
     "@enhance/form-elements": "github:enhance-dev/form-elements",
     "@enhance/image": "^0.0.0-alpha.9",

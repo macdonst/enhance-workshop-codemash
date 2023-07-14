@@ -1,4 +1,4 @@
-import { getAccount, upsertAccount, validate } from '../../models/accounts.mjs'
+import { getAccount, upsertAccount, validate } from '../../../models/accounts.mjs'
 import bcrypt from 'bcryptjs'
 
 export async function get (req) {

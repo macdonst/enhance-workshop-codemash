@@ -3,6 +3,8 @@ export const Account = {
   "type": "object",
   "required": [
     "displayName", 
+    "username", 
+    "password"
   ],
   "properties": {
     "displayName": {
@@ -27,54 +29,9 @@ export const Account = {
         }
       ]
     },
-    "email": {
-      "anyOf": [
-        {
-          "type": "string",
-          "format": "email"
-        },
-        {
-          "type": "string",
-          "maxLength": 0
-        }
-      ]
-    },
-    "phone": {
-      "anyOf": [
-        {
-          "type": "string",
-          "pattern": "[0-9]{3}-[0-9]{3}-[0-9]{4}"
-        },
-        {
-          "type": "string",
-          "maxLength": 0
-        }
-      ]
-    },
     "scopes": {
       "type": "array",
       "items": {"type":"string"}
-    },
-    "verified":{ 
-      "type": "object",
-      "properties":{
-        "email": {"type":"boolean"},
-        "phone": {"type":"boolean"},
-      }
-    },
-    "authConfig":{ 
-      "type": "object",
-      "properties":{
-        "loginWith":{
-          "type": "object",
-          "properties":{
-            "username": {"type":"boolean"},
-            "github": {"type":"boolean"},
-            "email": {"type":"boolean"},
-            "phone": {"type":"boolean"},
-          }
-        }
-      }
     },
     "key": {
       "type": "string"

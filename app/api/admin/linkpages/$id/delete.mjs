@@ -6,7 +6,7 @@ import { deleteLinkpage } from '../../../../models/linkpages.mjs'
  * @type {import('@enhance/types').EnhanceApiFn}
  */
 export async function post (req) {
-  const authorized = !!(req.session.authorized?.scopes?.includes('admin'))
+  const authorized = !!(req.session.authorized?.scopes?.includes('linkpages:edit'))
   if (!authorized) return { status: 401 }
 
   const id = req.pathParameters?.id
