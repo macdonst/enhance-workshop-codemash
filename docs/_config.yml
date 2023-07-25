@@ -1,0 +1,6 @@
+remote_theme: pages-themes/slate@v0.2.0
+plugins:
+- jekyll-remote-theme
+title: Enhance Workshop
+description: This is the Enhance Workshop
+show_downloads: false
