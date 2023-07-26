@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Your Presentation Title</title>
+    <title>{{page.title || 'Enhance Workshop'}}</title>
     <meta charset="utf-8">
     <style>
       @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
@@ -17,9 +17,7 @@
   </head>
   <body>
     <textarea id="source">
-      {% capture rawContent %}
-      {{ content }}
-      {% endcapture %}
+      {% capture rawContent %} {% include_relative {{ page.name }}  %} {% endcapture %}
       {{ rawContent }}
     </textarea>
     <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
