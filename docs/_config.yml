@@ -4,3 +4,4 @@ plugins:
 title: Enhance Workshop
 description: This is the Enhance Workshop
 show_downloads: false
+include: ["*.md"]
