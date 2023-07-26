@@ -18,7 +18,7 @@
   <body>
     <textarea id="source">
       {% capture rawContent %}
-      {% include_relative {{ page.name }}  %}
+      {{ content }}
       {% endcapture %}
       {{ rawContent }}
     </textarea>
