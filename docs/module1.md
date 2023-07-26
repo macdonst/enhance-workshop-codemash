@@ -1,6 +1,7 @@
 ---
 layout: slideshow
 title: Module 1
+exclude: true 
 ---
 
 
@@ -13,6 +14,8 @@ Some Notes
 
 ---
 # Slide 2
+
+Some more stuff
 
 ???
 Some more notes
