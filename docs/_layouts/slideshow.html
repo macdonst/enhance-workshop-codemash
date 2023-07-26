@@ -17,7 +17,8 @@
   </head>
   <body>
     <textarea id="source">
-      {{ content }}
+      {% capture rawMarkdown %}{% include_relative {{ ../page.name }} %}{% endcapture %}
+      {{ rawMarkdown | strip_newlines }}
     </textarea>
     <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
     <script>
