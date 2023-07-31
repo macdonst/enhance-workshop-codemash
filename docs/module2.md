@@ -1,69 +1,29 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Enhance Workshop</title>
-    <meta charset="utf-8">
-    <style>
-      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
-      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
-      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
-      body { font-family: 'Droid Serif'; }
-      h1, h2, h3 {
-        font-family: 'Yanone Kaffeesatz';
-        font-weight: normal;
-      }
-      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
-    </style>
-  </head>
-  <body>
-    <textarea id="source">
-
-class: center, middle
+---
+title: Module 2: HTML-First Development
+---
 
 # Module 2: HTML-First Development
 
 ---
-layout:true
 
 ## The Enhance Way
 
 ---
 
 * JavaScript first?
-
---
-
   * Most modern frameworks are JavaScript first
-
---
-
   * HTML is backward and forward compatible and stable
-
---
-
   * JavaScript, by comparison, moves fast to include new capabilities
-
---
-
   * JavaScript first is unconstrained at the cost of stability and reliability
 
 
 ---
 * HTML, CSS, and JavaScript have quietly caught up with features needed to build modern web applications
-
---
-
   * JavaScript first frameworks are now behind
-
---
-
   * HTML-First leverages built-in features rather reinventing the platform
-
---
-
       * i.e. HTML forms
 
-???
+---
 
 * Forms are dependable and simple to build.
 * They have built-in validation as well as many other useful features.
@@ -71,32 +31,25 @@ layout:true
 
 ---
 * HTML-First
-
---
-
   * Start simple - improve incrementally
 
-???
+---
 * Make it work (reliably with HTML & CSS) - then make it better (incrementally with a little JS)
 * You can get further with HTML and CSS than you probably think you can
 * Since these frameworks often reimplement what the web already does, people come to expect that HTML is mostly limited to displaying text.
 
---
+---
 
-  * Progressive Enhancement
-???
-* not Graceful Degradation
+* Progressive Enhancement
+  * not Graceful Degradation
 * People are regularly shocked to learn that most modern applications can be built with little to no JS.
 * The JavaScript that is added is usually just to make slight improvements.
 
-
 ---
-layout:true
 
 ## Build: HTML pages
 
 ---
-
 
 ### Get the code for this module:
 
@@ -105,7 +58,6 @@ cd enhance-workshop
 git checkout module2-start
 ```
 
-???
 * We are going to add some basic HTML content to start our site.
 * Enhance lets the platform do what it does best wherever possible.
 * Writing plain HTML is one place where Enhance will just get out of the way.
@@ -113,8 +65,6 @@ git checkout module2-start
 
 ---
 ### Add a home page
-
-
 
 * Create an `index.html` file in the `/app/pages/` directory and add the following:
 
@@ -127,16 +77,11 @@ git checkout module2-start
 ```
 
 ---
-layout: true
 
 ## Styling
 
----
----
-
 ### Plain CSS
 
---
 
 ```html
 <!-- /app/pages/index.html--->
@@ -151,19 +96,9 @@ layout: true
 </main>
 ```
 
---
-
 * Best practice: Styles in the head
-
---
-
   * Add `<style>` tag to the document `<head>` in `/app/head.mjs`
-
---
-
   * CSS file in the `/public` folder with a `<link href="/_public/styles.css">` in the head.
-
-
 
 ---
 
@@ -180,26 +115,19 @@ layout: true
 </main>
 ```
 
---
-
 * Cheatsheet: [ http://localhost:3333/_styleguide/cribsheet](http://localhost:3333/_styleguide/cribsheet)
 
 
 ---
 ### Scoped Styles
 
-
 * Enhance will scope styles to components
 * We will see this in the next module
 
 
 ---
-layout: true
 
 ### Navigation
----
----
-
 
 * Make another page called `app/pages/about.html`
 
@@ -215,11 +143,7 @@ layout: true
 ---
 
 * Now we need to navigate between pages
-
---
 * Add a simple navigation:
-
---
 
 ```html
 <!-- /app/pages/about.html--->
@@ -244,34 +168,13 @@ layout: true
 ---
 
 * Add the navigation to the home page
-
---
-
   * Duplicated markup
-
---
-
-???
 * This duplication feels wrong.
 * We immediately want to DRY it up.
-
---
-
 .center[**Many JavaScript framework had their inception at this very moment.**]
 
 ---
-layout: true
----
-class: center, middle
 
 ## **The Web Platform needs its own component model**.
 
 Thankfully, now it has one.
-
-    </textarea>
-    <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
-    <script>
-      var slideshow = remark.create();
-    </script>
-  </body>
-</html>

@@ -1,26 +1,8 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Enhance Workshop</title>
-    <meta charset="utf-8">
-    <style>
-      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
-      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
-      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
-      body { font-family: 'Droid Serif'; }
-      h1, h2, h3 {
-        font-family: 'Yanone Kaffeesatz';
-        font-weight: normal;
-      }
-      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
-    </style>
-  </head>
-  <body>
-    <textarea id="source">
-class: center, middle
+---
+title: Module 3: Custom Elements and Web Components
+---
 
 # Module 3: Custom Elements and Web Components
-
 
 ---
 ## Objectives
@@ -36,8 +18,6 @@ class: center, middle
 * Building with components is convenient
 * The web platform lacked a component
 * Explosion of frameworks like React is partly to solve this problem
-
-???
 * If you ask developers to build something complex without components they will usually build some abstraction to allow them to use components
 
 ---
@@ -48,13 +28,10 @@ class: center, middle
 * The process was not smooth
 * But they are ready for production
 * Better than JS Framework of the past
-
-???
-* We are not going to waste time with that history, but it is important because there is a lot of outdated or incorrect information about why they don’t work and you shouldn’t use them.
+* We are not going to spend time with that history, but it is important because there is a lot of outdated or incorrect information about why they don’t work and you shouldn’t use them.
 
 ---
 ## Web Component Definition
-
 
 * A set of platform APIs for the creation of custom, reusable HTML tags
 * Three primary specifications:
@@ -63,9 +40,7 @@ class: center, middle
     * HTML Templates: The `<template>` and `<slot>` elements enable you to write markup templates that are not displayed in the rendered page. These can then be reused multiple times as the basis of a custom element's structure.
 
 ---
-layout:true
 ## Web Component Example
----
 
 * Checkout the Module 3 code:
 
@@ -107,7 +82,7 @@ git checkout module3-start
     customElements.define('user-card', UserCard);
   </script>
 ```
-???
+
 * This is a simple HTML page with no Enhance magic at all.
 * This is really powerful.
 * We define the behavior of `<user-card>` once and then we can then use it anywhere.
@@ -115,8 +90,6 @@ git checkout module3-start
 ---
 
 ## JavaScript dependent
-
-
 
 * The Web Component specification was developed with the assumption that JavaScript will always work.
 * Without JavaScript, stuff breaks.
@@ -131,14 +104,12 @@ git checkout module3-start
 
 ##  Problems with the ShadowDOM
 
-
-
 * Most problems with WC are downstream of the shadowDOM
 * The ShadowDOM encapsulation breaks platform APIs
     * Forms don’t submit
     * Forms don’t validate
     * `querySelect` does not work
-* The form below will not submit because the actual <input> is trapped inside the shadowDOM.
+* The form below will not submit because the actual `<input>` is trapped inside the shadowDOM.
 
 ```html
 <form action="/" method="post">
@@ -164,7 +135,6 @@ git checkout module3-start
 </script>
 ```
 
-
 * It would be nice if we could author the shortened version `<my-input></my-input>` and have it expanded into the following version with the markup inside added, without using the shadowDOM.
 
 ```html
@@ -177,15 +147,12 @@ git checkout module3-start
 </form>
 ```
 
-
 * Even without JavaScript this form will work exactly as expected. The <my-input> is an unrecognized tag that the browser will treat as a <span>.
 * The only problem with this form is that if you have to author all the markup inside the tag you lose much of the convenience of building with components.
 
 ---
 
 ### Enhance = Web Components The Good Parts
-
-
 
 * The biggest advantage of Enhance is SSR WC without the shadowDOM
 * There is not much magic in the Enhance framework by design, but it does Server Side render/expand web components so that they arrive at the client ready to go.
@@ -194,8 +161,6 @@ git checkout module3-start
 
 
 ### Enhance Elements
-
-
 
 * We will rewrite our `<nav-bar>` as a custom element.
 * The result is shown below. Paste this code in the `/app/elements/nav-bar.mjs` file.
@@ -226,12 +191,11 @@ export default function NavBar({ html }) {
 }
 ```
 
-
 * This is an Enhance Single File Component.
-* It does a few things to improve page performance, but there is very little magic here. You could cut and paste this code into your HTML for every instance of the <nav-bar> and this would work as expected. This is just standard platform HTML, CSS and JavaScript.
+* It does a few things to improve page performance, but there is very little magic here. You could cut and paste this code into your HTML for every instance of the `<nav-bar>` and this would work as expected. This is just standard platform HTML, CSS and JavaScript.
 * The performance improvements that Enhance adds are:
-    * Moving the <style> tags to the head of the file and deduplicating them
-    * Moving <script> tags to the end of the file and deduplicating them.
+    * Moving the `<style>` tags to the head of the file and deduplicating them
+    * Moving `<script>` tags to the end of the file and deduplicating them.
     * Scoping the style tags to target on the custom element they are written in
 
 
@@ -239,24 +203,13 @@ export default function NavBar({ html }) {
 
 ### Authoring with Custom Elements
 
-
-
 * Now that we have a <nav-bar> defined in /app/elements lets simplify our about page
 
-    ```
+```html
 <!-- /app/pages/about.html--->
-
 <nav-bar></nav-bar>
 <main>
   <h1>About</h1>
   <p>Hello World</p>
 </main>
 ```
-
-    </textarea>
-    <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
-    <script>
-      var slideshow = remark.create();
-    </script>
-  </body>
-</html>
