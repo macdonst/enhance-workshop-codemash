@@ -1,6 +1,9 @@
 ---
-title: Module 2: HTML-First Development
+title: "Module 2: HTML-First Development"
 ---
+
+[Module Index](/)
+
 
 # Module 2: HTML-First Development
 

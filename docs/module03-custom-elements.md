@@ -1,6 +1,9 @@
 ---
-title: Module 3: Custom Elements and Web Components
+title: "Module 3: Custom Elements and Web Components"
 ---
+
+[Module Index](/)
+
 
 # Module 3: Custom Elements and Web Components
 

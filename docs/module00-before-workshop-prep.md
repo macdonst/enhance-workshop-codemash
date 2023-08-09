@@ -2,6 +2,8 @@
 title: Enhance Workshop Preparation
 ---
 
+[Module Index](/)
+
 # Module 0: Preliminary Setup (complete before the workshop)
 
 ## Objective:

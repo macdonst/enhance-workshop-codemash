@@ -1,6 +1,9 @@
 ---
-title: Module 1: Workshop Overview
+title: "Module 1: Workshop Overview"
 ---
+
+[Module Index](/)
+
 
 # Module 1: Workshop Overview
 
