@@ -21,9 +21,9 @@ There are a couple more parts of the project structure we will need:
 
 
 
-* `app/public` - Static assets like images. Includes fingerprinting. Accessed at `/_public/file/path`
-* `app/head.mjs` - Customize the document `<head>` 
-* `app/api` - API routes to return JSON data, or to pass data to a corresponding `app/pages` route to make the page dynamic
+* `app/head.mjs` - Customize the document `<head>`
+* `app/api` - API routes to return data (JSON, XML, etc.), or to pass data to a corresponding `app/pages` route to make the page dynamic
+* `public` - Static assets like images. Includes fingerprinting. Accessed at `/_public/file/path`
 
 
 ## Adding API Routes
@@ -33,20 +33,19 @@ Add the following code to a new API route at `/app/api/data.mjs`:
 
 ```javascript
 // /app/api/data.mjs
-
-export async get(){
+export async function get(){
   const data = { myData: "Here is some data" }
-  return { json: data }
+  return { json: { data } }
 }
 ```
 
 
 
 
-* Methods: 
-    * The name of the exported function is the HTTP method. 
+* Methods:
+    * The name of the exported function is the HTTP method.
     * Multiple methods can be exported from the same file.
-    * Post, Get, Patch, Delete, ext. 
+    * Post, Get, Patch, Delete, ext.
     * Get and Post are recommended for HTML-First development
     * You can export “any” to match all HTTP methods
 * Response:
@@ -57,6 +56,7 @@ export async get(){
         * location: Redirect location headers
         * headers: Set arbitrary headers
         * session: Set session cookies
+    * Note: you may return any type of data from an API request. See [Responses](https://arc.codes/docs/en/reference/runtime-helpers/node.js#responses) for more details.
 * Middleware:
     * Pass an array to add middleware
     * Short circuit the middleware chain by returning early
@@ -83,7 +83,7 @@ async function getHandler(req){
 
 * JSON vs. HTML
     * If both an API and Pages route exist then the response is determined by the requests `accepts` header. If it is set to `accept: application/json` it will return the JSON directly from the API route.
-    * If it is set to  `accept: text/html` it will pass the JSON data on to the pages route for rendering. 
+    * If it is set to  `accept: text/html` it will pass the JSON data on to the pages route for rendering.
 
 
 ## Dynamic HTML pages
@@ -96,7 +96,7 @@ Now that there is a way to pass data to our HTML page we need to access it from 
 * First create `/app/pages/data.html` and paste the following code there:
 
 ```html
-<!-- /app/pages/data.html---> 
+<!-- /app/pages/data.html--->
 
 <nav-bar></nav-bar>
 <main>
@@ -111,27 +111,25 @@ Now that there is a way to pass data to our HTML page we need to access it from 
 
 ```javascript
 export default function ShowData({ html, state }) {
-  const store = state.store
+  const { store } = state
   const { data = {} } = store
   return html`
-   <pre> ${JSON.stringify(data)} <pre>
-  `
+     <pre> ${JSON.stringify(data)} <pre>
+    `
 }
 ```
 
 
-* You can write a JavaScript `.mjs` file directly in the `/app/pages` directory and access the store there the same way. 
+* You can write a JavaScript `.mjs` file directly in the `/app/pages` directory and access the store there the same way.
 
 
 ## Adding a Database
 
 For the API to really be useful it needs a way to store and retrieve data. We will add a database to our application to solve this problem.
 
-
-
-* Enhance has a first class Database built in that is free for small projects and can seamlessly scale up to meet the needs of any site. 
-* DynamoDB is deployed alongside every Enhance app deployed to Begin.com or directly to AWS with Architect (arc.codes). 
-* For our purposes we will use Begin data ([https://docs.begin.com/en/data/begin-data/](https://docs.begin.com/en/data/begin-data/)). It is a thin wrapper for DynamoDB that makes the API a little easy to work with.
+* Enhance has a first class Database built in that is free for small projects and can seamlessly scale up to meet the needs of any site.
+* DynamoDB is deployed alongside every Enhance app deployed to Begin.com or directly to AWS with Architect (arc.codes).
+* For our purposes we will use [Begin data](https://docs.begin.com/en/data/begin-data/). It is a thin wrapper for DynamoDB that makes the API a little easy to work with.
 * Lets modify our data API route to read and write to our database as follows:
 
 
@@ -139,12 +137,12 @@ For the API to really be useful it needs a way to store and retrieve data. We wi
 // /app/api/data.mjs
 import begin from '@begin/data'
 
-export async get(){
+export async function get(){
   const data = await begin.get({key:'my-data'})
-  return { json: data }
+  return { json: { data } }
 }
 
-export async post(req){
+export async function post(req){
   const data = req.body?.data
   if (data) {
     await begin.set({key:'my-data', ...data})
