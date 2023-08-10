@@ -65,6 +65,13 @@ git checkout module2-start
 * Enhance lets the platform do what it does best wherever possible.
 * Writing plain HTML is one place where Enhance will just get out of the way.
 
+### Start the local development environment:
+
+```bash
+npm start
+```
+
+Open a browser tab to [http://localhost:3333](http://localhost:3333)
 
 ---
 ### Add a home page
@@ -79,6 +86,8 @@ git checkout module2-start
 </main>
 ```
 
+* Wow, that looks terrible as we've applied a CSS Reset as part of our base styling. Let's add some very basic CSS.
+
 ---
 
 ## Styling
@@ -90,7 +99,7 @@ git checkout module2-start
 <!-- /app/pages/index.html--->
 <style>
   body {
-    Color: blue;
+    color: blue;
   }
 </style>
 <main>
@@ -118,7 +127,7 @@ git checkout module2-start
 </main>
 ```
 
-* Cheatsheet: [ http://localhost:3333/_styleguide/cribsheet](http://localhost:3333/_styleguide/cribsheet)
+* Cheatsheet: [http://localhost:3333/_styleguide/cribsheet](http://localhost:3333/_styleguide/cribsheet)
 
 
 ---
@@ -174,7 +183,8 @@ git checkout module2-start
   * Duplicated markup
 * This duplication feels wrong.
 * We immediately want to DRY it up.
-.center[**Many JavaScript framework had their inception at this very moment.**]
+
+**Many JavaScript framework had their inception at this very moment.**
 
 ---
 

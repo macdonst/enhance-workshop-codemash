@@ -13,14 +13,14 @@ title: "Module 3: Custom Elements and Web Components"
 
 * The built-in component model
 * Custom Elements vs Web Components
-* SSR Components with Enhance
+* Server Side Rendering (SSR) Components with Enhance
 
 ---
 ## The web needs a component model
 
 * Building with components is convenient
-* The web platform lacked a component
-* Explosion of frameworks like React is partly to solve this problem
+* The web platform lacked a component model
+* Explosion of frameworks like Angular, React and Vue is partially to solve this problem
 * If you ask developers to build something complex without components they will usually build some abstraction to allow them to use components
 
 ---
@@ -32,6 +32,7 @@ title: "Module 3: Custom Elements and Web Components"
 * But they are ready for production
 * Better than JS Framework of the past
 * We are not going to spend time with that history, but it is important because there is a lot of outdated or incorrect information about why they don’t work and you shouldn’t use them.
+* The key takeaway is all the specs we are about to talk about are supported across all evergreen browsers.
 
 ---
 ## Web Component Definition
@@ -53,7 +54,7 @@ git checkout module3-start
 ```
 ---
 
-* Add the following code to `app/pages/component.html`
+* Add the following code to `app/pages/about.html`
 
 ```html
   <user-card role="Developer">
@@ -97,8 +98,8 @@ git checkout module3-start
 * The Web Component specification was developed with the assumption that JavaScript will always work.
 * Without JavaScript, stuff breaks.
 * Lets add some artificial delay to initializing the javascript
-    * Add the following to the top of the script tag:
-    * `await new Promise(resolve => setTimeout(resolve, seconds * 2000))`
+    * Replace the `customElements.define` call at the bottom of the script tag with the following line:
+    * `setTimeout(() => customElements.define('user-card', UserCard), 5 * 1000)`
 * You get a momentary flash of unstyled broken content.
 * This is at minimum ugly.
 * If JavaScript fails to load completely the page may be completely broken.
@@ -150,14 +151,14 @@ git checkout module3-start
 </form>
 ```
 
-* Even without JavaScript this form will work exactly as expected. The <my-input> is an unrecognized tag that the browser will treat as a <span>.
+* Even without JavaScript this form will work exactly as expected. The `<my-input>` is an unrecognized tag that the browser will treat as a `<span>`.
 * The only problem with this form is that if you have to author all the markup inside the tag you lose much of the convenience of building with components.
 
 ---
 
 ### Enhance = Web Components The Good Parts
 
-* The biggest advantage of Enhance is SSR WC without the shadowDOM
+* The biggest advantage of Enhance is SSR custom elements without the shadowDOM
 * There is not much magic in the Enhance framework by design, but it does Server Side render/expand web components so that they arrive at the client ready to go.
 
 ---
@@ -180,7 +181,7 @@ export default function NavBar({ html }) {
     </style>
     <site-container>
       <nav class='flex gap0'>
-        <h1 class='font-semibold tracking-1'><a href='/' class='no-underline'>a.d.c</a></h1>
+        <h1 class='font-semibold tracking-1'><a href='/' class='no-underline'>My Site</a></h1>
         <ul class='mis-auto flex gap0 list-none'>
           <li><a href='/'>Home</a></li>
           <li><a href='/about'>About</a></li>
@@ -197,7 +198,7 @@ export default function NavBar({ html }) {
 * This is an Enhance Single File Component.
 * It does a few things to improve page performance, but there is very little magic here. You could cut and paste this code into your HTML for every instance of the `<nav-bar>` and this would work as expected. This is just standard platform HTML, CSS and JavaScript.
 * The performance improvements that Enhance adds are:
-    * Moving the `<style>` tags to the head of the file and deduplicating them
+    * Hoisting the `<style>` tags to the head of the file and deduplicating them
     * Moving `<script>` tags to the end of the file and deduplicating them.
     * Scoping the style tags to target on the custom element they are written in
 
