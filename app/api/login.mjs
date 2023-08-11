@@ -27,7 +27,7 @@ export async function post(req) {
   if (!password || !username) {
     return {
       session: { problems: { form: 'Missing Username or Password' }, login: {username:xss(username)}, redirectAfterAuth },
-      location: '/login/username'
+      location: '/login'
     }
   }
 
@@ -41,27 +41,18 @@ export async function post(req) {
   }
 
   let accounts = await getAccounts()
-  const account = accounts.find(a => a.username === username && 
-    a.authConfig?.loginWith?.username)
+  const account = accounts.find(a => a.username === username)
   const match = account ? bcrypt.compareSync(password, account?.password) : false
-  const accountVerified = match ? !!(account.verified?.email || account.verified?.phone) : false
   const { password: removePassword, ...sanitizedAccount } = account || {}
-  if (accountVerified) {
+  if (match) {
     return {
       session: { authorized: sanitizedAccount },
-      location: redirectAfterAuth ? redirectAfterAuth : '/'
+      location: redirectAfterAuth ? redirectAfterAuth : '/admin/linkpages'
     }
-  } 
-  if (match && !accountVerified) {
-    return {
-      session: { unverified: sanitizedAccount, redirectAfterAuth },
-      location: '/verify'
-    }
-  }
-  if (!match) {
+  } else {
     return {
       session: { problems: { form: 'Incorrect Username or Password' }, login: {username:xss(username)} },
-      location: '/login/username'
+      location: '/login'
     }
   }
 } 

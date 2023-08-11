@@ -10,7 +10,12 @@ import { getLinkpages, upsertLinkpage, validate } from '../../models/linkpages.m
  */
 export async function get (req) {
   const authorized = !!(req.session.authorized?.scopes?.includes('linkpages:edit'))
-  if (!authorized) return { location: '/login' }
+  if (!authorized) { 
+    return { 
+      session: {...req.session, redirectAfterAuth:'/admin/linkpages'},
+      location: '/login' 
+    } 
+  }
 
   const linkpages = await getLinkpages()
   if (req.session.problems) {
