@@ -35,7 +35,7 @@ export default function Html({ html, state }) {
     <details class="mb0" ${Object.keys(problems).length ? 'open' : ''}>
       <summary>New link page</summary>
       <enhance-form
-        action="/admin/linkpages/${linkpage.key}"
+        action="/admin/linkpages"
         method="POST">
         <div class="${problems.form ? 'block' : 'hidden'}">
           <p>Found some problems!</p>
@@ -47,8 +47,8 @@ export default function Html({ html, state }) {
         <enhance-text-input label="Page Route" type="text" id="path" name="path" value="${linkpage?.path || ''}" errors="${problems?.path?.errors || ''}"></enhance-text-input>
 
         ${Array(10).fill(0).map( (_,i)=> `
-          <enhance-text-input label="Link Text ${i}" type="text" id="links[${i}].text" name="link[${i}].text" value="${linkpage?.links?.[i]?.text || ''}" errors="${problems?.links?.[i]?.text?.errors || ''}"></enhance-text-input>
-          <enhance-text-input label="Link Url ${i}" type="text" id="link[${i}].url" name="link[${i}].url" value="${linkpage?.links?.[i]?.url || ''}" errors="${problems?.links?.[i]?.url?.errors || ''}"></enhance-text-input>
+          <enhance-text-input label="Link Text ${i}" type="text" id="links[${i}].text" name="links[${i}].text" value="${linkpage?.links?.[i]?.text || ''}" errors="${problems?.links?.[i]?.text?.errors || ''}"></enhance-text-input>
+          <enhance-text-input label="Link Url ${i}" type="text" id="links[${i}].url" name="links[${i}].url" value="${linkpage?.links?.[i]?.url || ''}" errors="${problems?.links?.[i]?.url?.errors || ''}"></enhance-text-input>
         `).join('')}
 
         <enhance-submit-button style="float: right"><span slot="label">Save</span></enhance-submit-button>
