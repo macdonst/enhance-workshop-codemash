@@ -26,7 +26,7 @@ Because the general patterns are so common we will look at how to create CRUD ro
 Again we will take an HTML-first approach using plain HTML forms as the basis for each operation.
 
 For this module we will build a Link Tree feature with pages that have a list of links.
-We want to be able to do all the CRUDL operations on these objects. 
+We want to be able to do all the CRUDL operations on these objects.
 
 ---
 
@@ -43,15 +43,8 @@ We want to be able to do all the CRUDL operations on these objects.
     * POST - Update Post endpoint
   * `/linkpages/$id/delete` - Delete
     * POST - Deletes object
-    
-  * `/linkpages` - List and Create
-    * GET - List and Create form in one page
-    * POST - Create Post endpoint
-  * `/linkpages/$id.mjs` - Read and Update
-    * GET - Read and Update form
-    * POST - Update Post endpoint
-  * `/linkpages/$id/delete` - Delete
-    * POST - Deletes object
+
+> Why do we have a POST `/linkpages/$id/delete` route instead of a DELETE `/linkpages/$id` route? It is because browsers only support GET and POST and we want to be able to support non-JavaScript use cases with our forms.
 
 ---
 
@@ -64,7 +57,7 @@ We want to be able to do all the CRUDL operations on these objects.
     * /app/pages/linkpages.mjs
     * /app/pages/linkpages/$id.mjs
   * Data Access Layer
-    * /app/models/linkpages.mjs 
+    * /app/models/linkpages.mjs
     * /app/models/schema/linkpages.mjs
 
 
@@ -72,7 +65,7 @@ We want to be able to do all the CRUDL operations on these objects.
 
 ### Dynamic Routes and Catch All Routes
 
-Enhance has support for dynamic and catchall routes. 
+Enhance has support for dynamic and catchall routes.
 The '$'in the above route and path names will match any path part.
 The `$id` will match any object ID at the end of the `/linkpages` route.
 If the file or route is named with '$$' it will match any remaining path with multiple parts.
@@ -83,7 +76,18 @@ If the file or route is named with '$$' it will match any remaining path with mu
 
 For this example we will start with a simplified data shape and fill it out later.
 * Our Link Page object will be:
-  * `{ path:'my-links', links:[ { text: 'my-blog', url: 'https://example.com' } ] }`
+
+```json
+{
+  path: 'my-links',
+  links:[
+    {
+      text: 'my-blog',
+      url: 'https://example.com'
+    }
+  ]
+}
+```
 
 Lets make a page with a form to create a new link page at `/app/pages/linkpages.mjs`:
 
@@ -125,9 +129,9 @@ export async function post (req) {
 ```
 
 This will:
-1. Take the form data recieved and put it in a JavaScript object (including expanding "links[0].url" into and array of objects instead of a string key value pair).
+1. Take the form data received and put it in a JavaScript object (including expanding "links[0].url" into and array of objects instead of a string key value pair).
 2. Store it in the Database
-3. Redirect back to /linkpages 
+3. Redirect back to /linkpages
 
 Notice we are missing any validation. We will add that soon. But first we need sessions.
 Before we add sessions a validation lets finish the loop so that we can see the link pages objects that we create.
@@ -135,7 +139,7 @@ Before we add sessions a validation lets finish the loop so that we can see the 
 
 ---
 
-## List 
+## List
 We need to list the objects we created.
 To do this we will overload the list function in the same route and files we just created.
 
@@ -222,11 +226,11 @@ export async function post (req) {
 ---
 
 ## Update
-We have a link to update linkpages from the list view, 
+We have a link to update linkpages from the list view,
 but we need to add the page and api to support that feature.
 
-First lets start with the update page and form. 
-This will be similar to the create form except with the addition of a key. 
+First lets start with the update page and form.
+This will be similar to the create form except with the addition of a key.
 We will also need to prepopulate the form with the previous values so that only the updated values will change.
 
 Copy the code below into /app/pages/linkpages/$id.mjs.
@@ -309,7 +313,7 @@ export async function post (req) {
 
 ## Seed Data for Local Development
 
-In local developement we get a clean database everytime we start the server.
+In local development we get a clean database every time we start the server.
 It is helpful to be able to seed some data so that we start with something.
 
 Copy the following to the /scripts/seed-data.mjs file
@@ -333,7 +337,6 @@ main()
 Now to run that at we modify the /prefs.arc file as follows
 
 ```arc
-
 @sandbox
 livereload true
 
