@@ -3,11 +3,7 @@ export default function TextContainer({ html }) {
     <style>
       :host {
         display: block;
-        max-inline-size: 68ch;
-      }
-
-      p + p {
-        margin-block-start: 1rem;
+        max-inline-size: 84ch;
       }
     </style>
     <slot></slot>

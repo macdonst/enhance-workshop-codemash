@@ -1,4 +1,6 @@
-export default function SiteFooter({ html }) {
+export default function SiteFooter({ html, state }) {
+  const { store } = state
+  const { author } = store
   return html`
     <style>
       text-container {
@@ -9,7 +11,7 @@ export default function SiteFooter({ html }) {
       <site-container>
         <text-container class='mi-auto text-center border-solid border-bs1 pbs3'>
           <p class='text-1'>
-            <span class='line-through'>&copy;</span> 2023 <span class='font-semibold'>a.d.c</span>
+            &copy; ${new Date().getFullYear()} ${author.name}</span>
           </p>
           <p class='text-1'>
             Built with <a href='https://enhance.dev'>Enhance</a>

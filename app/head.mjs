@@ -13,6 +13,13 @@ export default function Head(state) {
   if (store.path === undefined) {
     store.path = path
   }
+  if (store.author === undefined) {
+    store.author = {
+      name: 'Axol Lotl',
+      title: 'Web Developer',
+      githubUsername: 'enhance-dev',
+    }
+  }
 
   const title = titlesByPath[path] || ''
 
@@ -26,8 +33,8 @@ export default function Head(state) {
       <meta name="og:image" content="/_public/adc-open-graph.jpg" />
       <meta name="og:type" content="website" />
       <link rel="icon" href="/_public/favicon.svg">
-      <title>a.d.c — ${title}</title>
-      <meta name="description" content="An example of a design portfolio built with Enhance — the HTML first full stack web framework" />
+      <title>Axol Lotl: ${title}</title>
+      <meta name="description" content="Portfolio for Axol Lotl, Senior Developer" />
       ${linkTag()}
       <style>
         @font-face {

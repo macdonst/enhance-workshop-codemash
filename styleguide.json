@@ -39,7 +39,7 @@
   },
   "properties": {
     "site-width": "90vw",
-    "site-max-width": "1560px"
+    "site-max-width": "1440px"
   },
   "grid": {
     "steps": 6
