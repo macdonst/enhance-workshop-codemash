@@ -11,7 +11,6 @@
     "@begin/validator": "^1.0.1",
     "@enhance/arc-plugin-enhance": "^6.2.1",
     "@enhance/form-elements": "github:enhance-dev/form-elements",
-    "@enhance/image": "^0.0.0-alpha.11",
     "@enhance/layout-elements": "^0.0.1-alpha.8",
     "@enhance/styles-cribsheet": "^0.0.9",
     "bcryptjs": "^2.4.3",
