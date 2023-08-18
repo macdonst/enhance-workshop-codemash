@@ -1,5 +1,5 @@
 @app
-enhance-example-portfolio
+enhance-workshop
 
 @static
 prune true
@@ -7,7 +7,6 @@ prune true
 @plugins
 enhance/arc-plugin-enhance
 enhance/styles-cribsheet
-enhance/arc-image-plugin
 
 @enhance-styles
 config styleguide.json
