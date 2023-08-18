@@ -1,11 +1,11 @@
 ---
-title: "Module 7: CRUDL Part 1"
+title: "Module 6: CRUDL Part 1"
 ---
 
 [Module Index](/)
 
 
-# Module 7: CRUDL
+# Module 6: CRUDL
 ## Putting It All Together
 
 ## Outline
@@ -44,7 +44,8 @@ We want to be able to do all the CRUDL operations on these objects.
   * `/linkpages/$id/delete` - Delete
     * POST - Deletes object
 
-> Why do we have a POST `/linkpages/$id/delete` route instead of a DELETE `/linkpages/$id` route? It is because browsers only support GET and POST and we want to be able to support non-JavaScript use cases with our forms.
+> Why do we have a POST `/linkpages/$id/delete` route instead of a DELETE `/linkpages/$id` route?
+It is because browsers only support GET and POST and we want to be able to support non-JavaScript use cases with our forms.
 
 ---
 

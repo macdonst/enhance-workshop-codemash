@@ -1,11 +1,11 @@
 ---
-title: "Module 6: Forms and the Shadow DOM"
+title: "Module B1: Forms and the Shadow DOM"
 ---
 
 [Module Index](/)
 
 
-# Module 6: HTML Forms (~30min)
+# Module B1: HTML Forms (~30min)
 
 We discussed in Module 3 some of the reasons that we recommend avoiding the Shadow DOM.
 

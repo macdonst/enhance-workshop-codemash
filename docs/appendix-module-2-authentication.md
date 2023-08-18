@@ -1,6 +1,6 @@
 
 ---
-title: Module 9: Authentication for a Username and Password flow
+title: Module B2: Authentication for a Username and Password flow
 ---
 
 [Module Index](/)
