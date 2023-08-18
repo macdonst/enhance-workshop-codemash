@@ -1,12 +1,7 @@
-// View documentation at: https://enhance.dev/docs/learn/starter-project/api
 import { deleteLinkpage } from '../../../../models/linkpages.mjs'
 
-
-/**
- * @type {import('@enhance/types').EnhanceApiFn}
- */
 export async function post (req) {
-  const authorized = !!(req.session.authorized?.scopes?.includes('linkpages:edit'))
+  const authorized = !!req.session.authorized
   if (!authorized) return { status: 401 }
 
   const id = req.pathParameters?.id

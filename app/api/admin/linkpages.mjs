@@ -9,10 +9,9 @@ import { getLinkpages, upsertLinkpage, validate } from '../../models/linkpages.m
  * @type {EnhanceApiFn}
  */
 export async function get (req) {
-  const authorized = !!(req.session.authorized?.scopes?.includes('linkpages:edit'))
+  const authorized = !!req.session.authorized
   if (!authorized) { 
     return { 
-      session: {...req.session, redirectAfterAuth:'/admin/linkpages'},
       location: '/login' 
     } 
   }
@@ -35,7 +34,7 @@ export async function get (req) {
  * @type {EnhanceApiFn}
  */
 export async function post (req) {
-  const authorized = !!(req.session.authorized?.scopes?.includes('linkpages:edit'))
+  const authorized = !!req.session.authorized
   if (!authorized) return { status: 401 }
 
   const session = req.session

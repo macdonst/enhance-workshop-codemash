@@ -126,14 +126,21 @@ For this we will build a simple singleplayer authentication.
 
 Lets build a login page
 
-```javascript
-// /app/elements/please-login.mjs
-export default function login ({ html, state }) {
- return html`<form method=post action=/login>
-   <input type=password name=password placeholder='enter secret'>
-   <button>login</button>
- </form>`
-}
+```html
+<!-- /app/pages/login.html -->
+<page-container>
+  <main>
+        <enhance-form action="/login" method="post" >
+            <enhance-text-input
+              label="Password"
+              id="password"
+              name="password"
+              type="password"
+            ></enhance-text-input>
+              <enhance-submit-button><span slot="label">Log in</span></enhance-submit-button>
+        </enhance-form>
+  </main>
+</page-container>
 ```
 
 Now we need to add the API route for this to post to.
