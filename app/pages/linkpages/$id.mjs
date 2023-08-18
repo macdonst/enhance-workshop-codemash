@@ -9,7 +9,7 @@ export default function Html({ html, state }) {
 
   return html`<enhance-page-container>
   <enhance-form
-  action="/admin/linkpages/${linkpage.key}"
+  action="/linkpages/${linkpage.key}"
   method="POST">
   <div class="${problems.form ? 'block' : 'hidden'}">
     <p>Found some problems!</p>

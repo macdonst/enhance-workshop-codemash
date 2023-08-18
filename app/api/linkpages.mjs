@@ -1,22 +1,32 @@
-import { getLinkpage, upsertLinkpage, validate } from '../../../models/linkpages.mjs'
+// View documentation at: https://enhance.dev/docs/learn/starter-project/api
+/**
+  * @typedef {import('@enhance/types').EnhanceApiFn} EnhanceApiFn
+  */
+import { getLinkpages, upsertLinkpage, validate } from '../models/linkpages.mjs'
 
 
+/**
+ * @type {EnhanceApiFn}
+ */
 export async function get (req) {
   const authorized = !!req.session.authorized
-  if (!authorized) return { location: '/login' }
+  if (!authorized) { 
+    return { 
+      location: '/login' 
+    } 
+  }
 
+  const linkpages = await getLinkpages()
   if (req.session.problems) {
     let { problems, linkpage, ...session } = req.session
     return {
       session,
-      json: { problems, linkpage }
+      json: { problems, linkpages, linkpage }
     }
   }
 
-  const id = req.pathParameters?.id
-  const result = await getLinkpage(id)
   return {
-    json: { linkpage: result }
+    json: { linkpages }
   }
 }
 
@@ -27,34 +37,32 @@ export async function post (req) {
   const authorized = !!req.session.authorized
   if (!authorized) return { status: 401 }
 
-  const id = req.pathParameters?.id
-
   const session = req.session
   // Validate
-  let { problems, linkpage } = await validate.update(req)
+  let { problems, linkpage } = await validate.create(req)
   if (problems) {
     return {
-      session: {...session, problems, linkpage },
+      session: { ...session, problems, linkpage },
       json: { problems, linkpage },
-      location: `/admin/linkpages/${linkpage.key}`
+      location: '/linkpages'
     }
   }
 
   // eslint-disable-next-line no-unused-vars
   let { problems: removedProblems, linkpage: removed, ...newSession } = session
   try {
-    const result = await upsertLinkpage({ key: id, ...linkpage })
+    const result = await upsertLinkpage(linkpage)
     return {
       session: newSession,
       json: { linkpage: result },
-      location: '/admin/linkpages'
+      location: '/linkpages'
     }
   }
   catch (err) {
     return {
       session: { ...newSession, error: err.message },
       json: { error: err.message },
-      location: '/admin/linkpages'
+      location: '/linkpages'
     }
   }
 }

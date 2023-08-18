@@ -1,4 +1,4 @@
-import { deleteLinkpage } from '../../../../models/linkpages.mjs'
+import { deleteLinkpage } from '../../../models/linkpages.mjs'
 
 export async function post (req) {
   const authorized = !!req.session.authorized
@@ -14,14 +14,14 @@ export async function post (req) {
     return {
       session: newSession,
       json: { linkpage },
-      location: '/admin/linkpages'
+      location: '/linkpages'
     }
   }
   catch (err) {
     return {
       session: { ...newSession, error: err.message },
       json: { error: err.message },
-      location: '/admin/linkpages'
+      location: '/linkpages'
     }
   }
 }

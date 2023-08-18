@@ -26,16 +26,16 @@ export default function Html({ html, state }) {
         <p class="pb-2"><strong class="capitalize">Key: </strong>${item?.key || ''}</p>
       </div>
       <p class="mb-1">
-        <enhance-link href="/admin/linkpages/${item.key}">Edit this link page</enhance-link>
+        <enhance-link href="/linkpages/${item.key}">Edit this link page</enhance-link>
       </p>
-      <form action="/admin/linkpages/${item.key}/delete" method="POST" class="mb-1">
+      <form action="/linkpages/${item.key}/delete" method="POST" class="mb-1">
         <enhance-submit-button><span slot="label">Delete this link page</span></enhance-submit-button>
       </form>
       </article>`).join('\n')}
     <details class="mb0" ${Object.keys(problems).length ? 'open' : ''}>
       <summary>New link page</summary>
       <enhance-form
-        action="/admin/linkpages"
+        action="/linkpages"
         method="POST">
         <div class="${problems.form ? 'block' : 'hidden'}">
           <p>Found some problems!</p>
