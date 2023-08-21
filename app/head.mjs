@@ -36,6 +36,9 @@ export default function Head(state) {
       <title>Axol Lotl: ${title}</title>
       <meta name="description" content="Portfolio for Axol Lotl, Senior Developer" />
       ${linkTag()}
+
+      ${(req.path === '/resume') ? '<link rel="stylesheet" href="/_public/print-resume.css">' : ''}
+
       <style>
         @font-face {
           font-family: "HK Grotesk";

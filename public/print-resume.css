@@ -1,0 +1,28 @@
+/* Print-only resume styles */
+@media print {
+    nav-bar, site-footer, .pdf-link {
+        display: none;
+    }
+
+    body {
+        background-color: #fff;
+        color: #000;
+    }
+
+    resume-container {
+        width: 100%;
+        margin: 0;
+        padding: 20mm; 
+        background-color: transparent;
+    }
+
+    h1, h2, h3 {
+        font-size: 1.5em;
+        line-height: 1.4;
+    }
+
+    p, li, td {
+        font-size: 1em;
+        line-height: 1.3;
+    }
+}
