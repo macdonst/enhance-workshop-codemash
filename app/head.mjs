@@ -29,8 +29,6 @@ export default function Head(state) {
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="image" content="/_public/adc-open-graph.jpg" />
-      <meta name="og:image" content="/_public/adc-open-graph.jpg" />
       <meta name="og:type" content="website" />
       <link rel="icon" href="/_public/favicon.svg">
       <title>Axol Lotl: ${title}</title>
