@@ -1,7 +1,6 @@
 ---
-
 title: Enhance Workshop
-
+layout: default
 ---
 
 # Enhance Web Development Workshop

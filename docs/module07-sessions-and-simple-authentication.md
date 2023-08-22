@@ -1,5 +1,6 @@
 ---
 title: "Module 7: Sessions and Simple Authentication"
+layout: default
 ---
 
 [Module Index](/)

@@ -1,5 +1,6 @@
 ---
 title: "Module 4: API Design"
+layout: default
 ---
 
 [Module Index](/)

@@ -1,6 +1,6 @@
-
 ---
-title: Module B2: Authentication for a Username and Password flow
+title: "Appendix 1: Authentication for a Username and Password flow"
+layout: default
 ---
 
 [Module Index](/)

@@ -1,5 +1,6 @@
 ---
 title: Enhance Workshop Preparation
+layout: default
 ---
 
 [Module Index](/)

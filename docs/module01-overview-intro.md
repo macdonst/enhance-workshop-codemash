@@ -1,5 +1,6 @@
 ---
 title: "Module 1: Workshop Overview"
+layout: default
 ---
 
 [Module Index](/)
@@ -44,6 +45,7 @@ title: "Module 1: Workshop Overview"
 ## Workshop Objectives
 
 1. Standards-based approach
+
 2. HTML-first development for faster velocity
 3. Use Custom Elements to build maintainable applications
 4. Build and deploy a developer portfolio project

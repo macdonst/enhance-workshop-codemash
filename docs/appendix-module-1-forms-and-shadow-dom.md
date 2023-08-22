@@ -1,5 +1,6 @@
 ---
-title: "Module B1: Forms and the Shadow DOM"
+title: "Appendix 1: Forms and the Shadow DOM"
+layout: default
 ---
 
 [Module Index](/)

@@ -1,5 +1,6 @@
 ---
 title: "Module 8: CRUDL Part 2"
+layout: default
 ---
 
 [Module Index](/)

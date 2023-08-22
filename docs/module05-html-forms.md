@@ -1,5 +1,6 @@
 ---
 title: "Module 5: HTML Forms"
+layout: default
 ---
 
 [Module Index](/)

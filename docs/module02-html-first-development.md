@@ -1,5 +1,6 @@
 ---
 title: "Module 2: HTML-First Development"
+layout: default
 ---
 
 [Module Index](/)
@@ -12,20 +13,21 @@ title: "Module 2: HTML-First Development"
 ## The Enhance Way
 
 ---
-
 ### Not JavaScript first?
-  * Most modern frameworks are JavaScript first
+  * Most modern frameworks are JavaScript first.
+    * They send a `<div id=root>` and a `<script>` then wait for JavaScript to take over.
   * HTML is backward and forward compatible and very stable
   * JavaScript, by comparison, moves fast to include new capabilities
   * JavaScript first development is unconstrained at the cost of stability and reliability
 
 ---
+
 ### The New Old Way
 
 * HTML, and CSS have quietly caught up with features needed to build modern web applications
   * JavaScript first frameworks are now behind
   * HTML-First leverages built-in features rather reinventing the platform
-      * i.e. HTML forms
+    * i.e. HTML forms
 * Forms are dependable and simple to build.
 * They have built-in validation as well as many other useful features.
 * But many modern frameworks don’t even use `<form>`, instead opting to rebuild everything with JavaScript.
