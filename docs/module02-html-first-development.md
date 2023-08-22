@@ -13,36 +13,32 @@ title: "Module 2: HTML-First Development"
 
 ---
 
-* JavaScript first?
+### Not JavaScript first?
   * Most modern frameworks are JavaScript first
-  * HTML is backward and forward compatible and stable
+  * HTML is backward and forward compatible and very stable
   * JavaScript, by comparison, moves fast to include new capabilities
-  * JavaScript first is unconstrained at the cost of stability and reliability
-
+  * JavaScript first development is unconstrained at the cost of stability and reliability
 
 ---
-* HTML, CSS, and JavaScript have quietly caught up with features needed to build modern web applications
+### The New Old Way
+
+* HTML, and CSS have quietly caught up with features needed to build modern web applications
   * JavaScript first frameworks are now behind
   * HTML-First leverages built-in features rather reinventing the platform
       * i.e. HTML forms
-
----
-
 * Forms are dependable and simple to build.
 * They have built-in validation as well as many other useful features.
 * But many modern frameworks don’t even use `<form>`, instead opting to rebuild everything with JavaScript.
 
 ---
-* HTML-First
+### HTML-First
   * Start simple - improve incrementally
+    * Make it work (reliably with HTML & CSS) - then make it better (incrementally with a little JS)
+  * You can get further with HTML and CSS than you probably think you can
+  * Since these frameworks often reimplement what the web already does, people come to expect that HTML is mostly limited to displaying text.
 
 ---
-* Make it work (reliably with HTML & CSS) - then make it better (incrementally with a little JS)
-* You can get further with HTML and CSS than you probably think you can
-* Since these frameworks often reimplement what the web already does, people come to expect that HTML is mostly limited to displaying text.
-
----
-
+### Javascript Too, But just a little
 * Progressive Enhancement
   * not Graceful Degradation
 * People are regularly shocked to learn that most modern applications can be built with little to no JS.
@@ -50,7 +46,7 @@ title: "Module 2: HTML-First Development"
 
 ---
 
-## Build: HTML pages
+## Build HTML pages 
 
 ---
 
@@ -60,10 +56,6 @@ title: "Module 2: HTML-First Development"
 cd enhance-workshop
 git checkout module2-start
 ```
-
-* We are going to add some basic HTML content to start our site.
-* Enhance lets the platform do what it does best wherever possible.
-* Writing plain HTML is one place where Enhance will just get out of the way.
 
 ### Start the local development environment:
 
@@ -76,6 +68,9 @@ Open a browser tab to [http://localhost:3333](http://localhost:3333)
 ---
 ### Add a home page
 
+We are going to add some basic HTML content to start our site.
+Enhance lets us do this with zero friction
+
 * Create an `index.html` file in the `/app/pages/` directory and add the following:
 
 ```html
@@ -86,7 +81,8 @@ Open a browser tab to [http://localhost:3333](http://localhost:3333)
 </main>
 ```
 
-* Wow, that looks terrible as we've applied a CSS Reset as part of our base styling. Let's add some very basic CSS.
+Wow, that looks terrible as we've applied a CSS Reset as part of our base styling. 
+Let's add some very basic CSS.
 
 ---
 
@@ -131,7 +127,7 @@ Open a browser tab to [http://localhost:3333](http://localhost:3333)
 
 
 ---
-### Scoped Styles
+### Component Scoped Styles
 
 * Enhance will scope styles to components
 * We will see this in the next module
