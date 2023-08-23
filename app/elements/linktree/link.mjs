@@ -13,7 +13,8 @@ export default function LinktreeLink({ html, state }) {
         border-color: transparent;
         border-radius: 9999px;
       }
-      :host > a:hover {
+      :host > a:hover,
+      :host > a:active {
         background-color: transparent;
         border-color: white;
       }

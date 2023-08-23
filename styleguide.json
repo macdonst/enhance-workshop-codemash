@@ -39,7 +39,11 @@
   },
   "properties": {
     "site-width": "90vw",
-    "site-max-width": "1440px"
+    "site-max-width": "1440px",
+    "linktree-avatar-img": "url('/_public/axol-wink.svg')",
+    "linktree-bg-img":"url('/_public/background.png')",
+    "linktree-link-border-radius": "999px",
+    "linktree-link-shadow": "0 3px 11px #d3cef5"
   },
   "grid": {
     "steps": 6

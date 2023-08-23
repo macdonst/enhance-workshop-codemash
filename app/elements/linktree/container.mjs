@@ -21,33 +21,42 @@ export default function LinktreeContainer({ html, state }) {
     `
 
   return html`
-    <style scope="global">
-      body {
-        background-image: url('/_public/background.png');
-        background-size: cover;
-      }
-    </style>
     <style>
       :host {
         display: block;
-        inline-size: 60vw;
-        max-inline-size: 90vw;
-        margin-inline: auto;
+        height: 100vh;
+        min-inline-size: 20rem;
+        padding: 4rem 2rem;
+        background-image: var(--linktree-bg-img);
+        background-size: cover;
       }
       :host > div > img {
         width: 10rem;
+        object-fit: cover;
+        border-radius: 100%;
+      }
+      :host > ul {
+        max-inline-size: 50rem;
+        margin: auto;
+      }
+      :host > ul > li {
+        border-radius: var(--linktree-link-border-radius);
+        box-shadow: var(--linktree-link-shadow);
+      }
+      .avatar-img {
+        content:var(--linktree-avatar-img);
       }
 
     </style>
     <div
      class="
        flex
-       mbe5
+       mbe-2
        justify-content-center
      "
     >
       <img
-       src="/_public/axol-wink.png"
+       class="avatar-img"
        alt="Axol lotl"
       >
     </div>
@@ -69,7 +78,11 @@ export default function LinktreeContainer({ html, state }) {
     >
       ${description}
     </p>
-    <ul class="list-none">
+    <ul
+      class="
+       list-none
+      "
+    >
       ${linkItems.length ? linkItems : defaultLink}
     </ul>
   `
