@@ -8,40 +8,36 @@ layout: default
 
 # Module 1: Workshop Overview
 
----
 ## Objective:
 
-* Check your development environment
-* Preview Project
-* Workshop Objectives
-* Why Enhance?
+- Check your development environment
+- Preview Project
+- Workshop Objectives
+- Why Enhance?
 
----
 
 ## Preliminary Setup
 
-* How many people completed the preliminary setup?
-* Did you have any problems?
-* Can everyone run the begin CLI?
+- How many people completed the preliminary setup?
+- Did you have any problems?
+- Can everyone run the begin CLI?
 
----
 ## Preview Project
 
 
-* See [enhance-workshop.com](enhance-workshop.com)
-* Full-stack web app
-    * HTML pages
-    * API routes
-    * Database-backed pages
-    * User authentication
-* Launch the app locally:
+- See [enhance-workshop.com](enhance-workshop.com)
+- Full-stack web app
+  - HTML pages
+  - API routes
+  - Database-backed pages
+  - User authentication
+- Launch the app locally:
 
   ```bash
   cd enhance-workshop
   npm start
   ```
 
----
 ## Workshop Objectives
 
 1. Standards-based approach
@@ -51,13 +47,12 @@ layout: default
 4. Build and deploy a developer portfolio project
 
 
----
 ## Why Enhance?
 
-* Standards-based web development that can be used anywhere
-* So why use the Enhance framework?
-    * Building with components is nice
-    * Server-side rendering is critical
-    * Complex build toolchains and transpilation are a maintenance nightmare
-    * HTML first is the fastest, simplest, and best way to build
-    * Orchestrating all the other moving parts is hard (database, IAC, events, …)
+- Standards-based web development that can be used anywhere
+- So why use the Enhance framework?
+    - Building with components is nice
+    - Server-side rendering is critical
+    - Complex build toolchains and transpilation are a maintenance nightmare
+    - HTML first is the fastest, simplest, and best way to build
+    - Orchestrating all the other moving parts is hard (database, IAC, events, …)
