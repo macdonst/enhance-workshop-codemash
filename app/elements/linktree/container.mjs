@@ -43,6 +43,9 @@ export default function LinktreeContainer({ html, state }) {
         border-radius: var(--linktree-link-border-radius);
         box-shadow: var(--linktree-link-shadow);
       }
+      :host > ul > li:active {
+        box-shadow: none;
+      }
       .avatar-img {
         content:var(--linktree-avatar-img);
       }
