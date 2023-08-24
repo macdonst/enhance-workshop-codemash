@@ -14,14 +14,30 @@ layout: default
 ### The problem with frameworks
 
 - Most modern frameworks are JavaScript first.
-  - They send an empty `<div id=root>` and a `<script>` that then takes over.
-- HTML is backward and forward compatible and very stable
+  - They send an empty `<div id=root>` and a `<script>` that then takes over. For example:
+
+  ```html
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <title>My App</title>
+    </head>
+    <body>
+      <div id="app"></div>
+      <script type="module" src="/src/main.js"></script>
+      <noscript>Sucks to be you</noscript>
+    </body>
+  </html>
+  ```
+
+- HTML is backward and forward compatible and very stable.
   - This means that new browsers can read old websites and that old browsers should be able to read newer websites.
-  - This is possible because HTML is resiliant to parsing things it doesn't understand.
+  - This is possible because HTML is resilient to parsing things it doesn't understand.
+  - Don't believe me, well let me introduce you to the website for the 1996 smash hit movie, [Space Jam](https://www.spacejam.com/1996/).
 - JavaScript, by comparison, moves fast to include new capabilities
-  - It is only backward compatible, which is better than most other modern languages, but less resiliant than HTML.
+  - It is only backward compatible, which is better than most other modern languages, but less resilient than HTML.
 - JavaScript first development most modern frameworks is unconstrained at the cost of stability and reliability
-  - Most of these frameworks are not backward or forward compatible
+  - Most of these frameworks are not backward or forward compatible.
 
 
 ### The New Old Way
@@ -35,22 +51,25 @@ layout: default
     - But many modern frameworks don’t even use a `<form>` tag, instead opting to rebuild everything with JavaScript.
 
 ### HTML-First
+
   - Start simple - improve incrementally
-    - Make it work (reliably with HTML & CSS) - then make it better (incrementally with a little JS)
+    - Make it work (reliably with HTML & CSS) - then make it better, with a little JavaScript
   - You can get further with HTML and CSS than you probably think you can
   - Since these frameworks often reimplement what the web already does, people come to expect that HTML is mostly limited to displaying text.
 
-### Javascript Too, But just a little
-- Progressive Enhancement - Make it work with only HTML and CSS, then improve it with a little JavaScript
-  - not Graceful Degradation - Build it with JavaScript, then just make it do something when JavaScript fails
-- Some people have the mistaken belief that PE means building the app twice, once with JS and again without JS. This is
-- People are regularly shocked to learn that most modern applications can be built with little to no JS.
-- The JavaScript that is added is usually just to make slight improvements.
+### JavaScript Too, But just a little
+
+- Progressive Enhancement vs Graceful Degradation
+  - With Progressive Enhancement you make your app work with only HTML and CSS, then improve it with a little JavaScript
+  - Conversely, with Graceful Degradation you build your with JavaScript, then attempt to make a do something when, not if, JavaScript fails.
+  - For example [GMail](https://mail.google.com/mail/u/0/#inbox)
+- Some people have the mistaken belief that PE means building the app twice, once with JavaScript and again without JavaScript. This is just not true.
+- People are regularly shocked to learn that most modern applications can be built with little to no JavaScript.
+- When JavaScript is added it is to make user experience improvements.
 
 
 ## Build HTML pages
-Now lets build a developer protfolio.
-
+Now lets start building a developer portfolio.
 
 ### Get the code for this module:
 
@@ -83,15 +102,19 @@ Enhance lets us add HTML with zero friction
 ```
 
 Wow, that looks terrible.
-Enhance has a CSS Reset as part of our base styling.
-This helps with design consistencey across browsers, but it means we will need to add some styles before it is usable.
+
+I've said it before and I'll say it again. Work with great designers. They'll make your life easier. Luckily we work with some great ones at Begins so this will get better.
+
+Enhance has a [CSS Reset](https://meyerweb.com/eric/tools/css/reset/) as part of our base styling.
+This helps with design consistency across browsers, but it also means we will need to add some styles before it is usable.
 Let's add some very basic CSS.
 
 
 ## Styling
-Enhance is standards based and the styling approach is in line with that.
-You can do almost anything you want for styles.
-We have some recommended best practice but ultimatly you can do whatever you want.
+
+Enhance is standards based and the styling approach is in line with that. You can use anything you want for styles and we have documentation on how to use [plain ole css](https://enhance.dev/docs/learn/concepts/styling/css), [Tailwind](https://enhance.dev/docs/learn/concepts/styling/using-tailwind) or [Sass](https://enhance.dev/docs/learn/concepts/styling/using-sass).
+
+We have a recommended best practice but ultimately you can do whatever you want.
 
 ### Plain CSS
 Lets start with a plain old `<style>` tag.
@@ -110,8 +133,7 @@ Lets start with a plain old `<style>` tag.
   <p>Hello World</p>
 </main>
 ```
-In reality this will put a style tag in the body with the other markup.
-This should be avoided because the styles can potentially change as the page is being rendered.
+In reality this will put a style tag in the body with the other markup. This should be avoided because the styles can potentially change as the page is being rendered.
 
 - Best practice: Styles should go in the head so they are parsed before the body is parsed.
   - Add `<style>` tag to the document `<head>` in `/app/head.mjs`
@@ -119,6 +141,7 @@ This should be avoided because the styles can potentially change as the page is 
 
 
 ### Enhance Styles
+
 Enhance comes with a built in styling system that includes:
 - Utility styling system
 - Component/element scoped styles (covered in later modules)
@@ -127,6 +150,7 @@ Enhance comes with a built in styling system that includes:
 The utility styles are applied as classes in the markup. This allows for scoping to any element directly.
 
 Instead of the style tag above add these classes to the h1 tag and refresh the page.
+
 ```html
 <!-- /app/pages/index.html--->
 <main>
@@ -134,20 +158,19 @@ Instead of the style tag above add these classes to the h1 tag and refresh the p
   <p>Hello World</p>
 </main>
 ```
-That looks better.
-But how do we know what classes to add to get the CSS we need?
+That looks much better, but how do we know what classes to add to apply the styling we need?
 
 - Cheatsheet: [http://localhost:3333/_styleguide/cribsheet](http://localhost:3333/_styleguide/cribsheet)
 - The search feature will filter the utility classes down to just the related rules.
 
 ### Component Scoped Styles
-The second part of Enhance Styles is the component scoped styles.
-Some CSS can not be easily applied directly with class names on an element.
-In this case regular CSS can be written in a style tag that will be lifted to the document head.
-We will cover this more in the next module.
 
+The second part of Enhance Styles is the component scoped styles. Some CSS can not be easily applied directly with class names on an element. In this case regular CSS can be written in a style tag that will be hoisted to the document head.
+
+More details on this in upcomming modules.
 
 ### Add a Resume page
+
 Since this is a developer portfolio lets add a page for a resume.
 
 - Make another page called `app/pages/resume.html`
@@ -158,10 +181,9 @@ Since this is a developer portfolio lets add a page for a resume.
   <h1>Resume</h1>
   <p>Hello World</p>
 </main>
-
 ```
 
-Now that we have two pages we will need to navigate between them.
+Now that we have two pages, we will need to navigate between them.
 
 ### Navigation
 Lets add a navigation bar at the top of the page.
@@ -187,16 +209,13 @@ Lets add a navigation bar at the top of the page.
 ```
 
 Now we need to add the same navigation to the top of the home page.
-We now have some duplication across these pages.
-- Duplicated markup
-- This duplication feels wrong.
-- We immediately want to DRY it up.
 
-We need some templating or better yet a way to build components.
-HTML does not have a built in way to handle this.
+We now have some duplicated markup across these two pages. This duplication feels wrong. As our site continues to grow by adding new pages, we will need to update our navigation section in each one of them. This will get unwieldy very quickly so we immediately want to DRY it up.
+
+We need templating or better yet a way to build components. HTML does not have a built in way to handle this.
+
 **Many JavaScript framework had their inception at this very moment.**
 
-
-## **The Web Platform needs its own component model**.
+The Web Platform needs its own component model.
 
 Thankfully, now it has one.
