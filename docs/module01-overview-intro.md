@@ -8,10 +8,10 @@ layout: default
 
 # Module 1: Workshop Overview
 
-## Objective:
+## Agenda:
 
 - Check your development environment
-- Preview Project
+- What We Will Build
 - Workshop Objectives
 - Why Enhance?
 
@@ -22,16 +22,22 @@ layout: default
 - Did you have any problems?
 - Can everyone run the begin CLI?
 
-## Preview Project
+## What We Will Build
 
+Today we will be building a multi-page full stack developer portfolio that includes:
 
-- See [enhance-workshop.com](enhance-workshop.com)
-- Full-stack web app
-  - HTML pages
-  - API routes
+  - Multiple HTML pages composed of web components
+  - API routes that run as cloud functions
   - Database-backed pages
   - User authentication
-- Launch the app locally:
+
+Here's a preview of the final product.
+
+![enhance workshop](./images/homepage.png)
+
+See [enhance-workshop.com](enhance-workshop.com)
+
+Or launch the app locally:
 
   ```bash
   cd enhance-workshop
@@ -41,7 +47,6 @@ layout: default
 ## Workshop Objectives
 
 1. Standards-based approach
-
 2. HTML-first development for faster velocity
 3. Use Custom Elements to build maintainable applications
 4. Build and deploy a developer portfolio project
