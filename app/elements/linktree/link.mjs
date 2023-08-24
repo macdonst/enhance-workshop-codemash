@@ -7,16 +7,16 @@ export default function LinktreeLink({ html, state }) {
         display: block;
         text-decoration: none;
         padding: 1rem 2rem;
-        background-color: white;
+        background-color: var(--linktree-link-bg-color);
         border-width: 3px;
         border-style: solid;
-        border-color: transparent;
-        border-radius: 9999px;
+        border-color: var(--linktree-link-border-color);
+        border-radius: var(--linktree-link-border-radius);
       }
       :host > a:hover,
       :host > a:active {
-        background-color: transparent;
-        border-color: white;
+        background-color: var(--linktree-link-bg-color-hover);
+        border-color: var(--linktree-link-border-color-hover);
       }
     </style>
     <a href="${url}" alt="${text}" class="truncate">${text}</a>

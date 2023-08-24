@@ -43,7 +43,11 @@
     "linktree-avatar-img": "url('/_public/axol-wink.svg')",
     "linktree-bg-img":"url('/_public/background.png')",
     "linktree-link-border-radius": "999px",
-    "linktree-link-shadow": "0 3px 11px #d3cef5"
+    "linktree-link-shadow": "4px 8px 11px #d3cef5",
+    "linktree-link-border-color": "transparent",
+    "linktree-link-border-color-hover": "#FFF",
+    "linktree-link-bg-color": "#FFF",
+    "linktree-link-bg-color-hover": "transparent"
   },
   "grid": {
     "steps": 6
