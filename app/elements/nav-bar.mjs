@@ -35,6 +35,7 @@ export default function NavBar({ html, state }) {
         <ul class='mis-auto flex gap0 list-none text-1 uppercase tracking1 font-semibold'>
           <li><a href='/'>Home</a></li>
           <li><a href='/resume'>Resumé</a></li>
+          <li><a href='/linktree'>Links</a></li>
         </ul>
       </nav>
       <div class='backdrop absolute inset-0 z-1'></div>
