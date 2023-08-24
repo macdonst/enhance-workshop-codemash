@@ -15,8 +15,8 @@
   },
   "devDependencies": {
     "@enhance/cli": "^1.0.3",
-    "@enhance/types": "^0.6.0",
-    "eslint": "^8.45.0"
+    "@enhance/types": "^0.6.1",
+    "eslint": "^8.47.0"
   },
   "eslintConfig": {
     "env": {
