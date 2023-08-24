@@ -19,7 +19,7 @@ layout: default
   - This means that new browsers can read old websites and that old browsers should be able to read newer websites.
   - This is possible because HTML is resiliant to parsing things it doesn't understand.
 - JavaScript, by comparison, moves fast to include new capabilities
-  - It is only backward compatible, which is better than most other modern languages, but less resiliant than HTML. 
+  - It is only backward compatible, which is better than most other modern languages, but less resiliant than HTML.
 - JavaScript first development most modern frameworks is unconstrained at the cost of stability and reliability
   - Most of these frameworks are not backward or forward compatible
 
@@ -43,13 +43,13 @@ layout: default
 ### Javascript Too, But just a little
 - Progressive Enhancement - Make it work with only HTML and CSS, then improve it with a little JavaScript
   - not Graceful Degradation - Build it with JavaScript, then just make it do something when JavaScript fails
-- Some people have the mistaken belief that PE means building the app twice, once with JS and again without JS. This is 
+- Some people have the mistaken belief that PE means building the app twice, once with JS and again without JS. This is
 - People are regularly shocked to learn that most modern applications can be built with little to no JS.
 - The JavaScript that is added is usually just to make slight improvements.
 
 
-## Build HTML pages 
-Now lets build a developer protfolio. 
+## Build HTML pages
+Now lets build a developer protfolio.
 
 
 ### Get the code for this module:
@@ -83,7 +83,7 @@ Enhance lets us add HTML with zero friction
 ```
 
 Wow, that looks terrible.
-Enhance has a CSS Reset as part of our base styling. 
+Enhance has a CSS Reset as part of our base styling.
 This helps with design consistencey across browsers, but it means we will need to add some styles before it is usable.
 Let's add some very basic CSS.
 
@@ -110,7 +110,7 @@ Lets start with a plain old `<style>` tag.
   <p>Hello World</p>
 </main>
 ```
-In reality this will put a style tag in the body with the other markup. 
+In reality this will put a style tag in the body with the other markup.
 This should be avoided because the styles can potentially change as the page is being rendered.
 
 - Best practice: Styles should go in the head so they are parsed before the body is parsed.
@@ -134,7 +134,7 @@ Instead of the style tag above add these classes to the h1 tag and refresh the p
   <p>Hello World</p>
 </main>
 ```
-That looks better. 
+That looks better.
 But how do we know what classes to add to get the CSS we need?
 
 - Cheatsheet: [http://localhost:3333/_styleguide/cribsheet](http://localhost:3333/_styleguide/cribsheet)
@@ -167,9 +167,9 @@ Now that we have two pages we will need to navigate between them.
 Lets add a navigation bar at the top of the page.
 
 - Add the following `<nav>` at the top of our new resume page.
+
 ```html
 <!-- /app/pages/resume.html--->
-
 <nav class='flex gap0'>
   <h1 class='font-semibold tracking-1'>
     <a href='/' class='no-underline'>My Site</a>
@@ -187,7 +187,7 @@ Lets add a navigation bar at the top of the page.
 ```
 
 Now we need to add the same navigation to the top of the home page.
-We now have some duplication across these pages. 
+We now have some duplication across these pages.
 - Duplicated markup
 - This duplication feels wrong.
 - We immediately want to DRY it up.
