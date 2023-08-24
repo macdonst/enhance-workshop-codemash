@@ -177,8 +177,107 @@ This is just standard platform HTML, CSS and JavaScript.
 
 ### Slotting Children
 
+Attributes and children make up the primary composition API for HTML.
+Web components and Enhance Elements use the same model. 
+This keeps the cognative load for using them low.
+Some frameworks do things like change attributes to allow for values other than strings.
+This seems convenient but can lead to confusion. 
+Enhance sticks to the HTML conventions as much as possible.
+
+Slots (using the `<slot>` tag) are how web components manage children.
+Unfortunally the `<slot>` behavior only happens in the shadow DOM.
+**This is where Enhance server side expansion fills a major hole in the platform API**
+
+Lets build our first Enhance Component to see how it works.
+We will need a container to apply some styles to for the navigation so lets add the following code to `/app/elements/site-container.mjs`.
 
 
+```javascript
+// /app/elements/site-container.mjs
+
+export default function SiteContainer({ html }) {
+  return html`
+    <slot></slot>
+  `
+}
+```
+
+**The file name `site-container.mjs` is how enhance infers the name of the component `<site-container>`.**
+If you have folders nested inside the elements folder they will be concatenated to create the element name.
+`/app/elements/my/heading.mjs` -> `<my-heading>`
+
+This component uses the `<slot>` to indicate where children should be put. 
+The slot itself will be replaced by the children. 
+Enhance will run this expansion on the server so that the initial children will already be slotted in without waiting for JavaScript to initialize on the client.
+
+
+Slots can be named as well.
+```javascript
+// /app/elements/site-container.mjs
+
+export default function SiteContainer({ html }) {
+  return html`
+    <slot name="header">Default Heading</slot>
+    <slot name="content"></slot>
+  `
+}
+```
+Children with the `slot=header` will be slotted into the `<slot name=header>`.
+They can also have default content inside the `<slot>` tag which will appear only if there is no matching content.
+
+Basic rules for slotting:
+1. Text child nodes go in the unnamed slot.
+2. Children with no `slot` attribute go in the unnamed slot.
+3. Only direct children can use named slots.
+4. Multiple children with the same named slot are appended in order. 
+5. Default content inside the `<slot>` tag is shown if no content is slotted.
+
+To learn more about slotting the [javascript.info](https://javascript.info/slots-composition) site has a good explainaton.
+Just rememeber that on their own slots only work in the shadow DOM. 
+Enhance SSR is what allows us to use them without it.
+
+
+### Scoped Styles in Components
+
+Lets go back to our simple `<site-container>` wrapper.
+We want to apply some styles to the slotted content.
+
+**Custom Elements are treated as inline elements by default (basically a span)**
+But we want our wrapped content to be set to `block`. 
+We could use the utility styles to set `class=block` on every usage but we want to wrap it up in the component.
+
+Enhance lets us add style tags inside components. 
+It does a couple of really helpful things with those styles:
+1. It lifts them to the document head for performance.
+2. It deduplicates so that only one occurence of each of the styles is needed.
+3. The rules in the tag are scoped to the element by prepending the element name to each rule.
+4. Shadow style rules like `:host` and `:slotted()` are changed to equivalent non-shadow CSS.
+
+The CSS shadow rules are a really useful shorthand:
+- `:host` applies rules to the outter element.
+- `:slotted` allows you to target content that is slotted in.
+- `:part()` is a special API used to pierce the shadow DOM in targetted ways.
+Part is included but we generally don't recommend using it because it generally causes confusion.
+
+
+
+```javascript
+// /app/elements/site-container.mjs
+
+export default function SiteContainer({ html }) {
+  return html`
+    <style>
+      :host {
+        display: block;
+        inline-size: var(--site-width);
+        max-inline-size: var(--site-max-width);
+        margin-inline: auto;
+      }
+    </style>
+    <slot></slot>
+  `
+}
+```
 
 
 - We will rewrite our `<nav-bar>` as a custom element using Enhance conventions.
