@@ -8,54 +8,48 @@ layout: default
 
 # Module 3: Custom Elements and Web Components
 
----
 ## Objectives
 
+- The built-in component model
+- Custom Elements vs Web Components
+- Server Side Rendering (SSR) Components with Enhance
 
-* The built-in component model
-* Custom Elements vs Web Components
-* Server Side Rendering (SSR) Components with Enhance
-
----
 ## The web needs a component model
 
-* Building with components is convenient
-* The web platform lacked a component model
-* Explosion of frameworks like Angular, React and Vue is partially to solve this problem
-* If you ask developers to build something complex without components they will usually build some abstraction to allow them to use components
+- Building with components is nice
+- The web platform has lacked a real component model
+- If you ask developers to build something complex without components they will usually build their own abstraction to do it
+- The explosion of frameworks like Angular, React and Vue is partly to solve this problem
 
----
 ## The platform's native component model
 
+- “Web Components” arrived slowly
+- The process was not smooth
+- But they are here now and ready for production
+- Better than JS Framework of the past because it shares in the stability of the web platform itself
+- We are not going to spend time on the history, 
+but it is important because there is a lot of outdated or incorrect information about why WC'd don’t work and you shouldn’t use them.
+- The core features of WC's are supported across all evergreen browsers.
 
-* “Web Components” arrived slowly
-* The process was not smooth
-* But they are ready for production
-* Better than JS Framework of the past
-* We are not going to spend time with that history, but it is important because there is a lot of outdated or incorrect information about why they don’t work and you shouldn’t use them.
-* The key takeaway is all the specs we are about to talk about are supported across all evergreen browsers.
-
----
 ## Web Component Definition
 
-* A set of platform APIs for the creation of custom, reusable HTML tags
-* Three primary specifications:
-    * Custom Elements: Define custom HTML elements and add behavior defined in JavaScript.
-    * Shadow DOM: A JavaScript API for attaching an encapsulated "shadow" DOM tree to an element in order to keep an element's features private.
-    * HTML Templates: The `<template>` and `<slot>` elements enable you to write markup templates that are not displayed in the rendered page. These can then be reused multiple times as the basis of a custom element's structure.
+- A set of platform APIs for the creation of custom, reusable HTML tags
+- Three primary specifications:
+    - Custom Elements: Define custom HTML elements and add behavior defined in JavaScript.
+    - HTML Templates: The `<template>` and `<slot>` elements enable you to write markup templates that are not displayed in the rendered page. These can then be reused multiple times as the basis of a custom element's structure.
+    - Shadow DOM: A JavaScript API for attaching an encapsulated "shadow" DOM tree to an element in order to keep an element's features private.
+      - CSS shadow parts: Related to the shadow DOM there are some new CSS API's like `:slotted()` and `:host` that help with styling
 
----
 ## Web Component Example
 
-* Checkout the Module 3 code:
+Checkout the Module 3 code as follows:
 
 ```bash
 cd enhance-workshop
-git checkout module3-start
+git checkout module03-start
 ```
----
 
-* Add the following code to `app/pages/about.html`
+Now add the following code to `app/pages/wc.html`
 
 ```html
   <user-card role="Developer">
@@ -88,33 +82,35 @@ git checkout module3-start
   </script>
 ```
 
-* This is a simple HTML page with no Enhance magic at all.
-* This is really powerful.
-* We define the behavior of `<user-card>` once and then we can then use it anywhere.
+- This is a simple HTML page with no Enhance magic at all.
+- This is a raw Custom Element that creates a new HTML element to use as a component.
+- The stuff in the script tag uses WC API's to add DOM and behavior to these new components.
+- This is really powerful.
+- We define the behavior of `<user-card>` once and then we can then use it anywhere.
 
----
 
-## JavaScript dependent
+## Problems with Web Components
 
-* The Web Component specification was developed with the assumption that JavaScript will always work.
-* Without JavaScript, stuff breaks.
-* Lets add some artificial delay to initializing the javascript
-    * Replace the `customElements.define` call at the bottom of the script tag with the following line:
-    * `setTimeout(() => customElements.define('user-card', UserCard), 5 * 1000)`
-* You get a momentary flash of unstyled broken content.
-* This is at minimum ugly.
-* If JavaScript fails to load completely the page may be completely broken.
+### JavaScript dependent
 
----
+- The Web Component above is JavaScript dependent.
+- Without JavaScript, stuff breaks.
+- Lets add some artificial delay to initializing the javascript
+    - Replace the `customElements.define` call at the bottom of the script tag with the following line:
+    - `setTimeout(() => customElements.define('user-card', UserCard), 5 * 1000)`
+- You get a momentary flash of unstyled broken content.
+- This is at minimum ugly.
+- If JavaScript fails to load at all the page may be completely broken.
 
-##  Problems with the ShadowDOM
 
-* Most problems with WC are downstream of the shadowDOM
-* The ShadowDOM encapsulation breaks platform APIs
-    * Forms don’t submit
-    * Forms don’t validate
-    * `querySelect` does not work
-* The form below will not submit because the actual `<input>` is trapped inside the shadowDOM.
+###  The Shadow DOM
+
+- Most problems with Web Components are downstream of the shadow DOM
+- The Shadow DOM encapsulation breaks platform APIs
+    - Forms don’t submit
+    - Forms don’t validate
+    - `querySelector` does not work
+- The form below will not submit because the actual `<input>` is trapped inside the shadow DOM.
 
 ```html
 <form action="/" method="post">
@@ -140,7 +136,8 @@ git checkout module3-start
 </script>
 ```
 
-* It would be nice if we could author the shortened version `<my-input></my-input>` and have it expanded into the following version with the markup inside added, without using the shadowDOM.
+- It would be nice if we could author the shortened version `<my-input></my-input>` and have it expanded into
+the following version with the markup inside added, without using the shadow DOM.
 
 ```html
 <form action="/" method="post">
@@ -152,23 +149,40 @@ git checkout module3-start
 </form>
 ```
 
-* Even without JavaScript this form will work exactly as expected. The `<my-input>` is an unrecognized tag that the browser will treat as a `<span>`.
-* The only problem with this form is that if you have to author all the markup inside the tag you lose much of the convenience of building with components.
+- Even without JavaScript this form will work as expected. The `<my-input>` is an undefined tag that the browser will treat as a `<span>`.
+- The only problem with this form is that if you have to author all the markup inside the tag you lose much of the convenience of building with components.
 
----
+**Enhance does this expansion for us**
 
 ### Enhance = Web Components The Good Parts
 
-* The biggest advantage of Enhance is SSR custom elements without the shadowDOM
-* There is not much magic in the Enhance framework by design, but it does Server Side render/expand web components so that they arrive at the client ready to go.
+- The biggest advantage of Enhance is SSR custom elements without requiring the shadow DOM
+- There is not much magic in the Enhance framework by design.
+    - It does Server Side render/expand of web components so that they arrive at the client ready to go.
 
----
 
 
 ### Enhance Elements
 
-* We will rewrite our `<nav-bar>` as a custom element.
-* The result is shown below. Paste this code in the `/app/elements/nav-bar.mjs` file.
+Now we can use Enhance Elements to add the navigation bar component from the last module.
+The Enhance Element is a single file custom element with some special handling by Enhance.
+It does a few things to improve page performance, but there is very little magic here. 
+You could cut and paste this code into your HTML for every instance of the `<nav-bar>` and this would work as expected. 
+This is just standard platform HTML, CSS and JavaScript.
+- The performance improvements that Enhance adds are:
+    - Hoisting the `<style>` tags to the head of the file and deduplicating them
+    - Moving `<script>` tags to the end of the file and deduplicating them.
+    - Scoping the style tags to target on the custom element they are written in
+    - Server side expansion of content.
+
+### Slotting Children
+
+
+
+
+
+- We will rewrite our `<nav-bar>` as a custom element using Enhance conventions.
+- The result is shown below. Paste this code in the `/app/elements/nav-bar.mjs` file.
 
 ```javascript
 export default function NavBar({ html }) {
@@ -196,19 +210,18 @@ export default function NavBar({ html }) {
 }
 ```
 
-* This is an Enhance Single File Component.
-* It does a few things to improve page performance, but there is very little magic here. You could cut and paste this code into your HTML for every instance of the `<nav-bar>` and this would work as expected. This is just standard platform HTML, CSS and JavaScript.
-* The performance improvements that Enhance adds are:
-    * Hoisting the `<style>` tags to the head of the file and deduplicating them
-    * Moving `<script>` tags to the end of the file and deduplicating them.
-    * Scoping the style tags to target on the custom element they are written in
+- This is an Enhance Single File Component.
+- It does a few things to improve page performance, but there is very little magic here. You could cut and paste this code into your HTML for every instance of the `<nav-bar>` and this would work as expected. This is just standard platform HTML, CSS and JavaScript.
+- The performance improvements that Enhance adds are:
+    - Hoisting the `<style>` tags to the head of the file and deduplicating them
+    - Moving `<script>` tags to the end of the file and deduplicating them.
+    - Scoping the style tags to target on the custom element they are written in
 
 
----
 
 ### Authoring with Custom Elements
 
-* Now that we have a <nav-bar> defined in /app/elements lets simplify our about page
+- Now that we have a <nav-bar> defined in /app/elements lets simplify our about page
 
 ```html
 <!-- /app/pages/about.html--->
