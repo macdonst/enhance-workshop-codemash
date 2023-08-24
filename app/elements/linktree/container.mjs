@@ -45,6 +45,7 @@ export default function LinktreeContainer({ html, state }) {
       }
       :host > ul > li:active {
         box-shadow: none;
+        transform: var(--linktree-link-transform);
       }
       .avatar-img {
         content:var(--linktree-avatar-img);

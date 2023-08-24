@@ -47,7 +47,8 @@
     "linktree-link-border-color": "transparent",
     "linktree-link-border-color-hover": "#FFF",
     "linktree-link-bg-color": "#FFF",
-    "linktree-link-bg-color-hover": "transparent"
+    "linktree-link-bg-color-hover": "transparent",
+    "linktree-link-transform": "translate(0, 2px)"
   },
   "grid": {
     "steps": 6
