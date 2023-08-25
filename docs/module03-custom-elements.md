@@ -257,9 +257,11 @@ The CSS shadow rules are a really useful shorthand:
 - `:host` applies rules to the outter element.
 - `:slotted` allows you to target content that is slotted in.
 - `:part()` is a special API used to pierce the shadow DOM in targetted ways.
-Part is included but we generally don't recommend using it because it generally causes confusion.
+Part is included but we generally don't recommend using it because it has a confusing API and isn't that useful without the SD.
 
 
+So lets make use of this scoped style block to add a few things that our designer tells us will look nice.
+Copy and paste the styles here into our site-container file.
 
 ```javascript
 // /app/elements/site-container.mjs
@@ -279,6 +281,19 @@ export default function SiteContainer({ html }) {
 }
 ```
 
+### Script Tags
+- This is an Enhance Single File Component.
+- In addition to hoising and deduplicating the style tags (discussed above) it also has special treatment for script tags.
+- This component (and the majority of components using HTML-first) don't need JavaScript.
+But some do. In those cases Enhance will pull these script tags out of the components and move them to the bottom of the body of the document.
+- This ensures the visible HTML will load and render as fast as possible.
+
+
+## `<nav-bar>` Finally
+
+Now we have components to DRY up our nav bar from the last module. 
+Lets rewrite that the nav bar using these tools.
+
 
 - We will rewrite our `<nav-bar>` as a custom element using Enhance conventions.
 - The result is shown below. Paste this code in the `/app/elements/nav-bar.mjs` file.
@@ -289,44 +304,58 @@ export default function NavBar({ html }) {
     <style>
       :host {
         display: block;
-        backdrop-filter: blur(3px);
+        position: relative;
+      }
+
+      .backdrop {
+        backdrop-filter: blur(2px);
         background: hsla(0deg 0% 100% / 0.9);
+        --mask-image: linear-gradient(to bottom, black 50%, transparent);
+        mask-image: var(--mask-image);
+        -webkit-mask-image: var(--mask-image);
+        inset-block-end: -20%;
       }
     </style>
     <site-container>
-      <nav class='flex gap0'>
-        <h1 class='font-semibold tracking-1'><a href='/' class='no-underline'>My Site</a></h1>
-        <ul class='mis-auto flex gap0 list-none'>
+      <nav class='flex align-items-center gap0 leading1'>
+        <a href='/' class='no-underline flex align-items-center gap0'>
+          <h1 class='font-semibold tracking-1'>
+            Axle Lotl<br />
+            <span class='font-normal'>Web Developer</span>
+          </h1>
+        </a>
+        <ul class='mis-auto flex gap0 list-none text-1 uppercase tracking1 font-semibold'>
           <li><a href='/'>Home</a></li>
-          <li><a href='/about'>About</a></li>
+          <li><a href='/resume'>Resumé</a></li>
         </ul>
       </nav>
+      <div class='backdrop absolute inset-0 z-1'></div>
     </site-container>
-    <script type="module">
-      //YAGNI ... for now
-    </script>
   `
 }
 ```
-
-- This is an Enhance Single File Component.
-- It does a few things to improve page performance, but there is very little magic here. You could cut and paste this code into your HTML for every instance of the `<nav-bar>` and this would work as expected. This is just standard platform HTML, CSS and JavaScript.
-- The performance improvements that Enhance adds are:
-    - Hoisting the `<style>` tags to the head of the file and deduplicating them
-    - Moving `<script>` tags to the end of the file and deduplicating them.
-    - Scoping the style tags to target on the custom element they are written in
 
 
 
 ### Authoring with Custom Elements
 
-- Now that we have a <nav-bar> defined in /app/elements lets simplify our about page
+Now that we have a <nav-bar> defined in /app/elements lets simplify our resume page
+We will use that nice site-container again to wrap our resume. 
+
 
 ```html
 <!-- /app/pages/about.html--->
-<nav-bar></nav-bar>
-<main>
-  <h1>About</h1>
-  <p>Hello World</p>
-</main>
+<nav-bar class='pb4 sticky inset-bs-0 z1'></nav-bar>
+<site-container>
+    <h1 class='mb6 text5 font-light text-center tracking-2'>
+      Resumé
+    </h1>
+</site-container>
 ```
+
+Congratulations! We are not done. 
+But we are getting closer. Next we need to add some data to our resume. 
+And generally smarten up some of these components.
+
+In the next module we will talk about API routes and how we can pass data around in a few different ways.
+
