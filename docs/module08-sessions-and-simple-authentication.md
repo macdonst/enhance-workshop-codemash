@@ -1,9 +1,9 @@
 ---
-title: "Module 7: Sessions and Simple Authentication"
+title: "Module 8: Sessions and Simple Authentication"
 layout: default
 ---
 
-[Module Index](/)
+[Module Index](/enhance-workshop)
 
 ---
 
@@ -21,7 +21,7 @@ Sessions are the best way to add authentication and to close the loop on form va
 
 When you visit a website, by default, it doesn't remember anything about you - it's like starting a new conversation every time you go to the website or even loading a new page on the same website you are already visiting.
 HTTP is a stateless protocol.
-What if you want the website to remember something about you? 
+What if you want the website to remember something about you?
 That's where sessions come in.
 Sessions are a way for a website to remember things about you, like if you're logged in or what's in your shopping cart.
 
@@ -79,7 +79,7 @@ export default function cookie ({html, state}) {
 ```
 
 When you first hit the `/cookie` route the server will send a cookie to the user.
-The first time through it is sent to the browser. 
+The first time through it is sent to the browser.
 Then when you refresh the page it is sent back with that request and it show up in the `req.cookies` and is displayed on the page.
 
 ## Enhance Sessions
@@ -104,7 +104,7 @@ export async function get (req) {
 }
 ```
 
-Again the first request will set the cookies and to see what was set you refresh again. 
+Again the first request will set the cookies and to see what was set you refresh again.
 
 We started with this simple example to show that there is no real magic in sessions.
 You could reimpliment it yourself on every app and every route.
@@ -201,7 +201,7 @@ export async function get (req) {
 }
 ```
 
-Some pages may not be fully restricted but just have mixed content for an authenticated user. 
+Some pages may not be fully restricted but just have mixed content for an authenticated user.
 In this case you don't have to redirect if not authorized.
 Instead we will pass the `authorized` property to the page.
 

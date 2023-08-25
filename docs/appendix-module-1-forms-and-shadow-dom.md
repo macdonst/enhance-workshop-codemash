@@ -3,7 +3,7 @@ title: "Appendix 1: Forms and the Shadow DOM"
 layout: default
 ---
 
-[Module Index](/)
+[Module Index](/enhance-workshop)
 
 
 # Module B1: HTML Forms (~30min)

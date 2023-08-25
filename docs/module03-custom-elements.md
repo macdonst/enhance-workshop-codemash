@@ -3,7 +3,7 @@ title: "Module 3: Custom Elements and Web Components"
 layout: default
 ---
 
-[Module Index](/)
+[Module Index](/enhance-workshop)
 
 
 # Module 3: Custom Elements and Web Components

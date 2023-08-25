@@ -3,7 +3,7 @@ title: Enhance Workshop Preparation
 layout: default
 ---
 
-[Module Index](/)
+[Module Index](/enhance-workshop)
 
 # Module 0: Preliminary Setup (complete before the workshop)
 

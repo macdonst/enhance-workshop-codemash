@@ -3,7 +3,7 @@ title: "Module 2: HTML-First Development"
 layout: default
 ---
 
-[Module Index](/)
+[Module Index](/enhance-workshop)
 
 
 # Module 2: HTML-First Development

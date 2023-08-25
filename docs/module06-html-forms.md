@@ -1,12 +1,12 @@
 ---
-title: "Module 5: HTML Forms"
+title: "Module 6: HTML Forms"
 layout: default
 ---
 
-[Module Index](/)
+[Module Index](/enhance-workshop)
 
 
-# Module 5: HTML Forms (~30min)
+# Module 6: HTML Forms (~30min)
 
 
 

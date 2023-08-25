@@ -3,7 +3,7 @@ title: "Module 1: Workshop Overview"
 layout: default
 ---
 
-[Module Index](/)
+[Module Index](/enhance-workshop)
 
 
 # Module 1: Workshop Overview

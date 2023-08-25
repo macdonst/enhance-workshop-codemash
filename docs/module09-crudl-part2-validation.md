@@ -1,9 +1,9 @@
 ---
-title: "Module 8: CRUDL Part 2"
+title: "Module 9: CRUDL Part 2"
 layout: default
 ---
 
-[Module Index](/)
+[Module Index](/enhance-workshop)
 
 
 # Module 8: CRUDL with Validation and Data Access Layer
@@ -23,7 +23,7 @@ We will also integrate the authentication checks from the CRUDL routes.
 
 ## Data Schema
 For a simple form we could add validation logic in the handler in an ad-hoc way.
-But as the object we are creating become larger and more complex this is a challenge. 
+But as the object we are creating become larger and more complex this is a challenge.
 One way to validate on the server is by creating a schema for the data and then validating against that.
 There are many ways to do this, but JSON Schema is a specification that is simple enough and widely supported.
 
@@ -46,7 +46,7 @@ export const Linkpage = {
     "path": {
       "type": "string"
     },
-    "links":{ 
+    "links":{
       "type":"array",
       "items":{
         "type":"object",
@@ -190,7 +190,7 @@ export async function post (req) {
 }
 ```
 
-Now we are running the serverside validation which returns our problems, if there are any. 
+Now we are running the serverside validation which returns our problems, if there are any.
 But what do we do with them?
 
 This is where we use the session to send those problems back to the front end so that the user has another chance to fix their form.
@@ -324,22 +324,22 @@ export default function Html({ html, state }) {
 
 What we add here is:
 1. Form problem messages at the beggining of the form,
-2. Error messages on each input with the custom element `error` 
+2. Error messages on each input with the custom element `error`
 3. Set the `value` attributes with the previous state
 
 
 ## Protect CRUDL routes
-Now we have to protect the route with the session authentication. 
+Now we have to protect the route with the session authentication.
 To do this we follow the process at the end of the last module and add the:
 - For the GET route:
 ```javascript
 export async function get (req) {
   const authorized = !!req.session.authorized
-  if (!authorized) { 
-    return { 
+  if (!authorized) {
+    return {
       session: {...req.session, redirectAfterAuth:'/admin/linkpages'},
-      location: '/login' 
-    } 
+      location: '/login'
+    }
   }
   ...
 
@@ -367,11 +367,11 @@ import { getLinkpages, upsertLinkpage, validate } from '../../models/linkpages.m
 
 export async function get (req) {
   const authorized = !!(req.session.authorized?.scopes?.includes('linkpages:edit'))
-  if (!authorized) { 
-    return { 
+  if (!authorized) {
+    return {
       session: {...req.session, redirectAfterAuth:'/admin/linkpages'},
-      location: '/login' 
-    } 
+      location: '/login'
+    }
   }
 
   const linkpages = await getLinkpages()

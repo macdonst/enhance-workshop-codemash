@@ -1,13 +1,12 @@
 ---
-title: "Module 6: CRUDL Part 1"
+title: "Module 7: CRUDL Part 1"
 layout: default
 ---
 
-[Module Index](/)
+[Module Index](/enhance-workshop)
 
 
-# Module 6: CRUDL
-## Putting It All Together
+# Module7: CRUDL
 
 ## Outline
 

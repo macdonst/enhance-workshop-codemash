@@ -3,7 +3,7 @@ title: "Appendix 1: Authentication for a Username and Password flow"
 layout: default
 ---
 
-[Module Index](/)
+[Module Index](/enhance-workshop)
 
 
 
@@ -21,13 +21,13 @@ Now we cover username/password authentication with secure sessions.
 
 Before anyone can login an account needs to be created.
 1. [The registration form takes input for a new account.](#register-new-accounts)
-2. [This input is validated by a registration endpoint.](#validation) 
+2. [This input is validated by a registration endpoint.](#validation)
 3. [And stored as a new account in the database.](#storing-passwords)
 
 ![Registration Flow](/_public/blog/post-assets/registration-flow-diagram.png)
 
 To login:
-1. [The username and password are entered in a login form.](#login) 
+1. [The username and password are entered in a login form.](#login)
 2. [Posted to the server login endpoint.](#login)
 3. [Checked against the database for a matching account.](#login)
 4. [If a matching account is found, the details are stored in a user session.](#secure-sessions)
@@ -130,7 +130,7 @@ export default function register({ html, state }) {
         name="confirmPassword"
         type="password"
         minlength="8"
-        errors="${problems?.confirmPassword?.errors}" 
+        errors="${problems?.confirmPassword?.errors}"
         required
       >
       </enhance-text-input>
@@ -251,7 +251,7 @@ export async function post(req) {
 The login handler is shown below (or in the source [repo on GitHub](https://github.com/enhance-dev/enhance-auth/blob/main/app/api/login/username.mjs)).
 A password and username submitted as a POST request.
 They are then checked against the database to find a matching verified account.
-If one is found an `authorized` object is added to the session to identify the account. 
+If one is found an `authorized` object is added to the session to identify the account.
 
 <begin-code filename="/app/api/login/username.mjs">
 
