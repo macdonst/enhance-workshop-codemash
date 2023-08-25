@@ -17,14 +17,6 @@ class DeleteButton extends HTMLElement {
     }
   }
 
-  get key() {
-    return this.#key;
-  }
-
-  set key(value) {
-    this.#key = value;
-  }
-
   connectedCallback() {
     this.button = this.querySelector('button')
     this.button.addEventListener('click', this.#handleClick);
@@ -45,7 +37,7 @@ class DeleteButton extends HTMLElement {
         },
       })
       .then(() => {
-        document.getElementById(this.key).remove()
+        document.getElementById(this.#key).remove()
       })
       .catch(error => {
         console.error("Whoops!")
