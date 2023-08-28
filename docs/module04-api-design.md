@@ -11,7 +11,7 @@ layout: default
 
 ## Finish index.html
 
-Before we move on lets put some finishing touches on our home page. 
+Before we move on lets put some finishing touches on our home page.
 We have all the pieces in place to write HTML pages using web components.
 
 Here is some content for the developer portfolio that you can customize to make it your.
@@ -38,27 +38,8 @@ Copy and paste the markup below into your `index.html`.
 <site-footer></site-footer>
 ```
 
-There are two new components here we have not built yet. 
+There are two new components here we have not built yet.
 Lets add `<site-footer>` and `<text-container>` below to the `/app/elements` folder.
-
-```javascript
-// /app/elements/text-container.mjs
-export default function TextContainer({ html }) {
-  return html`
-    <style>
-      :host {
-        display: block;
-        max-inline-size: 68ch;
-      }
-
-      p + p {
-        margin-block-start: 1rem;
-      }
-    </style>
-    <slot></slot>
-  `
-}
-```
 
 ```javascript
 // /app/elements/site-footer.mjs
@@ -85,9 +66,28 @@ export default function SiteFooter({ html }) {
 }
 ```
 
-Yay! We now have a nice looking landing page. 
+```javascript
+// /app/elements/text-container.mjs
+export default function TextContainer({ html }) {
+  return html`
+    <style>
+      :host {
+        display: block;
+        max-inline-size: 68ch;
+      }
+
+      p + p {
+        margin-block-start: 1rem;
+      }
+    </style>
+    <slot></slot>
+  `
+}
+```
+
+Yay! We now have a nice looking landing page.
 It is plain HTML with static content hardcoded.
-There are a lot of sites on the web that should be built that way instead of as SPA's. 
+There are a lot of sites on the web that should be built that way instead of as SPA's.
 
 Next we want to build out our Resume page.
 For that we want to pull data in rather than hardcoding the markup.
@@ -119,7 +119,7 @@ It also spread the scourge of SPA's, because if your site is pregenerated markup
 ## Adding API Routes
 API routes are a way to combine data in response to an HTTP request.
 
-They can literally respond with JSON data.
+They can respond with data (JSON, XML, etc).
 Or the data can be passed to a page route make dynamic HTML markup based on the data.
 
 Add the following code to a new API route at `/app/api/resume.mjs`:
@@ -154,22 +154,22 @@ export async function get(req){
   ]
 
   return { json: {experience} }
-} 
+}
 ```
 
-Here we create an array of Jobs for our resume. 
+Here we create an array of Jobs for our resume.
 
 ## API Routes
 The API route data can be hard coded (as it is here), read from a database, fetched from other third party API's, or imported from anywhere.
-This is where the backend work happens to respond to requests. 
+This is where the backend work happens to respond to requests.
 
 **Notice that this function recieves the request object as an argument (show as `req`) which can be used for preparing the response.**
 
 The exported function from this api file is named for the method that it will handle.
 In the above example it is name `get` and will respond only to GET requests.
-It can be post, patch, delete, or any other method. 
+It can be post, patch, delete, or any other method.
 We will generally stick to `get` and `post` because these are the only two methods that the browser understands.
-We can also use `any` to indicate this method should respond to any method request. 
+We can also use `any` to indicate this method should respond to any method request.
 
 
 When the response is ready you `return` the response object.
@@ -251,12 +251,11 @@ Lets drop it in our resume page and watch the data flow.
 
 
 Now we have the data we want lets finish this resume with some styles.
-The data list needs a little work. 
+The data list needs a little work.
 Lets make a component `<data-list>` to apply the styles to:
 
 ```javascript
 // /app/elements/data-list.mjs
-
 export default function DataList({ html }) {
   return html`
     <style>
@@ -276,7 +275,7 @@ export default function DataList({ html }) {
 }
 ```
 
-Now lets update `<resume-experience>` to use that. 
+Now lets update `<resume-experience>` to use that.
 Replace the `<dl>` with our `<data-list>`.
 
 ```javascript
@@ -312,22 +311,6 @@ export default function Experience ({ html, state }) {
 }
 ```
 
-Now back to `/app/pages/resume.html`.
-Lets add a footer and a resume container.
-
-```html
-<nav-bar class='pb4 sticky inset-bs-0 z1'></nav-bar>
-<site-container>
-    <h1 class='mb6 text5 font-light text-center tracking-2'>
-      Resumé
-    </h1>
-    <resume-container class='mi-auto'>
-      <resume-experience></resume-experience>
-    </resume-container>
-</site-container>
-<site-footer></site-footer>
-```
-
 Now create the resume container in the elements folder.
 
 ```javascript
@@ -345,6 +328,21 @@ export default function ResumeContainer({ html }) {
 }
 ```
 
+Now back to `/app/pages/resume.html`.
+Lets add a footer and a resume container.
+
+```html
+<nav-bar class='pb4 sticky inset-bs-0 z1'></nav-bar>
+<site-container>
+    <h1 class='mb6 text5 font-light text-center tracking-2'>
+      Resumé
+    </h1>
+    <resume-container class='mi-auto'>
+      <resume-experience></resume-experience>
+    </resume-container>
+</site-container>
+<site-footer></site-footer>
+```
 
 We have a decent looking Resume page along with tools to add data to create pages that are dynamic.
 
@@ -414,20 +412,20 @@ export default function Head() {
 }
 ```
 
-The only thing dynamic in this is the `linkTag()` which adds the stylesheet for enhance styles.
-Otherwise this file generates the string for the html, head, and body tags. 
+The only thing dynamic in this is the `linkTag()` which adds a link to enhance styles.
+Otherwise this file generates the string for the html, head, and body tags.
 
 It is the first element processed by enhance to create the page.
 It is a special element because the head cannot be a custom element.
 But when it is processed we have access to the request and the store.
 
-This gives us an opportunity to inject data into the store here that will be available to any other element processed.
+This gives us an opportunity to inject data into the store here that will be available to every other element processed.
 
 For instance we have a nav bar and footer where the author info is hard coded.
 
 Lets make that dynamic and pull it from the store.
 
-The first argument of head.mjs is an object that contains the request and the store. 
+The first argument of `head.mjs` is an object that contains the request and the store.
 We could read the store here to put something in the head, but instead we will inject our author data.
 
 Just in case we want to override this for a specific route we will check to see if an author is already passed and leave it there if it is.
@@ -637,7 +635,7 @@ export default function Head(state) {
 ```
 
 
-Now we have data flowing thougout our site. 
+Now we have data flowing thougout our site.
 At this point the source of the data is mostly static, but the same tools can be used to pass any kind of data around.
 
 
