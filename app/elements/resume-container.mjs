@@ -1,4 +1,4 @@
-export default function TextContainer({ html }) {
+export default function ResumeContainer({ html }) {
   return html`
     <style>
       :host {

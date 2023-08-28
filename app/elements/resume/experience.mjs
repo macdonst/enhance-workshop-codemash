@@ -1,6 +1,6 @@
-import experience from '../../lib/resume.mjs'
-
-export default function Experience ({ html }) {
+export default function Experience ({ html, state }) {
+  const { store } = state
+  const { experience = [] } = store
   const jobs = experience.map(job => {
     const { company, role, start, end, description } = job
     return `

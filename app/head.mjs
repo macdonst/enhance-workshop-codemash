@@ -1,4 +1,4 @@
-import titlesByPath from './lib/titlesByPath.mjs'
+import titlesByPath from './lib/titles-by-path.mjs'
 import { getStyles }  from '@enhance/arc-plugin-styles'
 
 const { linkTag } = getStyles
