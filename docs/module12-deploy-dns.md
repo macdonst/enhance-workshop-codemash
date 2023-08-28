@@ -17,7 +17,7 @@ For this part of the workshop we will use the Begin CLI to deploy your app to Be
 - Once you are logged into Begin, we'll do our first deploy. Type `begin deploy` into the terminal. You'll need to answer a few questions to complete the deployment.
 - For `Would you like to create a Begin app based on this project? (Y/n)` hit `Enter` or type `y`.
 - Give your project a meaningful name when asked `What would you like to name your app?`
-- When queried `What would you like to name your first environment?` except the default `staging` by hitting `Enter`.
+- When queried `What would you like to name your first environment?` accept the default `staging` by hitting `Enter`.
 - Accept the default for `Would you like to specify the geographical region your project will be deployed to? (This cannot be changed) (Y/n)` by hitting `Enter`. This will deploy your app to the Oregon, US region. For a list of all supported regions see [region support](https://begin.com/blog/posts/2023-05-30-region-support-for-begin).
 - Then wait a few minutes for your application to be deployed. The initial deploy will take a bit longer than subsequent deployments as the cloud gremlins are busy creating stacks of CloudFormation resources for you.
 - Here's an example of what an initial deploy would look like.
@@ -82,7 +82,7 @@ begin env create --env production --name SECRET_PASSWORD --value secret
 begin deploy --env production
 ```
 
-> Note: now that we have more that one environment for this application we need to specify which environment we want to deploy.
+> Note: now that we have more than one environment for this application we need to specify which environment we want to deploy.
 
 ## Continuous Integration/Continuous Deployment
 
