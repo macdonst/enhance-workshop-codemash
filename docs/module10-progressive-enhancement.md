@@ -91,6 +91,9 @@ class DeleteButton extends HTMLElement {
 
   #handleClick = event => {
     event.preventDefault()
+    let element = document.getElementById(this.#key)
+    let display = element.style.display
+    element.style.display = 'none'
     let { action, method } = event.target.closest('form')
     fetch(action, {
         method: method,
@@ -100,10 +103,12 @@ class DeleteButton extends HTMLElement {
         },
       })
       .then(() => {
-        document.getElementById(this.#key).remove()
+        console.log('deleting')
+        element.remove()
       })
       .catch(error => {
         console.error("Whoops!")
+        element.style.display = display
       })
   }
 }
