@@ -176,15 +176,14 @@ export default function Html({ html, state }) {
 
 - Now that we have a form to create new links we need a place to POST them.
 
-- Next make an API route at /app/api/links.mjs
+- Next make an API route at `/app/api/links.mjs`
 
 ```javascript
 // /app/api/links.mjs
 import { upsertLink } from '../models/links.mjs'
-import {convertToNestedObject} from '@begin/validator'
 
 export async function post (req) {
-  await upsertLink({ ...req.body })
+  await upsertLink(req.body)
   return {
     location: '/links'
   }
@@ -247,11 +246,11 @@ export default function Links({ html, state }) {
 }
 
 ```
+
 We put the create form inside a details/summary to clean up the page slightly
 Now we need to make sure that this page has the list of links to display.
 
 While we are here we add buttons to Update and Delete from the list view. We will add API routes for those soon.
-
 
 - Now we need to pass the data for the links to the page to display.
 - For that add the following to `/app/api/links.mjs`
@@ -269,7 +268,7 @@ export async function get (req) {
 }
 
 export async function post (req) {
-  await upsertLink({ ...req.body })
+  await upsertLink(req.body)
   return {
     location: '/links'
   }
@@ -277,6 +276,7 @@ export async function post (req) {
 ```
 
 ## Update
+
 We have a button to update links from the list view,
 but we need to add the page and API to support that feature.
 
@@ -326,7 +326,7 @@ export async function get (req) {
 
 export async function post (req) {
   const id = req.pathParameters?.id
-  const result = await upsertLink({ key: id, ...link })
+  const result = await upsertLink({ ...req.body, key: id })
   return {
     json: { link: result },
     location: '/links'
@@ -515,13 +515,10 @@ export {
 }
 ```
 
-Notice a few important things happening in this file:
-
-1. The `@begin/validator` combines a few steps:
+The `@begin/validator` combines a few features:
   - It creates a nested object from the flat form key/values pairs.
   - It normalizes the values into numbers, booleans, floats, etc. based on the Schema.
   - It also validates the form against the schema and returns any errors in an object called `problems`.
-2. We added pagination to the list method.
 
 Replace the code in `/app/api/links.mjs` with the code below:
 
