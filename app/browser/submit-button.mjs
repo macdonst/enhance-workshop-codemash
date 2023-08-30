@@ -15,18 +15,13 @@ export default class SubmitButton extends HTMLElement {
     event.preventDefault()
     let form = event.target.closest('form')
     let { action, method } = form
-    let data = new FormData(form)
-    console.log('text', data.get('text'))
     fetch(action, {
       method: method,
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: JSON.stringify({
-        text: data.get('text'),
-        url: data.get('url')
-      })
+      body: JSON.stringify(Object.fromEntries(new FormData(form)))
     })
       .then(response => response.json())
       .then(({ link }) => {

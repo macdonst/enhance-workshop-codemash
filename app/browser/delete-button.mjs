@@ -8,7 +8,6 @@ export default class DeleteButton extends CustomElement {
   static observedAttributes = ['key']
 
   keyChanged(value) {
-    console.log('key changed with value ', value)
     this.#key = value
     this.querySelector('form').setAttribute('action', `/links/${value}/delete`)
   }
