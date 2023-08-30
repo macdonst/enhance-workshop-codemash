@@ -3,12 +3,9 @@ import CustomElement from '@enhance/custom-element'
 import DeleteButtonElement from '../elements/delete-button.mjs'
 
 export default class DeleteButton extends CustomElement {
-  #key = null;
-
   static observedAttributes = ['key']
 
   keyChanged(value) {
-    this.#key = value
     this.querySelector('form').setAttribute('action', `/links/${value}/delete`)
   }
 
@@ -27,7 +24,7 @@ export default class DeleteButton extends CustomElement {
 
   #handleClick = event => {
     event.preventDefault()
-    let element = document.getElementById(this.#key)
+    let element = document.getElementById(this.getAttribute('key'))
     let display = element.style.display
     element.style.display = 'none'
     let { action, method } = event.target.closest('form')
