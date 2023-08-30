@@ -5,19 +5,20 @@ layout: default
 
 [Module Index](/enhance-workshop)
 
----
 
 ## Outline
 
-* What are Sessions
-* HTTP Only Cookies
-* Enhance Sessions
+- What are Sessions
+- HTTP Only Cookies
+- Enhance Sessions
+- Simple Auth with Sessions
 
----
 
 ## Sessions
 We are missing a few tools to finish our CRUDL routes from the last module.
-Sessions are the best way to add authentication and to close the loop on form validation from the server.
+We need a way to maintain a persistent state between the request and responses back and forth between the browser and the server.
+Sessions give us that.
+They are the best way to add authentication and to close the loop on form validation from the server.
 
 When you visit a website, by default, it doesn't remember anything about you - it's like starting a new conversation every time you go to the website or even loading a new page on the same website you are already visiting.
 HTTP is a stateless protocol.
@@ -25,16 +26,15 @@ What if you want the website to remember something about you?
 That's where sessions come in.
 Sessions are a way for a website to remember things about you, like if you're logged in or what's in your shopping cart.
 
-Enhance impliments sessions with HttpOnly cookies.
+Enhance implements sessions with HttpOnly cookies.
 HttpOnly cookies are the best way to ensure that your session data is safe and secure.
-To learn why they're important and how to use them we will create a session from scratch.
-It's a great way to add an extra layer of security to your website, and it's easier than you might think.
 
 
 ## Cookies
 
 A cookie is a small piece of data that a website stores on a user's computer.
-This data is then sent back to the website with every subsequent request, allowing the website to remember things like user preferences or login status.
+This data is then sent back to the website with every subsequent request.
+This allows the website to remember things like user preferences or login status.
 At the end of the day, a `Cookie` is an HTTP request header, and writing a cookie is accomplished with the HTTP response header `set-cookie`.
 
 By default, cookies are sent back and forth between the browser and the server in plain text, making them vulnerable to theft by hackers.
@@ -50,6 +50,7 @@ By taking the time to implement these security measures correctly, you'll be abl
 
 
 ## Implementing a session with set-cookie
+
 Lets look at how we might build a session out of cookies for our app.
 
 Add an API route at `/app/api/cookie.mjs` with the following:
@@ -84,12 +85,11 @@ Then when you refresh the page it is sent back with that request and it show up 
 
 ## Enhance Sessions
 
-Enhance session functionality built in.
-It uses `set-cookie` behind the scenes.
-That code is open source, has been audited by thousands, and has more affordances for better security.
+Enhance has session functionality built-in using `set-cookie` behind the scenes. That code is open source, has been audited by thousands, and has more affordances for better security.
 
 Lets check it out.
-Now add the following lines to the same `/app/api/cookies.mjs` file:
+
+Add the following lines to the same `/app/api/cookies.mjs` file:
 
 ```javascript
 // filename="app/api/cookie.mjs
@@ -104,11 +104,9 @@ export async function get (req) {
 }
 ```
 
-Again the first request will set the cookies and to see what was set you refresh again.
+Again the first request will set the cookies and to see what was set you refresh the page.
 
-We started with this simple example to show that there is no real magic in sessions.
-You could reimpliment it yourself on every app and every route.
-But that would be a lot of boilerplate you can avoid by using built-in sessions.
+We started with this simple example to show that there is no real magic in sessions. You could reimplement it yourself on every app and every route but that would be a lot of boilerplate code you can avoid writing by using built-in sessions.
 
 While our session cookie is both `Secure` and `HttpOnly` you probably noticed the values are still in plain text while the built in session is not readable in the cookie itself.
 Enhance sessions are further locked down with two strategies: signing and encrypting the cookie value for ‘stateless’ sessions and/or using database backed sessions and only storing a UUID in the cookie itself.
@@ -116,14 +114,15 @@ Both techniques work fine, and even better can be combined.
 
 Database sessions are nice because you can control invalidation and aren’t limited by the size of cookie.
 Stateless sessions are nice because they don’t involve more moving parts like a database.
-Enhance, support both.
+
+Enhance, supports both.
 
 # Implementing a basic login flow on top of session
-Getting back to the portfolio we are building one of the things that we need sessions for is authentication.
-We want any guests to be able to see the portfolio, resume, and link tree pages, but we don't want them to be able to create new link tree pages.
-To restrict the CRUDL routes we will use sessions.
 
-For this we will build a simple singleplayer authentication.
+Getting back to the portfolio we are building one of the things that we need sessions for is authentication.
+We want any guests to be able to see the portfolio, resume, and link tree pages, but we don't want them to be able to create new links.
+
+To restrict the CRUDL routes we will use sessions. For this we will build a simple single player authentication.
 
 Lets build a login page
 
@@ -168,15 +167,36 @@ export async function post (req) {
    session: {}
  }
 }
+
+
+// For local dev it is convenient to be able to logout using a get route
+export async function get () {
+  const env = process.env.ARC_ENV
+  if (env !== 'staging' && env !== 'production') {
+    return {
+      session: {},
+      location: '/'
+    }
+  } else {
+    return {
+      code: 404
+    }
+  }
+}
+
 ```
+
+Notice that in production there is only a POST route for logout. For debugging it is nice to be able to use a GET route.
 
 The previous code will clear the session entirely.
 If there are possibly values in the session that you want maintained you can just clear the login state as follows.
 
+
+
 ```javascript
 // /app/api/logout.mjs
 export async function post (req) {
- const {authorized:removeAuthorized, ...newSession} = ...req.session
+ const {authorized:removeAuthorized, ...newSession} = req.session
  return {
    location: '/',
    session: newSession
@@ -227,8 +247,7 @@ ${state.store.authorized ? `<form method=POST action=/logout><button>logout</but
 }
 ```
 
-In the case of a POST request we might want to respond differently to the authentication check.
-In the case of a JSON API it is likely better to respond with a status not authorized.
+In the case of a POST request we usually want to respond with a "Not Authorized" status code instead of redirecting.
 
 ```javascript
 // /app/api/protected.mjs
@@ -239,5 +258,139 @@ export async function post (req) {
 }
 ```
 
-We will add these authentication checks to the respective CRUDL routes in the next module.
+We could add these few lines of code to all our CRUDL routes which would not be too bad.
+But there is a better way.
+Enhance has an affordance for lightweight middleware.
+Lets use that to add auth checks to our protected routes.
 
+## Authentication Middleware
+
+In an API handler we can export an array of handlers instead of one function.
+
+```javascript
+export let get = [one, two]
+
+async function one (req) {
+  console.log('hi from one')
+  req.first = true
+}
+
+async function two (req) {
+  console.log('hi from two')
+  const second = false
+
+  return { json: [req.first, second] }
+}
+
+```
+
+For more info check out the [Enhance Docs](https://enhance.dev/docs/learn/concepts/routing/api-routes#middleware)
+
+
+We can write a `checkAuth.mjs` middleware function and add it to our protected routes.
+
+Copy and paste the middleware below into `/app/lib/checkAuth.mjs`.
+
+```javascript
+export function checkAuth(req) {
+  const session = req.session
+  const authorized = session?.authorized ? session?.authorized : false
+
+  if (!authorized){
+    if (req.method === 'GET') {
+      return {
+        location: '/login'
+      }
+    }
+    return {
+      status: 401
+    }
+  }
+}
+
+```
+
+Now we can add auth checks to our protected API routes.
+
+
+```javascript
+// /app/api/links.mjs
+import { getLinks, upsertLink, validate } from '../../models/links.mjs'
+import { checkAuth } from '../../lib/checkAuth.mjs'
+
+export const get = [checkAuth,getLinks]
+export const post = [checkAuth,postLinks]
+
+export async function getLinks (req) {
+  const links = await getLinks()
+  return {
+    json: { links }
+  }
+}
+
+export async function postLinks (req) {
+  let { problems, link } = await validate.create(req)
+
+  const result = await upsertLink(link)
+  return {
+    location: '/links'
+  }
+}
+```
+
+Now do the same for the other two protected routes at `/app/api/links/$id.mjs` and `/app/api/links/$id/delete.mjs`.
+
+Finally our protected routes are actually protected.
+
+## Auth Status in HTML pages
+
+The Authentication check used here protects an unauthorized user from ever seeing a page. In some cases you will want users to be able to access a page either way with UI changes depending on their auth status. This may be an avatar in the header or a log out button only shown if they are authenticated. For that we need to pass the `authorized` property from the `session` to the page using the store.
+
+We can do that in each of the API routes by grabbing authenticated from the session and returning it in the `json` so that it is available in the `state.store`.
+
+This is actually tricky to do with middleware because if we want to add something to the response we need to hang it on the request and pull it off at the end of the middleware chain.
+
+If an early middleware returns something it will send the response immediately and short circuit any other middleware.
+
+Another problem with using the API for this is that if our page does not need an API we will have to add it just to pass the authorized status.
+
+So the solution for this ends up being something we have already seen. We can use the `head.mjs` to get the `req.session.authorized` and put it in the `state.store.authorized` to make it available in every page.
+
+Lets add a logout button to our `nav-bar` using this approach.
+
+Add the following code in the `head.mjs` (only the top of the file is show).
+
+```javascript
+// code removed ...
+export default function Head(state) {
+  const { req, store } = state
+  const { path, session } = req
+
+  if (store.authorized === undefined) {
+    store.authorized = session.authorized || false
+  }
+  if (store.path === undefined) {
+    store.path = path
+  }
+  // code removed ...
+
+```
+
+Now we can go back to our `/app/elements/nav-bar.mjs` and add the log out button.
+
+```html
+  <ul class='mis-auto flex gap0 list-none text-1 uppercase tracking1 font-semibold'>
+    <li><a href='/'>Home</a></li>
+    <li><a href='/resume'>Resumé</a></li>
+    <li><a href='/linktree'>Links</a></li>
+    ${state.store?.authorized ?
+    `<li><form method="POST" action="/logout"> <button>Log Out</button></form></li>` : ''}
+  </ul>
+```
+
+Now we have pretty bullet proof authentication for our portfolio site.
+This would need some more features for a site with many authorized users.
+
+We have extensive examples to follow for all of the most common types of authentication that you can find in our [Auth Series](https://begin.com/blog/posts/2023-05-10-why-you-should-roll-your-own-auth).
+
+In the next module we will add the finishing touches on our CRUDL routes using session to handle validation problems.
