@@ -3,15 +3,11 @@ import CustomElement from '@enhance/custom-element'
 import LinkItemElement from '../elements/link-item.mjs'
 
 export default class LinkItem extends CustomElement {
-  key = null
-  text = null
-  url = null
-
   constructor() {
     super()
-    this.textElement = this.querySelectorAll('output')[0]
-    this.urlElement = this.querySelectorAll('output')[1]
-    this.keyElement = this.querySelectorAll('output')[2]
+    this.textElement = this.querySelectorAll('span')[0]
+    this.urlElement = this.querySelectorAll('span')[1]
+    this.keyElement = this.querySelectorAll('span')[2]
   }
 
   static observedAttributes = ['key', 'text', 'url'];
