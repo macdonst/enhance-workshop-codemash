@@ -423,4 +423,101 @@ export default function Html ({ html, state }) {
 
 ## DOM Diffing
 
-// To be finished
+If you have experience with other JavaScript frameworks you are probably wondering why we have to do DOM surgery instead of using DOM diffing. Good news, Enhance supports DOM diffing as well but we wanted to progressively improve our app one layer at a time instead of jumping to directly to the end game.
+
+Adding DOM diffing to our Enhance components won't add any new functionality. Rather it is a layer of syntactical sugar that will make your code easier to read.
+
+> Note: adding this layer of DOM diffing may improve your developer experience (DX) but it comes as a cost. First, DOM diffing will always be slower than surgical DOM updates. That's a fact. Secondly, your JavaScript bundle sizes will be larger due to the fact that the DOM diffing logic has to be sent to the client as well.
+>
+> This isn't to say you shouldn't use DOM diffing but you should be aware of the trade offs you are about to make.
+
+With all that preamble out of the way let's add DOM diffing to our application. In order to do that we need to install another npm package called `@enhance/morphdom-mixin`.
+
+```bash
+npm i @enhance/morphdom-mixin
+```
+
+Now that our mixin is available we will be able to update our `app/browser/delete-button.mjs` and `app/browser/link-item.mjs` to take advantage of DOM diffing.
+
+First let's look at `app/browser/delete-button.mjs`
+
+```javascript
+/* eslint-disable no-undef */
+import CustomElement from '@enhance/custom-element'
+import MorphdomMixin from '@enhance/morphdom-mixin'
+import DeleteButtonElement from '../elements/delete-button.mjs'
+
+export default class DeleteButton extends MorphdomMixin(CustomElement) {
+  static get observedAttributes() {
+    return ['key']
+  }
+
+  render(args) {
+    return DeleteButtonElement(args)
+  }
+
+  connectedCallback() {
+    this.button = this.querySelector('button')
+    this.button.addEventListener('click', this.#handleClick);
+  }
+
+  disconnectedCallback() {
+    this.button.removeEventListener('click', this.#handleClick);
+  }
+
+  #handleClick = event => {
+    event.preventDefault()
+    let element = document.getElementById(this.getAttribute('key'))
+    let display = element.style.display
+    element.style.display = 'none'
+    let { action, method } = event.target.closest('form')
+    fetch(action, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+    })
+      .then(() => {
+        element.remove()
+      })
+      .catch(error => {
+        console.error("Whoops!", error)
+        element.style.display = display
+      })
+  }
+}
+
+
+if (!customElements.get('delete-button')) {
+  customElements.define('delete-button', DeleteButton);
+}
+```
+
+By adding in the `MorphdomMixin` we've enabled DOM diffing. This means we can remove the `keyChanged` method as the mixin will handle updating the `key` wherever it is used when the attribute value is changed.
+
+That doesn't save us a ton of typing but it gets better when we look at `app/browser/link-item.mjs`
+
+```javascript
+/* eslint-disable no-undef */
+import CustomElement from '@enhance/custom-element'
+import MorphdomMixin from '@enhance/morphdom-mixin'
+import LinkItemElement from '../elements/link-item.mjs'
+
+export default class LinkItem extends MorphdomMixin(CustomElement) {
+  static observedAttributes = ['key', 'text', 'url'];
+
+  render(args) {
+    return LinkItemElement(args)
+  }
+}
+
+if (!customElements.get('link-item')) {
+  customElements.define('link-item', LinkItem);
+}
+```
+
+Whoa, were did all the code go? DOM diffing magic, baby! The `constructor` is no longer required since we don't need references to the `span` elements anymore. Then all of our `Changed` methods disappear as the mixin will handle this for us as well. This is especially useful for the `keyChanged` method as we don't have to pass the new `key` value into the edit link or the delete button.
+
+Congratulations, you've just learned another tool to add to your Enhance toolbox. It's up to you to decide when you should use this technique. If you only have one or two components that require DOM diffing you may be better off to handle it with surgical DOM updates but if you are building a large system with many components that require updating you may want to reach for this technique to keep everything straight.
+
