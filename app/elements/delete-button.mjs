@@ -1,55 +1,21 @@
-export default function DeleteButton({ html, state }) {
+export default function DeleteButtonElement({ html, state }) {
   const { attrs } = state
   const { key } = attrs
   return html`
+    <style>
+        :host button {
+          color: var(--light);
+          background-color: var(--primary-500)
+        }
+        :host button:focus, :host button:hover {
+          outline: none;
+          background-color: var(--primary-400)
+        }
+    </style>
     <form action="/links/${key}/delete" method="POST" class="mb-1">
-        <enhance-submit-button><span slot="label">Delete this link</span></enhance-submit-button>
+        <button class="whitespace-no-wrap pb-3 pi0 font-semibold cursor-pointer radius0">
+          <span>Delete this link</span>
+        </button>
     </form>
-    <script>
-class DeleteButton extends HTMLElement {
-  #key = null;
-
-  static observedAttributes = ['key'];
-
-  attributeChangedCallback(name, oldVal, newVal) {
-    if (name === 'key' && oldVal !== newVal) {
-      this.#key = newVal;
-    }
-  }
-
-  connectedCallback() {
-    this.button = this.querySelector('button')
-    this.button.addEventListener('click', this.#handleClick);
-  }
-
-  disconnectedCallback() {
-    this.button.removeEventListener('click', this.#handleClick);
-  }
-
-  #handleClick = event => {
-    event.preventDefault()
-    let element = document.getElementById(this.#key)
-    let display = element.style.display
-    element.style.display = 'none'
-    let { action, method } = event.target.closest('form')
-    fetch(action, {
-        method: method,
-        headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json"
-        },
-      })
-      .then(() => {
-        console.log('deleting')
-        element.remove()
-      })
-      .catch(error => {
-        console.error("Whoops!")
-        element.style.display = display
-      })
-  }
-}
-customElements.define('delete-button', DeleteButton);
-    </script>
     `
 }
