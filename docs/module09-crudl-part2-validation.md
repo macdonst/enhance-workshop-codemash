@@ -6,348 +6,303 @@ layout: default
 [Module Index](/enhance-workshop)
 
 
-# Module 8: CRUDL with Validation 
-## Putting It All Together
+# Module 9: CRUDL with Validation
 
 ## Outline
 
 * Client/Server Validation
-* Handling Problems
+* Handling Validation Problems with Session
 
 ---
 
-Now we are running the serverside validation which returns our problems, if there are any.
+Now we are running the server side validation which returns our problems, if there are any.
 But what do we do with them?
 
 This is where we use the session to send those problems back to the front end so that the user has another chance to fix their form.
 
 This is the process we will use for handling problems:
-1. User submits form from `/linkpages` that POSTS to `/linkpages`
+1. User submits form from `/links` that POSTS to `/links`
 2. The post handler runs validator against the form values and gets a list of `problems`.
-3. Post handler adds the problems to the session along with the values submitted `session: {problems, linkpage}`
-4. Post handler redirects back to `/linkpages` by setting `location: '/linkpages'` (with the above session set).
-5. After being redirected GET API pulls the problems and linkpage values off the session and sets them on `json` so that the page can display them
-6. HTML page uses the state.store.problems and state.store.linkpage to restore the form where they left off with the problems highlighted.
+3. Post handler adds the problems to the session along with the initial values submitted (i.e.`session: {problems, link}`).
+4. Post handler redirects back to `/links` by setting `location: '/links'` (with the above session set).
+5. After being redirected GET API pulls the problems and link values off the session and sets them on `json` so that the page can display them.
+6. HTML page uses the `state.store.problems` and `state.store.link` to restore the form where they left off with the problems highlighted.
 
-Copy and paste (or add this code) to the /app/api/linkpages.mjs API route.
+
+Copy and paste (or add this code) to the `/app/api/links.mjs` API route.
+The code is annotated with the steps. It might be difficult to follow because the problems loop will pass through this API file several times if validation fails.
+
 
 ```javascript
-// /app/api/linkpages.mjs
-import { getLinkpages, upsertLinkpage, validate } from '../../models/linkpages.mjs'
+// /app/api/links.mjs
+import { getLinks, upsertLink, validate } from '../../models/links.mjs'
+import { checkAuth } from '../../lib/checkAuth.mjs'
+
+export const get = [checkAuth,getLinks]
+export const post = [checkAuth,postLinks]
 
 
-export async function get (req) {
-  const linkpages = await getLinkpages()
+export async function getLinks (req) {
+  const links = await getLinks()
   if (req.session.problems) {
-    let { problems, linkpage, ...session } = req.session
+  // 5. Back at the form we pull the problems and initial values off the session
+    let { problems, link, ...session } = req.session
     return {
       session,
-      json: { problems, linkpages, linkpage }
+      // 6. The HTML page can get problems and initial values off the store
+      json: { problems, links, link }
     }
   }
 
+// 1. First user gets a blank form to fill out
   return {
-    json: { linkpages }
+    json: { links }
   }
 }
 
-export async function post (req) {
+export async function postLinks (req) {
   const session = req.session
-  // Validate
-  let { problems, linkpage } = await validate.create(req)
+  // 2. Validate form inputs and return problems
+  let { problems, link } = await validate.create(req)
   if (problems) {
     return {
-      session: { ...session, problems, linkpage },
-      json: { problems, linkpage },
-      location: '/admin/linkpages'
+    // 3. Problems and initial values added to session
+      session: { ...session, problems, link },
+      // Used for progressive enhancement next module
+      json: { problems, link },
+      // 4. Redirects back to the form with the above session
+      location: '/links'
     }
   }
 
+  // If validation is successful the problems and old values are removed from the session
   // eslint-disable-next-line no-unused-vars
-  let { problems: removedProblems, linkpage: removed, ...newSession } = session
+  let { problems: removedProblems, link: removed, ...newSession } = session
   try {
-    const result = await upsertLinkpage(linkpage)
+    const result = await upsertLink(link)
     return {
       session: newSession,
-      json: { linkpage: result },
-      location: '/admin/linkpages'
+      json: { link: result },
+      location: '/links'
     }
   }
   catch (err) {
     return {
       session: { ...newSession, error: err.message },
       json: { error: err.message },
-      location: '/admin/linkpages'
+      location: '/links'
     }
   }
 }
 ```
 
-Now lets update the /app/pages/linkpages.mjs to use the problems if present.
+## Add Problems to HTML
+Now lets update the HTML at `/app/pages/links.mjs` to use the problems if present.
 
+### Client-side Validation
+In the HTML forms module we covered client-side validation built to the platform.
+The best solution for most forms is to use both.
+In this case we know that both a `url` and `text` input are required for the link tree so we will add the `required` attribute to those inputs so the browser will check for that before even submitting.
+
+
+What we add here are:
+1. Problems and initial form values pulled out of the store.
+2. Set the Details to open if problems were found
+3. Form problem messages at the beginning of the form.
+4. Error messages on each input with the custom element `error`
+5. Set the `value` attributes with the previous state
+6. Add client-side validation attributes to inputs
+
+Copy and past the following to `/app/pages/links.mjs`.
 
 ```javascript
-// /app/pages/linkpages.mjs
+// /app/pages/links.mjs
 
-export default function Html({ html, state }) {
+export default function links({ html, state }) {
   const { store } = state
-  let linkpages = store.linkpages || []
-  const linkpage = store.linkpage || {}
+  let links = store.links || []
+  // 1. Get Problems and values from the store
+  const link = store.link || {}
   const problems = store.problems || {}
 
-  return html`
-<enhance-page-container>
+  return html`<enhance-page-container>
   <main>
-    <h1 class="mb1 font-semibold text3">Link Pages</h1>
-    ${linkpages.map(item => `<article class="mb2">
-      <div class="mb0">
-        <p class="pb-2"><strong class="capitalize">Title: </strong>${item?.title || ''}</p>
-        <p class="pb-2"><strong class="capitalize">Description: </strong>${item?.description || ''}</p>
-        <p class="pb-2"><strong class="capitalize">Page Route: </strong>${item?.path || ''}</p>
-
-        ${item?.links.map((link,i)=>`
-          <p class="pb-2"><strong class="capitalize">Link Text ${i}: </strong>${link?.text || ''}</p>
-          <p class="pb-2"><strong class="capitalize">Link Url ${i}: </strong>${link?.url || ''}</p>
-        `).join('')}
-
-        <p class="pb-2"><strong class="capitalize">Key: </strong>${item?.key || ''}</p>
-      </div>
-      <p class="mb-1">
-        <enhance-link href="/admin/linkpages/${item.key}">Edit this link page</enhance-link>
-      </p>
-      <form action="/admin/linkpages/${item.key}/delete" method="POST" class="mb-1">
-        <enhance-submit-button><span slot="label">Delete this link page</span></enhance-submit-button>
-      </form>
-      </article>`).join('\n')}
-    <details class="mb0" ${Object.keys(problems).length ? 'open' : ''}>
-      <summary>New link page</summary>
-      <enhance-form
-        action="/admin/linkpages"
-        method="POST">
-        <div class="${problems.form ? 'block' : 'hidden'}">
-          <p>Found some problems!</p>
-          <ul>${problems.form}</ul>
-        </div>
-        <enhance-fieldset legend="Link Page">
-        <enhance-text-input label="Title" type="text" id="title" name="title" value="${linkpage?.title || ''}" errors="${problems?.title?.errors || ''}"></enhance-text-input>
-        <enhance-text-input label="Description" type="text" id="description" name="description" value="${linkpage?.description || ''}" errors="${problems?.description?.errors || ''}"></enhance-text-input>
-        <enhance-text-input label="Page Route" type="text" id="path" name="path" value="${linkpage?.path || ''}" errors="${problems?.path?.errors || ''}"></enhance-text-input>
-
-        ${Array(10).fill(0).map( (_,i)=> `
-          <enhance-text-input label="Link Text ${i}" type="text" id="links[${i}].text" name="links[${i}].text" value="${linkpage?.links?.[i]?.text || ''}" errors="${problems?.links?.[i]?.text?.errors || ''}"></enhance-text-input>
-          <enhance-text-input label="Link Url ${i}" type="text" id="links[${i}].url" name="links[${i}].url" value="${linkpage?.links?.[i]?.url || ''}" errors="${problems?.links?.[i]?.url?.errors || ''}"></enhance-text-input>
-        `).join('')}
-
-        <enhance-submit-button style="float: right"><span slot="label">Save</span></enhance-submit-button>
-        </enhance-fieldset>
-      </enhance-form>
-    </details>
-  </main>
+    <h1 class="mb1 font-semibold text3">Links page</h1>
+    ${links.map(item => `<article id="${item.key}" class="mb2">
+<div class="mb0">
+  <p class="pb-2"><strong class="capitalize">text: </strong>${item?.text || ''}</p>
+  <p class="pb-2"><strong class="capitalize">url: </strong>${item?.url || ''}</p>
+  <p class="pb-2"><strong class="capitalize">key: </strong>${item?.key || ''}</p>
+</div>
+<p class="mb-1">
+  <enhance-link href="/links/${item.key}">Edit this link</enhance-link>
+</p>
+<delete-button key="${item.key}"></delete-button>
+</article>`).join('\n')}
+${'' /* 2. Set details to open if problems occured */}
+<details class="mb0" ${Object.keys(problems).length ? 'open' : ''}>
+    <summary>New link</summary>
+    <enhance-form
+  action="/links/${link.key}"
+  method="POST">
+${'' /* 3. Overall form error messages */}
+  <div class="${problems.form ? 'block' : 'hidden'}">
+    <p>Found some problems!</p>
+    <ul>${problems.form}</ul>
+  </div>
+  <enhance-fieldset legend="Link">
+${'' /* 4,5,6. Problems, initial values, and validation attributes added */}
+  <enhance-text-input label="Text" type="text" id="text" name="text" value="${link?.text}" errors="${problems?.text?.errors}" required></enhance-text-input>
+  <enhance-text-input label="Url" type="url" id="url" name="url" value="${link?.url}" errors="${problems?.url?.errors}" required></enhance-text-input>
+  <input type="hidden" id="key" name="key" value="${link?.key}" />
+  <enhance-submit-button style="float: right"><span slot="label">Save</span></enhance-submit-button>
+  </enhance-fieldset>
+</enhance-form>
+</details>
+</main>
 </enhance-page-container>
   `
 }
 ```
 
-What we add here is:
-1. Form problem messages at the beggining of the form,
-2. Error messages on each input with the custom element `error`
-3. Set the `value` attributes with the previous state
-
-
-## Protect CRUDL routes
-Now we have to protect the route with the session authentication.
-To do this we follow the process at the end of the last module and add the:
-- For the GET route:
-```javascript
-export async function get (req) {
-  const authorized = !!req.session.authorized
-  if (!authorized) {
-    return {
-      session: {...req.session, redirectAfterAuth:'/admin/linkpages'},
-      location: '/login'
-    }
-  }
-  ...
-
-
-```
-- And for the POST route:
-
-```javascript
-export async function post (req) {
-  const authorized = !!(req.session.authorized?.scopes?.includes('linkpages:edit'))
-  if (!authorized) return { status: 401 }
-  ...
-```
-
-Next we have to update the other CRUDL routes to use the data access, problems, and authentication.
+Next we have to update the other CRUDL routes to with the same problems loop.
 
 Lets save some time and just copy paste the contents for the following routes:
 
-Copy and paste the following into the `/app/api/linkpages/$$.mjs`
+Copy and paste the following into the `/app/api/links/$id.mjs`
 
 ```javascript
-// /app/api/linkpages.mjs
-import { getLinkpages, upsertLinkpage, validate } from '../../models/linkpages.mjs'
+// /app/api/links/$id.mjs
+import { getLink, upsertLink, validate } from '../../models/links.mjs'
+import { checkAuth } from '../../lib/checkAuth.mjs'
 
+export const get = [checkAuth, listLink]
 
-export async function get (req) {
-  const authorized = !!(req.session.authorized?.scopes?.includes('linkpages:edit'))
-  if (!authorized) {
-    return {
-      session: {...req.session, redirectAfterAuth:'/admin/linkpages'},
-      location: '/login'
-    }
-  }
-
-  const linkpages = await getLinkpages()
+export async function listLink (req) {
   if (req.session.problems) {
-    let { problems, linkpage, ...session } = req.session
+    let { problems, link, ...session } = req.session
     return {
       session,
-      json: { problems, linkpages, linkpage }
-    }
-  }
-
-  return {
-    json: { linkpages }
-  }
-}
-
-export async function post (req) {
-  const authorized = !!(req.session.authorized?.scopes?.includes('linkpages:edit'))
-  if (!authorized) return { status: 401 }
-
-  const session = req.session
-  // Validate
-  let { problems, linkpage } = await validate.create(req)
-  if (problems) {
-    return {
-      session: { ...session, problems, linkpage },
-      json: { problems, linkpage },
-      location: '/admin/linkpages'
-    }
-  }
-
-  // eslint-disable-next-line no-unused-vars
-  let { problems: removedProblems, linkpage: removed, ...newSession } = session
-  try {
-    const result = await upsertLinkpage(linkpage)
-    return {
-      session: newSession,
-      json: { linkpage: result },
-      location: '/admin/linkpages'
-    }
-  }
-  catch (err) {
-    return {
-      session: { ...newSession, error: err.message },
-      json: { error: err.message },
-      location: '/admin/linkpages'
-    }
-  }
-}
-```
-
-```javascript
-// /app/api/linkpages/$$.mjs
-import { getLinkpage, upsertLinkpage, validate } from '../../../models/linkpages.mjs'
-
-export async function get (req) {
-  const authorized = !!(req.session.authorized?.scopes?.includes('linkpages:edit'))
-  if (!authorized) return { location: '/login' }
-
-  if (req.session.problems) {
-    let { problems, linkpage, ...session } = req.session
-    return {
-      session,
-      json: { problems, linkpage }
+      json: { problems, link }
     }
   }
 
   const id = req.pathParameters?.id
-  const result = await getLinkpage(id)
+  const result = await getLink(id)
   return {
-    json: { linkpage: result }
+    json: { link: result }
   }
 }
 
-export async function post (req) {
-  const authorized = !!(req.session.authorized?.scopes?.includes('linkpages:edit'))
-  if (!authorized) return { status: 401 }
+export const post = [checkAuth, updateLink]
 
+export async function updateLink (req) {
   const id = req.pathParameters?.id
 
   const session = req.session
   // Validate
-  let { problems, linkpage } = await validate.update(req)
+  let { problems, link } = await validate.update(req)
   if (problems) {
     return {
-      session: {...session, problems, linkpage },
-      json: { problems, linkpage },
-      location: `/admin/linkpages/${linkpage.key}`
+      session: {...session, problems, link },
+      json: { problems, link },
+      location: `/links/${link.key}`
     }
   }
 
   // eslint-disable-next-line no-unused-vars
-  let { problems: removedProblems, linkpage: removed, ...newSession } = session
+  let { problems: removedProblems, link: removed, ...newSession } = session
   try {
-    const result = await upsertLinkpage({ key: id, ...linkpage })
+    const result = await upsertLink({ key: id, ...link })
     return {
       session: newSession,
-      json: { linkpage: result },
-      location: '/admin/linkpages'
+      json: { link: result },
+      location: '/links'
     }
   }
   catch (err) {
     return {
       session: { ...newSession, error: err.message },
       json: { error: err.message },
-      location: '/admin/linkpages'
+      location: '/links'
     }
   }
 }
 ```
-`/app/api/linkpages/$id/delete.mjs`
+
+Copy and paste the following into `/app/api/links/$id/delete.mjs`.
 
 ```javascript
-// /app/api/linkpages/$id/delete.mjs
-import { deleteLinkpage } from '../../../../models/linkpages.mjs'
+// /app/api/links/$id/delete.mjs
+import { deleteLink } from '../../../models/links.mjs'
+import { checkAuth } from '../../../lib/checkAuth.mjs'
 
-export async function post (req) {
-  const authorized = !!(req.session.authorized?.scopes?.includes('linkpages:edit'))
-  if (!authorized) return { status: 401 }
+export const post = [checkAuth, removeLink]
 
+export async function removeLink (req) {
   const id = req.pathParameters?.id
 
   const session = req.session
   // eslint-disable-next-line no-unused-vars
-  let { problems: removedProblems, linkpage: removed, ...newSession } = session
+  let { problems: removedProblems, link: removed, ...newSession } = session
   try {
-    let linkpage = await deleteLinkpage(id)
+    let link = await deleteLink(id)
     return {
       session: newSession,
-      json: { linkpage },
-      location: '/admin/linkpages'
+      json: { link },
+      location: '/links'
     }
   }
   catch (err) {
     return {
       session: { ...newSession, error: err.message },
       json: { error: err.message },
-      location: '/admin/linkpages'
+      location: '/links'
     }
   }
+}
+```
+
+Finally lets update the Update HTML page at `/app/pages/links/$id.mjs`
+
+```javascript
+// /app/pages/links/$id.mjs
+export default function Html ({ html, state }) {
+  const { store } = state
+  const link = store.link || {}
+  const problems = store.problems || {}
+
+  return html`<enhance-page-container>
+  <enhance-form
+  action="/links/${link.key}"
+  method="POST">
+  <div class="${problems.form ? 'block' : 'hidden'}">
+    <p>Found some problems!</p>
+    <ul>${problems.form}</ul>
+  </div>
+  <enhance-fieldset legend="Link">
+  <enhance-text-input label="Text" type="text" id="text" name="text" value="${link?.text}" errors="${problems?.text?.errors}"></enhance-text-input>
+  <enhance-text-input label="Url" type="url" id="url" name="url" value="${link?.url}" errors="${problems?.url?.errors}"></enhance-text-input>
+  <input type="hidden" id="key" name="key" value="${link?.key}" />
+  <enhance-submit-button style="float: right"><span slot="label">Save</span></enhance-submit-button>
+  </enhance-fieldset>
+</enhance-form>
+</enhance-page-container>`
 }
 
 ```
 
+Now we have successfully built a full set of CRUDL routes piece by piece including authentication, client and server side validation. It was a bit of a marathon, but the goal is to understand how every piece of it works. And to see that there is no magic.
 
+Now that we have done that I want to show you a shortcut for the next time.
 
 ## Generate CRUDL
 
 Enhance CLI has a generator that will scaffold out these CRUDL routes for us.
-Why didn't you tell us that in the first place you might ask.
-In most cases in the lifespan of an app this code will have to be changed.
+Why didn't you tell us that in the first place you might ask?
+In almost every app of any consequence most of this code will have to be modified to the unique requirements.
+If you don't understand what it is doing you will be scared to touch it.
+When that happens many developers look for some package they can `npm install` to meet the needs.
+And that is one way dependencies grow exponentially.
 It is valuable to understand what is happening.
 
