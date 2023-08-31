@@ -319,7 +319,7 @@ export default function NavBar({ html }) {
       <nav class='flex align-items-center gap0 leading1'>
         <a href='/' class='no-underline flex align-items-center gap0'>
           <h1 class='font-semibold tracking-1'>
-            Axle Lotl<br />
+            Axol Lotl<br />
             <span class='font-normal'>Web Developer</span>
           </h1>
         </a>
