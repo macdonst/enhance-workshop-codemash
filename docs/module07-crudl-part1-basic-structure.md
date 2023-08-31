@@ -216,8 +216,8 @@ export default function Links({ html, state }) {
     <h1 class="mb1 font-semibold text3">Link Pages</h1>
     ${links.map(link => `<article class="mb2">
       <div class="mb0">
-        <p class="pb-2"><strong class="capitalize">Link Text ${i}: </strong>${link?.text || ''}</p>
-        <p class="pb-2"><strong class="capitalize">Link Url ${i}: </strong>${link?.url || ''}</p>
+        <p class="pb-2"><strong class="capitalize">Link Text: </strong>${link?.text || ''}</p>
+        <p class="pb-2"><strong class="capitalize">Link Url: </strong>${link?.url || ''}</p>
         <p class="pb-2"><strong class="capitalize">Key: </strong>${link?.key || ''}</p>
       </div>
       <p class="mb-1">
