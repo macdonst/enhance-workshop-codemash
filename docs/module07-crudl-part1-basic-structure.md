@@ -138,11 +138,12 @@ Lets install those generic form components so we can use them to rapidly itterat
 - First run `npm i https://github.com/enhance-dev/form-elements`
 - Add elements for each of the form elements.
   - Copy and past the code below to `/app/elements/enhance/submit-button.mjs`
+
 ```javascript
 import { SubmitButton } from "@enhance/form-elements"
 export default SubmitButton
-
 ```
+
 - Repeat for all the form elements:
   - `enhance-submit-button`
   - `enhance-form`
@@ -173,9 +174,7 @@ export default function Html({ html, state }) {
 }
 ```
 
-
 - Now that we have a form to create new links we need a place to POST them.
-
 - Next make an API route at `/app/api/links.mjs`
 
 ```javascript
