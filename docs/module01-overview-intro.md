@@ -35,7 +35,7 @@ Here's a preview of the final product.
 
 ![enhance workshop](./images/homepage.png)
 
-See [enhance-workshop.com](enhance-workshop.com)
+See [enhance-workshop.com](https://enhance-workshop.com)
 
 Or launch the app locally:
 
