@@ -157,6 +157,17 @@ export async function post (req) {
 }
 ```
 
+This log in process uses a password stored in an environment variable. In a later module we will talk about how to set environment variables for production. But for local development we can use a `.env` file too do it.
+
+Create a `.env` file and paste the following in it.
+```bash
+SECRET_PASSWORD="secret"
+```
+
+Make sure that this file is in your `.gitignore` so that it will not be checked into GitHub.
+
+Now you are ready to log in.
+
 To be able to log out we add a post route for `/logout`
 
 ```javascript
