@@ -115,7 +115,7 @@ const getLinks = async function () {
 }
 
 export {
-  deleteLinkpage,
+  deleteLink,
   getLink,
   getLinks,
   upsertLink,
