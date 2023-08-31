@@ -14,7 +14,7 @@ layout: default
 * [Module 06: HTML Forms](./module06-html-forms)
 * [Module 07: CRUDL Part 1](./module07-crudl-part1-basic-structure)
 * [Module 08: Sessions](./module08-sessions-and-simple-authentication)
-* [Module 09: CRUDL Part 2: Validation](./09-crudl-part2-validation)
+* [Module 09: CRUDL Part 2: Validation](./module09-crudl-part2-validation)
 * [Module 10: Progressive Enhnancement](./module10-progressive-enhancement)
 * [Module 11: Putting it all together](./module11-putting-it-all-together)
 * [Module 12: Deploy and DNS](./module12-deploy-dns)

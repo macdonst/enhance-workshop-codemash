@@ -3,7 +3,7 @@ title: "Module 4: API Design"
 layout: default
 ---
 
-[Module Index](/)
+[Module Index](/enhance-workshop)
 
 
 
