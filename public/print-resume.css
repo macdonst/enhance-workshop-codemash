@@ -1,6 +1,14 @@
 /* Print-only resume styles */
 @media print {
-    nav-bar, site-footer, .pdf-link {
+    nav-bar {
+      padding-block-end: 0 !important;
+    }
+
+    nav-bar a[href]:after {
+      content: none;
+    }
+
+    nav-bar img, nav-bar ul, site-footer, .pdf-link {
         display: none !important;
     }
 
@@ -17,6 +25,7 @@
         font-size: 1.5em !important;
         line-height: 1.4 !important;
         page-break-after: avoid !important;
+        text-align: start !important;
     }
 
     p, li, td {
@@ -28,7 +37,7 @@
     a:after {
       content: "("attr(href)")" ;
     }
-    
+
     resume-experience > section > article {
     page-break-inside: avoid !important;
   }

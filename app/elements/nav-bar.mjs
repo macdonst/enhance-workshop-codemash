@@ -5,7 +5,6 @@ export default function NavBar({ html, state }) {
     <style>
       :host {
         display: block;
-        position: relative;
       }
 
       .backdrop {
