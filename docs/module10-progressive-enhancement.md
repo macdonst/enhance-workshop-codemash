@@ -126,6 +126,10 @@ customElements.define('delete-button', DeleteButton);
   6. `disconnectedCallback` is called whenever your web component is removed from the DOM. This is a good place to clean up event listeners to prevent memory links.
   7. `#handleClick` is a private method where we handle the click of the delete button. In this method we use `fetch` to call our delete API. Once it succeeds we remove the offending element from the DOM.
 
+> A note about the `#handleClick` function. You might be wondering why the method name starts with a `#`? We are using a private method in this case as we don't want any JavaScript outside of the web component to be able to delete our links. Deleting is a destructive action so we want to limit it to user initiated actions.
+>
+> Also, you may have noticed we are using an arrow function. This is purely a preference of mine but it saves you from having to bind the value of `this` to the class.
+
 - In order for this to work we need to make one more change to `app/pages/links.mjs`. When we map through all the links we will add an `id` to the `article` tag so we can do some DOM surgery.
 - Now try deleting a few links. You'll notice, no more page refresh.
 
@@ -168,12 +172,13 @@ export default function DeleteButtonElement({ html, state }) {
           <span>Delete this link</span>
         </button>
     </form>
+    <script type="module" src="/_public/browser/delete-button.mjs"></script>
     `
 }
 ```
 
-- We've completely gotten rid of the `script` tag so we need a new place to host this code.
-- Create a new file `public/delete-button.mjs` and populate it with the following code:
+- We've replaced the contents of the `script` tag so we need a new place to host this code.
+- Create a new file `browser/delete-button.mjs` and populate it with the following code:
 
 ```javascript
 /* eslint-disable no-undef */
@@ -181,12 +186,9 @@ import CustomElement from '@enhance/custom-element'
 import DeleteButtonElement from '../elements/delete-button.mjs'
 
 export default class DeleteButton extends CustomElement {
-  #key = null;
-
   static observedAttributes = ['key']
 
   keyChanged(value) {
-    this.#key = value
     this.querySelector('form').setAttribute('action', `/links/${value}/delete`)
   }
 
@@ -203,26 +205,25 @@ export default class DeleteButton extends CustomElement {
     this.button.removeEventListener('click', this.#handleClick);
   }
 
-  #handleClick = event => {
+  #handleClick = async event => {
     event.preventDefault()
-    let element = document.getElementById(this.#key)
+    let element = document.getElementById(this.getAttribute('key'))
     let display = element.style.display
     element.style.display = 'none'
     let { action, method } = event.target.closest('form')
-    fetch(action, {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-    })
-      .then(() => {
-        element.remove()
+    try {
+      await fetch(action, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
       })
-      .catch(error => {
-        console.error("Whoops!", error)
-        element.style.display = display
-      })
+      element.remove()
+    } catch(error) {
+      console.error("Whoops!", error)
+      element.style.display = display
+    }
   }
 }
 
@@ -331,35 +332,34 @@ export default class SubmitButton extends HTMLElement {
     this.button.removeEventListener('click', this.#handleClick);
   }
 
-  #handleClick = event => {
+  #handleClick = async event => {
     event.preventDefault()
     let form = event.target.closest('form')
     let { action, method } = form
-    fetch(action, {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify(Object.fromEntries(new FormData(form)))
-    })
-      .then(response => response.json())
-      .then(({ link }) => {
-        let { key, text, url } = link
-        let details = document.querySelector('details')
-        details.removeAttribute('open')
-        form.reset()
-        let detailsParent = details.parentNode
-        let newNode = new LinkItem()
-        newNode.id = key
-        newNode.setAttribute('key', key)
-        newNode.setAttribute('text', text)
-        newNode.setAttribute('url', url)
-        detailsParent.insertBefore(newNode, details)
+    try {
+      let response = await fetch(action, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify(Object.fromEntries(new FormData(form)))
       })
-      .catch(error => {
-        console.error("Whoops!", error)
-      })
+      let { link } = response.json()
+      let { key, text, url } = link
+      let details = document.querySelector('details')
+      details.removeAttribute('open')
+      form.reset()
+      let detailsParent = details.parentNode
+      let newNode = new LinkItem()
+      newNode.id = key
+      newNode.setAttribute('key', key)
+      newNode.setAttribute('text', text)
+      newNode.setAttribute('url', url)
+      detailsParent.insertBefore(newNode, details)
+    } catch(error) {
+      console.error("Whoops!", error)
+    }
   }
 }
 if (!customElements.get('submit-button')) {
@@ -369,7 +369,7 @@ if (!customElements.get('submit-button')) {
 
 - The `SubmitButton` doesn't have any attributes but it does register an even listener to submit your form using `fetch`.
 - The interesting part about this code is that it creates a the custom element `LinkItem` and adds it to the DOM using JavaScript. 🤯
-- We need to make sure that all our new elements are available on the client side so let's create one more file `app/browser/link-page.mjs` to bundle everything together.
+- We need to make sure that all our new elements are available on the client side so let's create one more file `app/browser/links-page.mjs` to bundle everything together.
 
 ```javascript
 import DeleteButton from './delete-button.mjs'
@@ -465,29 +465,27 @@ export default class DeleteButton extends MorphdomMixin(CustomElement) {
     this.button.removeEventListener('click', this.#handleClick);
   }
 
-  #handleClick = event => {
+  #handleClick = async event => {
     event.preventDefault()
     let element = document.getElementById(this.getAttribute('key'))
     let display = element.style.display
     element.style.display = 'none'
     let { action, method } = event.target.closest('form')
-    fetch(action, {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-    })
-      .then(() => {
-        element.remove()
+    try {
+      await fetch(action, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
       })
-      .catch(error => {
-        console.error("Whoops!", error)
-        element.style.display = display
-      })
+      element.remove()
+    } catch(error) {
+      console.error("Whoops!", error)
+      element.style.display = display
+    }
   }
 }
-
 
 if (!customElements.get('delete-button')) {
   customElements.define('delete-button', DeleteButton);
