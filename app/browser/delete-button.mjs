@@ -22,26 +22,25 @@ export default class DeleteButton extends CustomElement {
     this.button.removeEventListener('click', this.#handleClick);
   }
 
-  #handleClick = event => {
+  #handleClick = async event => {
     event.preventDefault()
     let element = document.getElementById(this.getAttribute('key'))
     let display = element.style.display
     element.style.display = 'none'
     let { action, method } = event.target.closest('form')
-    fetch(action, {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-    })
-      .then(() => {
-        element.remove()
+    try {
+      await fetch(action, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
       })
-      .catch(error => {
-        console.error("Whoops!", error)
-        element.style.display = display
-      })
+      element.remove()
+    } catch(error) {
+      console.error("Whoops!", error)
+      element.style.display = display
+    }
   }
 }
 
