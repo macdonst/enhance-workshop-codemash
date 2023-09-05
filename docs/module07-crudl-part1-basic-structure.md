@@ -77,8 +77,6 @@ const proxy = req.pathParameters?.proxy
 ```
 
 
-That was all it takes! Every Enhance app comes with its own database. How is that for batteries included? `@begin/data` is just a thin wrapper around DynamoDB which is an incredibly fast, truly serverless database. If you don't need or use it, it will not get in your way nor will you be charged for it.
-
 ## Create
 
 Lets make a page with a form to create a new link at `/app/pages/links.mjs`:

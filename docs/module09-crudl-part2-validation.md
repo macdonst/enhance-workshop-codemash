@@ -13,29 +13,8 @@ layout: default
 * Client/Server Validation
 * Handling Validation Problems with Session
 
----
-
-## Data Schema
 
 For a simple form we could add validation logic in the handler ad-hoc. But as the data gets more complex that becomes a challenge. One way to validate on the server is by creating a schema for the data and then validating against that. There are many ways to do this, but JSON Schema is a specification that is simple enough and widely supported.
-
-Copy the following JSON schema into the `/app/models/schemas/links.mjs`.
-
-```javascript
-// /app/models/schemas/links.mjs
-export const Link = {
-  "id": "Link",
-  "type": "object",
-  "properties": {
-    "text": {
-      "type": "string"
-    },
-    "url": {
-      "type": "string"
-    },
-  }
-}
-```
 
 Now we have rules for links to validate against.
 

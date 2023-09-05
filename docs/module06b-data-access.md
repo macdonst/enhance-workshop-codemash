@@ -8,15 +8,17 @@ layout: default
 
 # Module 6b: Data Access
 
-Up to now we have built plain HTML pages and pages that are dynamic pulling data from API routes to build the page.
+Up to now we have built plain HTML pages and pages backed by data from API routes.
 Now we will go to the next level using a database to build very dynamic pages.
 
 For this module we will build a Link Tree feature with a page that has a list of links.
 Those links can be added, deleted, and edited by the site admin.
+The data model for this will be fairly simple.
+
 
 ## Data Access Layer
 
-Before we get started adding routes we are going to need a way to store data in our database.  A lot of data access logic will be duplicated so moving it into one place will help keep it DRY.
+Before we get started adding routes are going to need a way to store data in our database.  A lot of data access logic will be duplicated so moving it into one place will help keep it DRY.
 
 Create a file called `/app/models/links.mjs` and add the following:
 
@@ -63,7 +65,6 @@ export {
 ```
 
 That was all it takes! Every Enhance app comes with its own database. How is that for batteries included? `@begin/data` is just a thin wrapper around DynamoDB which is an incredibly fast, truly serverless database. If you don't need or use it, it will not get in your way nor will you be charged for it.
-
 
 ## Seeding Data for Local Development
 
@@ -124,13 +125,16 @@ livereload true
 @sandbox-startup
 node scripts/seed-data.mjs
 ```
+This is also a good way to build around your data. We put some seed data in the development database and we can use that to test the other code we write.
 
-We now have working data access routes. 
-There is no validation of the data for one thing. Lets fix that.
+We now have working data access layer. 
 
 ## Data Schema
 
-For a simple form we could add validation logic in the handler ad-hoc. But as the data gets more complex that becomes a challenge. One way to validate on the server is by creating a schema for the data and then validating against that. There are many ways to do this, but JSON Schema is a specification that is simple enough and widely supported.
+Our data access layer above allows for storing objects to the database. It does not have any concept of the shape of that data. We are going to need to validate the data in a later module. To do that we will need to know the shape we expect for that data. 
+A data schema will allow us to compare given objects to the expected schema to verify. There are many ways to write a schema. We will chose JSON Schema ([JSON Schema](https://json-schema.org/)) for this app.
+
+
 
 Copy the following JSON schema into the `/app/models/schemas/links.mjs`.
 
@@ -154,21 +158,15 @@ export const Link = {
     "key": {
       "type": "string"
     }
-  }
+  },
+  "required":["text", "url"],
 }
 ```
 
-Now we have rules for links to validate against.
+Now we have a schema to follow.
 
+Lets make some routes for this feature in the next module.
 
-Now we are running the server-side validation which returns our problems, if there are any.
-But what do we do with them?
-
-To close the loop on server-side validation we will need a way to keep maintain state between requests so that we can pass those problems back and forth and fix them.
-
-The thing we need for that is sessions.
-
-That is the next module.
 
 
 
