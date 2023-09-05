@@ -37,6 +37,7 @@ export async function updateLink (req) {
   const session = req.session
   // Validate
   let { problems, link } = await validate.update(req)
+  console.log({ problems, link })
   if (problems) {
     return {
       session: {...session, problems, link },
@@ -49,6 +50,7 @@ export async function updateLink (req) {
   let { problems: removedProblems, link: removed, ...newSession } = session
   try {
     const result = await upsertLink({ key: id, ...link })
+    console.log({ result })
     return {
       session: newSession,
       json: { link: result },

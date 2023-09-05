@@ -11,7 +11,7 @@ export default function Html ({ html, state }) {
   return html`<enhance-page-container>
   <main>
     <h1 class="mb1 font-semibold text3">Links page</h1>
-    ${links.map(item => `<link-item id="${item.key}" key="${item.key}" text="${item.text}" url="${item.url}"></link-item>`).join('\n')}
+      ${links.map(item => `<link-item id="${item.key}" key="${item.key}" text="${item.text}" url="${item.url}" ${item.published ? "published" : "" } thing ></link-item>`).join('\n')}
 <details class="mb0" ${Object.keys(problems).length ? 'open' : ''}>
     <summary>New link</summary>
     <enhance-form
@@ -24,6 +24,7 @@ export default function Html ({ html, state }) {
   <enhance-fieldset legend="Link">
   <enhance-text-input label="Text" type="text" id="text" name="text" value="${link?.text}" errors="${problems?.text?.errors}"></enhance-text-input>
   <enhance-text-input label="Url" type="url" id="url" name="url" value="${link?.url}" errors="${problems?.url?.errors}"></enhance-text-input>
+  <enhance-checkbox label="Published" type="checkbox" id="published" name="published" ${link?.published ? "checked" : ""} errors="${problems?.published?.errors}"></enhance-checkbox>
   <input type="hidden" id="key" name="key" value="${link?.key}" />
   <submit-button style="float: right"><span slot="label">Save</span></submit-button>
   </enhance-fieldset>
