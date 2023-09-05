@@ -2,7 +2,7 @@ export default function LinktreeContainer({ html, state }) {
   const { store={} } = state
   const { page={}, links=[] } = store
   const { description='No description yet', title='No title yet' } = page
-  const linkItems = links.map(link => {
+  const linkItems = links.filter(link=>link.published).map(link => {
     const { text='', url='' } = link
     return html`
     <li class="mbe0">

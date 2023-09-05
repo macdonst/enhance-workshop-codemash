@@ -3,11 +3,15 @@ export const Link = {
   "type": "object",
   "properties": {
     "text": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
     },
     "url": {
       "type": "string",
-      "format": "url"
+      "format": "url",
+    },
+    "published": {
+      "type": "boolean",
     },
     "key": {
       "type": "string"
