@@ -15,6 +15,133 @@ layout: default
 
 ---
 
+## Data Schema
+
+For a simple form we could add validation logic in the handler ad-hoc. But as the data gets more complex that becomes a challenge. One way to validate on the server is by creating a schema for the data and then validating against that. There are many ways to do this, but JSON Schema is a specification that is simple enough and widely supported.
+
+Copy the following JSON schema into the `/app/models/schemas/links.mjs`.
+
+```javascript
+// /app/models/schemas/links.mjs
+export const Link = {
+  "id": "Link",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+  }
+}
+```
+
+Now we have rules for links to validate against.
+
+## Data Validation Layer
+
+As we start to add logic for validation to the routes it will helps to consolidate it into a central location.
+
+Let's update `/app/models/links.mjs` to add a validation function:
+
+```javascript
+// /app/models/links.mjs
+import data from '@begin/data'
+import { validator } from '@begin/validator'
+import { Link } from './schemas/link.mjs'
+
+const deleteLink = async function (key) {
+  await data.destroy({ table: 'links', key })
+  return { key }
+}
+
+const upsertLink = async function (link) {
+  return data.set({ table: 'links', ...link })
+}
+
+const getLink = async function (key) {
+  return data.get({ table: 'links', key })
+}
+
+const getLinks = async function () {
+  const databasePageResults = await data.page({
+    table: 'links',
+    limit: 25
+  })
+
+  let links = []
+  for await (let databasePageResult of databasePageResults) {
+    for (let link of databasePageResult) {
+      delete link.table
+      links.push(link)
+    }
+  }
+
+  return links
+}
+
+const validate = {
+  shared (req) {
+    return validator(req, Link)
+  },
+  async create (req) {
+    let { valid, problems, data } = validate.shared(req)
+    if (req.body.key) {
+      problems['key'] = { errors: '<p>should not be included on a create</p>' }
+    }
+    // Insert your custom validation here
+    return !valid ? { problems, link: data } : { link: data }
+  },
+  async update (req) {
+    let { valid, problems, data } = validate.shared(req)
+    // Insert your custom validation here
+    return !valid ? { problems, link: data } : { link: data }
+  }
+}
+
+export {
+  deleteLink,
+  getLink,
+  getLinks,
+  upsertLink,
+  validate
+}
+```
+
+The `@begin/validator` combines a few features:
+  - It creates a nested object from the flat form key/values pairs.
+  - It normalizes the values into numbers, booleans, floats, etc. based on the Schema.
+  - It also validates the form against the schema and returns any errors in an object called `problems`.
+
+Replace the code in `/app/api/links.mjs` with the code below:
+
+```javascript
+// /app/api/links.mjs
+import { getLinks, upsertLink, validate } from '../../models/links.mjs'
+
+export async function get (req) {
+  const links = await getLinks()
+  return {
+    json: { links }
+  }
+}
+
+export async function post (req) {
+  let { problems, link } = await validate.create(req)
+
+  const result = await upsertLink(link)
+  return {
+    location: '/links'
+  }
+}
+```
+
+Now we are running the server-side validation which returns our problems, if there are any.
+But what do we do with them?
+
+To close the loop on server-side validation we will need a way to keep maintain state between requests so that we can pass those problems back and forth and fix them.
+
 Now we are running the server side validation which returns our problems, if there are any.
 But what do we do with them?
 

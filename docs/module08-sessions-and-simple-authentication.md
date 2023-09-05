@@ -278,32 +278,41 @@ Lets use that to add auth checks to our protected routes.
 
 In an API handler we can export an array of handlers instead of one function.
 
+We can rewrite the handler as shown below to share the authentication logic.
+
 ```javascript
-export let get = [one, two]
+// /app/api/links.mjs
+import { getLinks, upsertLink, validate } from '../models/links.mjs'
+import { checkAuth } from '../lib/checkAuth.mjs'
 
-async function one (req) {
-  console.log('hi from one')
-  req.first = true
+export const get = [checkAuth,listLinks]
+export const post = [checkAuth,postLinks]
+
+export async function listLinks (req) {
+  const links = await getLinks()
+  return {
+    json: { links }
+  }
 }
 
-async function two (req) {
-  console.log('hi from two')
-  const second = false
+export async function postLinks (req) {
+  let { problems, link } = await validate.create(req)
 
-  return { json: [req.first, second] }
+  const result = await upsertLink(link)
+  return {
+    location: '/links'
+  }
 }
-
 ```
 
 For more info check out the [Enhance Docs](https://enhance.dev/docs/learn/concepts/routing/api-routes#middleware)
-
 
 We can write a `checkAuth.mjs` middleware function and add it to our protected routes.
 
 Copy and paste the middleware below into `/app/lib/checkAuth.mjs`.
 
 ```javascript
-export function checkAuth(req) {
+export async function checkAuth(req) {
   const session = req.session
   const authorized = session?.authorized ? session?.authorized : false
 
@@ -321,33 +330,6 @@ export function checkAuth(req) {
 
 ```
 
-Now we can add auth checks to our protected API routes.
-
-
-```javascript
-// /app/api/links.mjs
-import { getLinks, upsertLink, validate } from '../../models/links.mjs'
-import { checkAuth } from '../../lib/checkAuth.mjs'
-
-export const get = [checkAuth,getLinks]
-export const post = [checkAuth,postLinks]
-
-export async function getLinks (req) {
-  const links = await getLinks()
-  return {
-    json: { links }
-  }
-}
-
-export async function postLinks (req) {
-  let { problems, link } = await validate.create(req)
-
-  const result = await upsertLink(link)
-  return {
-    location: '/links'
-  }
-}
-```
 
 Now do the same for the other two protected routes at `/app/api/links/$id.mjs` and `/app/api/links/$id/delete.mjs`.
 
