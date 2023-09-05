@@ -2,7 +2,6 @@ export default function LinkItemElement({ html, state }) {
   const { attrs } = state
   const { key = '', text = '', url = '', published } = attrs
   const isPublished = published !== undefined
-  console.log({attrs})
   return html`
       <article class="mb2">
         <div class="mb0">
