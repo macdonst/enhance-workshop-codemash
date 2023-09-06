@@ -282,7 +282,7 @@ We can rewrite the handler as shown below to share the authentication logic.
 
 ```javascript
 // /app/api/links.mjs
-import { getLinks, upsertLink, validate } from '../models/links.mjs'
+import { getLinks, upsertLink } from '../models/links.mjs'
 import { checkAuth } from '../lib/checkAuth.mjs'
 
 export const get = [checkAuth,listLinks]
@@ -296,9 +296,7 @@ export async function listLinks (req) {
 }
 
 export async function postLinks (req) {
-  let { problems, link } = await validate.create(req)
-
-  const result = await upsertLink(link)
+  const result = await upsertLink(req.body)
   return {
     location: '/links'
   }
