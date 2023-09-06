@@ -128,7 +128,7 @@ Lets build a login page
 
 ```html
 <!-- /app/pages/login.html -->
-<page-container>
+<enhance-page-container>
   <main>
         <enhance-form action="/login" method="post" >
             <enhance-text-input
@@ -140,7 +140,7 @@ Lets build a login page
               <enhance-submit-button><span slot="label">Log in</span></enhance-submit-button>
         </enhance-form>
   </main>
-</page-container>
+</enhance-page-container>
 ```
 
 Now we need to add the API route for this to post to.
