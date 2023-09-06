@@ -249,7 +249,9 @@ export default function links({ html, state }) {
 <p class="mb-1">
   <enhance-link href="/links/${item.key}">Edit this link</enhance-link>
 </p>
-<enhance-submit-button><span slot="label">Delete this link</span></enhance-submit-button>
+<form action="/links/${item.key}/delete" method="POST" class="mb-1">
+  <enhance-submit-button><span slot="label">Delete this link</span></enhance-submit-button>
+</form>
 </article>`).join('\n')}
 ${'' /* 2. Set details to open if problems occured */}
 <details class="mb0" ${Object.keys(problems).length ? 'open' : ''}>
