@@ -105,6 +105,7 @@ export default function Html({ html, state }) {
       method="POST">
       <enhance-text-input label="Link Text" type="text" id="text" name="text"  ></enhance-text-input>
       <enhance-text-input label="Link Url" type="text" id="url" name="url"  ></enhance-text-input>
+      <enhance-checkbox label="Published" type="checkbox" id="published" name="published"></enhance-checkbox>
       <enhance-submit-button style="float: right"><span slot="label">Save</span></enhance-submit-button>
     </enhance-form>
   `
@@ -155,6 +156,7 @@ export default function Links({ html, state }) {
       <div class="mb0">
         <p class="pb-2"><strong class="capitalize">Link Text: </strong>${link?.text || ''}</p>
         <p class="pb-2"><strong class="capitalize">Link Url: </strong>${link?.url || ''}</p>
+        <p class="pb-2"><strong class="capitalize">Link Published: </strong>${link?.published || ''}</p>
         <p class="pb-2"><strong class="capitalize">Key: </strong>${link?.key || ''}</p>
       </div>
       <p class="mb-1">
@@ -172,6 +174,7 @@ export default function Links({ html, state }) {
         <enhance-fieldset legend="Link Page">
           <enhance-text-input label="Link Text" type="text" id="text" name="text"  ></enhance-text-input>
           <enhance-text-input label="Link Url" type="text" id="url" name="url"  ></enhance-text-input>
+          <enhance-checkbox label="Published" type="checkbox" id="published" name="published"></enhance-checkbox>
           <enhance-submit-button style="float: right"><span slot="label">Save</span></enhance-submit-button>
         </enhance-fieldset>
       </enhance-form>
@@ -234,7 +237,7 @@ export default function UpdateLink({ html, state }) {
     <enhance-fieldset legend="Link Page">
     <enhance-text-input label="Link Text" type="text" id="text" name="text" value="${link?.text || ''}" ></enhance-text-input>
     <enhance-text-input label="Link Url" type="text" id="url" name="url" value="${link?.url || ''}" ></enhance-text-input>
-
+    <enhance-checkbox label="Published" type="checkbox" id="published" name="published" ${link?.published ? "checked" : ""}></enhance-checkbox>
     <input type="hidden" id="key" name="key" value="${link?.key}" />
     <enhance-submit-button style="float: right"><span slot="label">Save</span></enhance-submit-button>
     </enhance-fieldset>
