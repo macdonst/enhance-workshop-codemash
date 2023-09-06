@@ -13,8 +13,6 @@ layout: default
 - CRUD Flow (GET, POST, HTML Forms)
 - Routes and files
 - Dynamic and Catchall Routes
-- Seeding Data for local development
-
 
 ## CRUD Flow
 - Create, Read, Update, Delete, List
@@ -22,9 +20,9 @@ layout: default
 These 5 operations are so common an entire subset of web apps are know as CRUD apps.
 Because the general patterns are so common we will look at how to create CRUD routes for any object.
 By the way most people generally say "CRUD", we usually say "CRUDL" adding the "L" for "List".
-But it all referres to the same general operations.
+But it all refers to the same general operations.
 
-Again we will take an HTML-first approach using plain HTML forms as the basis for each operation.
+Once again we will take an HTML-first approach using plain HTML forms as the basis for each operation.
 
 For this module we will build a Link Tree feature with a page that has a list of links.
 We want to be able to do all the CRUDL operations on these links.
@@ -43,8 +41,7 @@ We want to be able to do all the CRUDL operations on these links.
   - `/links/$id/delete` - Delete
     - POST - Deletes object
 
-> Why do we have a POST `/links/$id/delete` route instead of a DELETE `/links/$id` route?
-It is because browsers only support GET and POST and we want to be able to support non-JavaScript use cases with our forms.
+> Why do we have a POST `/links/$id/delete` route instead of a DELETE `/links/$id` route? It is because browsers only support GET and POST and we want to be able to support non-JavaScript use cases with our forms.
 
 
 - Files
@@ -55,7 +52,7 @@ It is because browsers only support GET and POST and we want to be able to suppo
   - HTML pages
     - /app/pages/links.mjs
     - /app/pages/links/$id.mjs
-  - Data Access Layer
+  - Data Access Layer (see previous module)
     - /app/models/links.mjs
     - /app/models/schema/links.mjs
 
@@ -64,7 +61,7 @@ It is because browsers only support GET and POST and we want to be able to suppo
 ### Dynamic Routes and Catch All Routes
 
 Enhance has support for dynamic and catchall routes.
-The '$'in the above route and path names will match any path part. For example the `$id` will match any object ID at the end of the `/links` route. You can access these path parameters in code like so:
+The '$' in the above route and path names will match any path part. For example the `$id` will match any object ID at the end of the `/links` route. You can access these path parameters in code like so:
 
 ```javascript
 const id = req.pathParameters?.id
@@ -79,8 +76,6 @@ const proxy = req.pathParameters?.proxy
 
 ## Create
 
-Lets make a page with a form to create a new link at `/app/pages/links.mjs`:
-
 Earlier in the workshop we talked about the fact that Enhance Styles does a pretty hard CSS reset.
 As a result if we just build forms with inputs it is difficult to see them while iterating and debugging.
 We have some form components pre built that will help with this.
@@ -88,7 +83,7 @@ Since most of our CRUDL routes are not public and just for us the styles don't h
 
 To use them you would:
 
-- First run `npm i https://github.com/enhance-dev/form-elements`
+- First run `npm i @enhance/form-elements`
 - Add elements for each of the form elements.
   - Copy and past the code below to `/app/elements/enhance/submit-button.mjs`
 
@@ -97,14 +92,13 @@ import { SubmitButton } from "@enhance/form-elements"
 export default SubmitButton
 ```
 
-But to save you lots of copy paste we have done that for you already. 
+But to save you lots of copy paste we have done that for you already.
 
-
+Lets make a page with a form to create a new link at `/app/pages/links.mjs`:
 
 ```javascript
 // /app/pages/links.mjs
 export default function Html({ html, state }) {
-
   return html`
     <enhance-form
       action="/links"
@@ -192,7 +186,7 @@ export default function Links({ html, state }) {
 We put the create form inside a details/summary to clean up the page slightly
 Now we need to make sure that this page has the list of links to display.
 
-While we are here we add buttons to Update and Delete from the list view. We will add API routes for those soon.
+While we are here we added buttons to Update and Delete from the list view. We will add API routes for those soon.
 
 - Now we need to pass the data for the links to the page to display.
 - For that add the following to `/app/api/links.mjs`
