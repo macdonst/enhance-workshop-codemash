@@ -84,7 +84,7 @@ async function main() {
     text: 'Custom properties',
     url: 'https://developer.mozilla.org/en-US/docs/Web/CSS/--*'
   })
- 
+
   await db.set({
     table: 'links',
     key: 'link2',
@@ -127,19 +127,19 @@ node scripts/seed-data.mjs
 ```
 This is also a good way to build around your data. We put some seed data in the development database and we can use that to test the other code we write.
 
-We now have working data access layer. 
+We now have working data access layer.
 
 ## Data Schema
 
-Our data access layer above allows for storing objects to the database. It does not have any concept of the shape of that data. We are going to need to validate the data in a later module. To do that we will need to know the shape we expect for that data. 
+Our data access layer above allows for storing objects to the database. It does not have any concept of the shape of that data. We are going to need to validate the data in a later module. To do that we will need to know the shape we expect for that data.
 A data schema will allow us to compare given objects to the expected schema to verify. There are many ways to write a schema. We will chose JSON Schema ([JSON Schema](https://json-schema.org/)) for this app.
 
 
 
-Copy the following JSON schema into the `/app/models/schemas/links.mjs`.
+Copy the following JSON schema into the `/app/models/schemas/link.mjs`.
 
 ```javascript
-// /app/models/schemas/links.mjs
+// /app/models/schemas/link.mjs
 export const Link = {
   "id": "Link",
   "type": "object",

@@ -13,15 +13,15 @@ layout: default
 * Client/Server Validation
 * Handling Validation Problems with Session
 
-The code we have works and for a toy app that might be sufficient. But for a real app we need to validate the data to avoid user error or intentional misuse. 
+The code we have works and for a toy app that might be sufficient. But for a real app we need to validate the data to avoid user error or intentional misuse.
 
 ## Data Validator
 
-For a simple form like this we could add validation logic in the handler ad-hoc. 
-But as the data gets more complex that becomes a challenge. 
-In the Data Access layer we added a data schema for links. 
+For a simple form like this we could add validation logic in the handler ad-hoc.
+But as the data gets more complex that becomes a challenge.
+In the Data Access layer we added a data schema for links.
 The schema represents rules for the shape of the object we accept.
-But we did not add a way to test new data against that schema. 
+But we did not add a way to test new data against that schema.
 
 Let's update `/app/models/links.mjs` to add a validate function:
 
@@ -29,7 +29,7 @@ Let's update `/app/models/links.mjs` to add a validate function:
 // /app/models/links.mjs
 import data from '@begin/data'
 import { validator } from '@begin/validator'
-import { Link } from './schemas/link.mjs'
+import { Link } from './schemas/links.mjs'
 
 const deleteLink = async function (key) {
   await data.destroy({ table: 'links', key })
@@ -94,6 +94,12 @@ The `@begin/validator` combines a few features:
   - It normalizes the values into numbers, booleans, floats, etc. based on the Schema.
   - It also validates the form against the schema and returns any errors in an object called `problems`.
 
+Let's add it to our project:
+
+```bash
+npm i @begin/validator
+```
+
 Replace the code in `/app/api/links.mjs` with the code below:
 
 ```javascript
@@ -148,8 +154,8 @@ export const get = [checkAuth,listLinks]
 export const post = [checkAuth,postLinks]
 
 
-export async function getLinks (req) {
-  const links = await listLinks()
+export async function listLinks (req) {
+  const links = await getLinks()
   if (req.session.problems) {
   // 5. Back at the form we pull the problems and initial values off the session
     let { problems, link, ...session } = req.session
@@ -243,7 +249,7 @@ export default function links({ html, state }) {
 <p class="mb-1">
   <enhance-link href="/links/${item.key}">Edit this link</enhance-link>
 </p>
-<delete-button key="${item.key}"></delete-button>
+<enhance-submit-button><span slot="label">Delete this link</span></enhance-submit-button>
 </article>`).join('\n')}
 ${'' /* 2. Set details to open if problems occured */}
 <details class="mb0" ${Object.keys(problems).length ? 'open' : ''}>
@@ -390,13 +396,13 @@ export default function Html ({ html, state }) {
   <enhance-fieldset legend="Link">
   <enhance-text-input label="Text" type="text" id="text" name="text" value="${link?.text}" errors="${problems?.text?.errors}"></enhance-text-input>
   <enhance-text-input label="Url" type="url" id="url" name="url" value="${link?.url}" errors="${problems?.url?.errors}"></enhance-text-input>
+  <enhance-checkbox label="Published" type="checkbox" id="published" name="published" ${link?.published ? "checked" : ""} errors="${problems?.published?.errors}"></enhance-checkbox>
   <input type="hidden" id="key" name="key" value="${link?.key}" />
   <enhance-submit-button style="float: right"><span slot="label">Save</span></enhance-submit-button>
   </enhance-fieldset>
 </enhance-form>
 </enhance-page-container>`
 }
-
 ```
 
 Now we have successfully built a full set of CRUDL routes piece by piece including authentication, client and server side validation. It was a bit of a marathon, but the goal is to understand how every piece of it works. And to see that there is no magic.
