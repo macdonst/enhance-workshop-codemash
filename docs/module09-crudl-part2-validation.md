@@ -13,16 +13,17 @@ layout: default
 * Client/Server Validation
 * Handling Validation Problems with Session
 
+The code we have works and for a toy app that might be sufficient. But for a real app we need to validate the data to avoid user error or intentional misuse. 
 
-For a simple form we could add validation logic in the handler ad-hoc. But as the data gets more complex that becomes a challenge. One way to validate on the server is by creating a schema for the data and then validating against that. There are many ways to do this, but JSON Schema is a specification that is simple enough and widely supported.
+## Data Validator
 
-Now we have rules for links to validate against.
+For a simple form like this we could add validation logic in the handler ad-hoc. 
+But as the data gets more complex that becomes a challenge. 
+In the Data Access layer we added a data schema for links. 
+The schema represents rules for the shape of the object we accept.
+But we did not add a way to test new data against that schema. 
 
-## Data Validation Layer
-
-As we start to add logic for validation to the routes it will helps to consolidate it into a central location.
-
-Let's update `/app/models/links.mjs` to add a validation function:
+Let's update `/app/models/links.mjs` to add a validate function:
 
 ```javascript
 // /app/models/links.mjs
@@ -119,16 +120,15 @@ export async function post (req) {
 Now we are running the server-side validation which returns our problems, if there are any.
 But what do we do with them?
 
-To close the loop on server-side validation we will need a way to keep maintain state between requests so that we can pass those problems back and forth and fix them.
+## Form Problems Loop
 
-Now we are running the server side validation which returns our problems, if there are any.
-But what do we do with them?
+To close the loop on server-side validation we will need a way to keep maintain state between requests so that we can pass those problems back and forth and fix them.
 
 This is where we use the session to send those problems back to the front end so that the user has another chance to fix their form.
 
 This is the process we will use for handling problems:
-1. User submits form from `/links` that POSTS to `/links`
-2. The post handler runs validator against the form values and gets a list of `problems`.
+1. User submits form from `/links` that POSTS back to `/links`
+2. The post handler runs `validate()` against the form values and gets a list of `problems`.
 3. Post handler adds the problems to the session along with the initial values submitted (i.e.`session: {problems, link}`).
 4. Post handler redirects back to `/links` by setting `location: '/links'` (with the above session set).
 5. After being redirected GET API pulls the problems and link values off the session and sets them on `json` so that the page can display them.
@@ -141,15 +141,15 @@ The code is annotated with the steps. It might be difficult to follow because th
 
 ```javascript
 // /app/api/links.mjs
-import { getLinks, upsertLink, validate } from '../../models/links.mjs'
-import { checkAuth } from '../../lib/checkAuth.mjs'
+import { getLinks, upsertLink, validate } from '../models/links.mjs'
+import { checkAuth } from '../lib/checkAuth.mjs'
 
-export const get = [checkAuth,getLinks]
+export const get = [checkAuth,listLinks]
 export const post = [checkAuth,postLinks]
 
 
 export async function getLinks (req) {
-  const links = await getLinks()
+  const links = await listLinks()
   if (req.session.problems) {
   // 5. Back at the form we pull the problems and initial values off the session
     let { problems, link, ...session } = req.session
@@ -258,8 +258,9 @@ ${'' /* 3. Overall form error messages */}
   </div>
   <enhance-fieldset legend="Link">
 ${'' /* 4,5,6. Problems, initial values, and validation attributes added */}
-  <enhance-text-input label="Text" type="text" id="text" name="text" value="${link?.text}" errors="${problems?.text?.errors}" required></enhance-text-input>
+  <enhance-text-input label="Text" type="text" id="text" name="text" value="${link?.text}" errors="${problems?.text?.errors}" required minlength=1 ></enhance-text-input>
   <enhance-text-input label="Url" type="url" id="url" name="url" value="${link?.url}" errors="${problems?.url?.errors}" required></enhance-text-input>
+  <enhance-checkbox label="Published" type="checkbox" id="published" name="published" ${link?.published ? "checked" : ""} errors="${problems?.published?.errors}"></enhance-checkbox>
   <input type="hidden" id="key" name="key" value="${link?.key}" />
   <enhance-submit-button style="float: right"><span slot="label">Save</span></enhance-submit-button>
   </enhance-fieldset>
