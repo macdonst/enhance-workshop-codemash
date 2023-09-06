@@ -31,7 +31,7 @@ Copy and paste the markup below into your `index.html`.
         I truly believe that the internet is the most powerful tool for bringing people together and raising our collective understanding. I have dedicated my career to building tools to enable people to share their dreams with the world. I've worked on and with the Web Platform for 25 years and plan on continuing to make web development more approachable for creatives and developers alike.
       </p>
       <p>
-        To learn more about my experience, you can <a href='/resume'>check out my resumé</a>.
+        To learn more about my experience, you can <a href='/resume'>check out my Résumé</a>.
       </p>
     </text-container>
   </site-container>
@@ -243,7 +243,7 @@ Lets drop it in our resume page and watch the data flow.
 <nav-bar class='pb4 sticky inset-bs-0 z1'></nav-bar>
 <site-container>
     <h1 class='mb6 text5 font-light text-center tracking-2'>
-      Resumé
+      Résumé
     </h1>
     <resume-experience></resume-experience>
 </site-container>
@@ -335,7 +335,7 @@ Lets add a footer and a résumé container.
 <nav-bar class='pb4 sticky inset-bs-0 z1'></nav-bar>
 <site-container>
     <h1 class='mb6 text5 font-light text-center tracking-2'>
-      Resumé
+      Résumé
     </h1>
     <resume-container class='mi-auto'>
       <resume-experience></resume-experience>
@@ -502,7 +502,7 @@ export default function NavBar({ html, state }) {
         </a>
         <ul class='mis-auto flex gap0 list-none text-1 uppercase tracking1 font-semibold'>
           <li><a href='/'>Home</a></li>
-          <li><a href='/resume'>Resumé</a></li>
+          <li><a href='/resume'>Résumé</a></li>
           <li><a href='/linktree'>Links</a></li>
         </ul>
       </nav>

@@ -1,5 +1,5 @@
 export default {
   '/': 'Senior Developer',
-  '/resume': 'Resumé',
+  '/resume': 'Résumé',
   '/linktree': 'Links',
 }

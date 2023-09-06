@@ -325,7 +325,7 @@ export default function NavBar({ html }) {
         </a>
         <ul class='mis-auto flex gap0 list-none text-1 uppercase tracking1 font-semibold'>
           <li><a href='/'>Home</a></li>
-          <li><a href='/resume'>Resumé</a></li>
+          <li><a href='/resume'>Résumé</a></li>
         </ul>
       </nav>
       <div class='backdrop absolute inset-0 z-1'></div>
@@ -343,7 +343,7 @@ Now that we have a `<nav-bar>` defined in /app/elements lets simplify our résum
 <nav-bar class='pb4 sticky inset-bs-0 z1'></nav-bar>
 <site-container>
     <h1 class='mb6 text5 font-light text-center tracking-2'>
-      Resumé
+      Résumé
     </h1>
 </site-container>
 ```
@@ -362,7 +362,7 @@ and our home page;
 
 Congratulations! We are not done.
 
-But we are getting closer. Next we need to add some data to our resumé. And generally smarten up some of these components.
+But we are getting closer. Next we need to add some data to our Résumé. And generally smarten up some of these components.
 
 In the next module we will talk about API routes and how we can pass data around in a few different ways.
 

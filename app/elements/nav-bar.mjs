@@ -33,9 +33,9 @@ export default function NavBar({ html, state }) {
         </a>
         <ul class='mis-auto flex gap0 list-none text-1 uppercase tracking1 font-semibold'>
           <li><a href='/'>Home</a></li>
-          <li><a href='/resume'>Resumé</a></li>
+          <li><a href='/resume'>Résumé</a></li>
           <li><a href='/linktree'>Links</a></li>
-          ${state.store?.authorized ? 
+          ${state.store?.authorized ?
     `<li><form method="POST" action="/logout"> <button>Log Out</button></form></li>` : ''}
         </ul>
       </nav>
