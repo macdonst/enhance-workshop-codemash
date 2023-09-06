@@ -120,7 +120,7 @@ Enhance, supports both.
 # Implementing a basic login flow on top of session
 
 Getting back to the portfolio we are building one of the things that we need sessions for is authentication.
-We want any guests to be able to see the portfolio, resume, and link tree pages, but we don't want them to be able to create new links.
+We want any guests to be able to see the portfolio, résumé, and link tree pages, but we don't want them to be able to create new links.
 
 To restrict the CRUDL routes we will use sessions. For this we will build a simple single player authentication.
 

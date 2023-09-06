@@ -169,16 +169,16 @@ The second part of Enhance Styles is the component scoped styles. Some CSS can n
 
 More details on this in upcomming modules.
 
-### Add a Resume page
+### Add a Résumé page
 
-Since this is a developer portfolio lets add a page for a resume.
+Since this is a developer portfolio lets add a page for a résumé.
 
 - Make another page called `app/pages/resume.html`
 
 ```html
 <!-- /app/pages/resume.html--->
 <main>
-  <h1>Resume</h1>
+  <h1 class='mb6 text5 font-light text-center tracking-2'>Résumé</h1>
   <p>Hello World</p>
 </main>
 ```
@@ -188,7 +188,7 @@ Now that we have two pages, we will need to navigate between them.
 ### Navigation
 Lets add a navigation bar at the top of the page.
 
-- Add the following `<nav>` at the top of our new resume page.
+- Add the following `<nav>` at the top of our new résumé page.
 
 ```html
 <!-- /app/pages/resume.html--->
@@ -198,12 +198,12 @@ Lets add a navigation bar at the top of the page.
   </h1>
   <ul class='mis-auto flex gap0 list-none'>
     <li><a href='/'>Home</a></li>
-    <li><a href='/resume'>Resume</a></li>
+    <li><a href='/resume'>Résumé</a></li>
   </ul>
 </nav>
 
 <main>
-  <h1>Resume</h1>
+  <h1 class='mb6 text5 font-light text-center tracking-2'>Résumé</h1>
   <p>Hello World</p>
 </main>
 ```

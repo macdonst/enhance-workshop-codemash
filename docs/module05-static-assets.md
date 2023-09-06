@@ -12,9 +12,9 @@ layout: default
 ## Stylesheet for Printing
 
 Our developer portfolio site is shaping up now.
-We have a resume page that looks pretty clean.
-But if you are trying to get a job you want to lower the friction for anyone who wants to look at the resume.
-Lets add some styles so that if you print the resume page it removes the header and footer and looks a little bit better.
+We have a résumé page that looks pretty clean.
+But if you are trying to get a job you want to lower the friction for anyone who wants to look at the résumé.
+Lets add some styles so that if you print the résumé page it removes the header and footer and looks a little bit better.
 
 Lets add that css as a stylesheet on its own.
 
@@ -134,8 +134,8 @@ The only caveat is if you dynamically generate a reference to `/_public` route o
 You can do it yourself by using `/_public/static.json` to find the correct fingerprint reference to use.
 Enhance does redirect if you use the un-fingerprinted name so the asset will load without caching.
 
-## Extra Credit PDF Download for Resume
-Another way to make the resume more accessible it to add a link to download a PDF.
+## Extra Credit PDF Download for Résumé
+Another way to make the résumé more accessible it to add a link to download a PDF.
 
 You can use the printing css to print to a pdf and add that pdf to the public folder.
 Then you can add a link to the resume.html page.

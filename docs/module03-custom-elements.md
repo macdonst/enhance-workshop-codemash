@@ -336,7 +336,7 @@ export default function NavBar({ html }) {
 
 ### Authoring with Custom Elements
 
-Now that we have a `<nav-bar>` defined in /app/elements lets simplify our resume page. We will use that nice `site-container` again to wrap our resume.
+Now that we have a `<nav-bar>` defined in /app/elements lets simplify our résumé page. We will use that nice `site-container` again to wrap our résumé.
 
 ```html
 <!-- /app/pages/resume.html--->

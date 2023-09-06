@@ -89,7 +89,7 @@ Yay! We now have a nice looking landing page.
 It is plain HTML with static content hardcoded.
 There are a lot of sites on the web that should be built that way instead of as SPA's.
 
-Next we want to build out our Resume page.
+Next we want to build out our Résumé page.
 For that we want to pull data in rather than hardcoding the markup.
 That requires some other tools.
 
@@ -157,7 +157,7 @@ export async function get(req){
 }
 ```
 
-Here we create an array of Jobs for our resume.
+Here we create an array of Jobs for our résumé.
 
 ## API Routes
 The API route data can be hard coded (as it is here), read from a database, fetched from other third party API's, or imported from anywhere.
@@ -191,8 +191,8 @@ Note: you may return any type of data from an API request. See [Responses](https
 
 ## Dynamic HTML pages
 
-Now that we have resume data passed to our `/app/pages/resume.mjs` how do we make use of it?
-Lets create an element to show our resume data.
+Now that we have résumé data passed to our `/app/pages/resume.mjs` how do we make use of it?
+Lets create an element to show our résumé data.
 
 We can access it in the data store.
 Look at the code below.
@@ -250,7 +250,7 @@ Lets drop it in our resume page and watch the data flow.
 ```
 
 
-Now we have the data we want lets finish this resume with some styles.
+Now we have the data we want lets finish this résumé with some styles.
 The data list needs a little work.
 Lets make a component `<data-list>` to apply the styles to:
 
@@ -311,7 +311,7 @@ export default function Experience ({ html, state }) {
 }
 ```
 
-Now create the resume container in the elements folder.
+Now create the résumé container in the elements folder.
 
 ```javascript
 // /app/elements/resume-container.mjs
@@ -329,7 +329,7 @@ export default function ResumeContainer({ html }) {
 ```
 
 Now back to `/app/pages/resume.html`.
-Lets add a footer and a resume container.
+Lets add a footer and a résumé container.
 
 ```html
 <nav-bar class='pb4 sticky inset-bs-0 z1'></nav-bar>
@@ -344,7 +344,7 @@ Lets add a footer and a resume container.
 <site-footer></site-footer>
 ```
 
-We have a decent looking Resume page along with tools to add data to create pages that are dynamic.
+We have a decent looking Résumé page along with tools to add data to create pages that are dynamic.
 
 But what if we wanted to pass some data to all the pages instead of just a single page.
 
@@ -550,7 +550,7 @@ Lets make an object with titles for different paths and put that in the `/app/li
 // /app/lib/titles-by-path.mjs
 export default {
   '/': 'Senior Developer',
-  '/resume': 'Resumé',
+  '/resume': 'Résumé',
   '/linktree': 'Links',
 }
 ```
