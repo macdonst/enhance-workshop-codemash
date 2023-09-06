@@ -70,9 +70,8 @@ with
 ```html
 <script>
 class DeleteButton extends HTMLElement {
-  #key = null;
-
-  static observedAttributes = ['key'];
+  #key = null
+  static observedAttributes = ['key']
 
   attributeChangedCallback(name, oldVal, newVal) {
     if (name === 'key' && oldVal !== newVal) {
@@ -89,27 +88,25 @@ class DeleteButton extends HTMLElement {
     this.button.removeEventListener('click', this.#handleClick);
   }
 
-  #handleClick = event => {
+  #handleClick = async event => {
     event.preventDefault()
-    let element = document.getElementById(this.#key)
+    let element = document.getElementById(this.getAttribute('key'))
     let display = element.style.display
     element.style.display = 'none'
     let { action, method } = event.target.closest('form')
-    fetch(action, {
+    try {
+      await fetch(action, {
         method: method,
         headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json"
+          "Content-Type": "application/json",
+          Accept: "application/json"
         },
       })
-      .then(() => {
-        console.log('deleting')
-        element.remove()
-      })
-      .catch(error => {
-        console.error("Whoops!")
-        element.style.display = display
-      })
+      element.remove()
+    } catch(error) {
+      console.error("Whoops!", error)
+      element.style.display = display
+    }
   }
 }
 customElements.define('delete-button', DeleteButton);
@@ -345,7 +342,7 @@ export default class SubmitButton extends HTMLElement {
         },
         body: JSON.stringify(Object.fromEntries(new FormData(form)))
       })
-      let { link } = response.json()
+      let { link } = await response.json()
       let { key, text, url } = link
       let details = document.querySelector('details')
       details.removeAttribute('open')
@@ -406,6 +403,7 @@ export default function Html ({ html, state }) {
   <enhance-fieldset legend="Link">
   <enhance-text-input label="Text" type="text" id="text" name="text" value="${link?.text}" errors="${problems?.text?.errors}"></enhance-text-input>
   <enhance-text-input label="Url" type="url" id="url" name="url" value="${link?.url}" errors="${problems?.url?.errors}"></enhance-text-input>
+  <enhance-checkbox label="Published" type="checkbox" id="published" name="published" ${link?.published ? "checked" : ""} errors="${problems?.published?.errors}"></enhance-checkbox>
   <input type="hidden" id="key" name="key" value="${link?.key}" />
   <submit-button style="float: right"><span slot="label">Save</span></submit-button>
   </enhance-fieldset>
