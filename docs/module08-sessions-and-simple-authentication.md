@@ -5,6 +5,7 @@ layout: default
 
 [Module Index](/enhance-workshop)
 
+# Module 8: Sessions and Simple Authentication
 
 ## Outline
 
@@ -283,7 +284,7 @@ We can rewrite the handler as shown below to share the authentication logic.
 ```javascript
 // /app/api/links.mjs
 import { getLinks, upsertLink } from '../models/links.mjs'
-import { checkAuth } from '../lib/checkAuth.mjs'
+import { checkAuth } from '../lib/check-auth.mjs'
 
 export const get = [checkAuth,listLinks]
 export const post = [checkAuth,postLinks]
@@ -296,7 +297,7 @@ export async function listLinks (req) {
 }
 
 export async function postLinks (req) {
-  const result = await upsertLink(req.body)
+  await upsertLink(req.body)
   return {
     location: '/links'
   }
@@ -305,9 +306,9 @@ export async function postLinks (req) {
 
 For more info check out the [Enhance Docs](https://enhance.dev/docs/learn/concepts/routing/api-routes#middleware)
 
-We can write a `checkAuth.mjs` middleware function and add it to our protected routes.
+We can write a `check-auth.mjs` middleware function and add it to our protected routes.
 
-Copy and paste the middleware below into `/app/lib/checkAuth.mjs`.
+Copy and paste the middleware below into `/app/lib/check-auth.mjs`.
 
 ```javascript
 export async function checkAuth(req) {

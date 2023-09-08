@@ -37,7 +37,15 @@ Copy and past the file below to `/public/print-resume.css`.
 /* /public/print-resume.css */
 /* Print-only resume styles */
 @media print {
-    nav-bar, site-footer {
+    nav-bar {
+      padding-block-end: 0 !important;
+    }
+
+    nav-bar a[href]:after {
+      content: none;
+    }
+
+    nav-bar img, nav-bar ul, site-footer, .pdf-link {
         display: none !important;
     }
 
@@ -54,6 +62,7 @@ Copy and past the file below to `/public/print-resume.css`.
         font-size: 1.5em !important;
         line-height: 1.4 !important;
         page-break-after: avoid !important;
+        text-align: start !important;
     }
 
     p, li, td {

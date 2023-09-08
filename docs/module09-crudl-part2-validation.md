@@ -29,7 +29,7 @@ Let's update `/app/models/links.mjs` to add a validate function:
 // /app/models/links.mjs
 import data from '@begin/data'
 import { validator } from '@begin/validator'
-import { Link } from './schemas/links.mjs'
+import { Link } from './schemas/link.mjs'
 
 const deleteLink = async function (key) {
   await data.destroy({ table: 'links', key })
@@ -104,19 +104,23 @@ Replace the code in `/app/api/links.mjs` with the code below:
 
 ```javascript
 // /app/api/links.mjs
-import { getLinks, upsertLink, validate } from '../../models/links.mjs'
+import { getLinks, upsertLink, validate } from '../models/links.mjs'
+import { checkAuth } from '../lib/check-auth.mjs'
 
-export async function get (req) {
+export const get = [checkAuth,listLinks]
+export const post = [checkAuth,postLinks]
+
+export async function listLinks (req) {
   const links = await getLinks()
   return {
     json: { links }
   }
 }
 
-export async function post (req) {
+export async function postLinks (req) {
   let { problems, link } = await validate.create(req)
 
-  const result = await upsertLink(link)
+  await upsertLink(link)
   return {
     location: '/links'
   }
@@ -148,7 +152,7 @@ The code is annotated with the steps. It might be difficult to follow because th
 ```javascript
 // /app/api/links.mjs
 import { getLinks, upsertLink, validate } from '../models/links.mjs'
-import { checkAuth } from '../lib/checkAuth.mjs'
+import { checkAuth } from '../lib/check-auth.mjs'
 
 export const get = [checkAuth,listLinks]
 export const post = [checkAuth,postLinks]
@@ -253,7 +257,7 @@ export default function links({ html, state }) {
   <enhance-submit-button><span slot="label">Delete this link</span></enhance-submit-button>
 </form>
 </article>`).join('\n')}
-${'' /* 2. Set details to open if problems occured */}
+${'' /* 2. Set details to open if problems ocurred */}
 <details class="mb0" ${Object.keys(problems).length ? 'open' : ''}>
     <summary>New link</summary>
     <enhance-form
@@ -289,7 +293,7 @@ Copy and paste the following into the `/app/api/links/$id.mjs`
 ```javascript
 // /app/api/links/$id.mjs
 import { getLink, upsertLink, validate } from '../../models/links.mjs'
-import { checkAuth } from '../../lib/checkAuth.mjs'
+import { checkAuth } from '../../lib/check-auth.mjs'
 
 export const get = [checkAuth, listLink]
 
@@ -350,7 +354,7 @@ Copy and paste the following into `/app/api/links/$id/delete.mjs`.
 ```javascript
 // /app/api/links/$id/delete.mjs
 import { deleteLink } from '../../../models/links.mjs'
-import { checkAuth } from '../../../lib/checkAuth.mjs'
+import { checkAuth } from '../../../lib/check-auth.mjs'
 
 export const post = [checkAuth, removeLink]
 
@@ -396,8 +400,8 @@ export default function Html ({ html, state }) {
     <ul>${problems.form}</ul>
   </div>
   <enhance-fieldset legend="Link">
-  <enhance-text-input label="Text" type="text" id="text" name="text" value="${link?.text}" errors="${problems?.text?.errors}"></enhance-text-input>
-  <enhance-text-input label="Url" type="url" id="url" name="url" value="${link?.url}" errors="${problems?.url?.errors}"></enhance-text-input>
+  <enhance-text-input label="Text" type="text" id="text" name="text" value="${link?.text}" errors="${problems?.text?.errors}" required minlength=1 ></enhance-text-input>
+  <enhance-text-input label="Url" type="url" id="url" name="url" value="${link?.url}" errors="${problems?.url?.errors}" required></enhance-text-input>
   <enhance-checkbox label="Published" type="checkbox" id="published" name="published" ${link?.published ? "checked" : ""} errors="${problems?.published?.errors}"></enhance-checkbox>
   <input type="hidden" id="key" name="key" value="${link?.key}" />
   <enhance-submit-button style="float: right"><span slot="label">Save</span></enhance-submit-button>
