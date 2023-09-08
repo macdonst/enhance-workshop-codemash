@@ -245,12 +245,13 @@ When we first started progressively enhancing this form we did so with the delet
 // app/elements/link-item.mjs
 export default function LinkItemElement({ html, state }) {
   const { attrs } = state
-  const { key = '', text = '', url = '' } = attrs
+  const { key = '', text = '', url = '', published = '' } = attrs
   return html`
       <article class="mb2">
         <div class="mb0">
             <p class="pb-2"><strong class="capitalize">text: </strong><span>${text}</span></p>
             <p class="pb-2"><strong class="capitalize">url: </strong><span>${url}</span></p>
+            <p class="pb-2"><strong class="capitalize">published: </strong>${published}</p>
             <p class="pb-2"><strong class="capitalize">key: </strong><span>${key}</span></p>
         </div>
         <p class="mb-1">
@@ -283,10 +284,11 @@ export default class LinkItem extends CustomElement {
     super()
     this.textElement = this.querySelectorAll('span')[0]
     this.urlElement = this.querySelectorAll('span')[1]
-    this.keyElement = this.querySelectorAll('span')[2]
+    this.publishedElement = this.querySelectorAll('span')[2]
+    this.keyElement = this.querySelectorAll('span')[3]
   }
 
-  static observedAttributes = ['key', 'text', 'url'];
+  static observedAttributes = ['key', 'text', 'url', 'published'];
 
   textChanged(value) {
     this.textElement.innerText = value
@@ -294,6 +296,10 @@ export default class LinkItem extends CustomElement {
 
   urlChanged(value) {
     this.urlElement.innerText = value
+  }
+
+  publishedChanged(value) {
+    this.publishedElement.innerText = value
   }
 
   keyChanged(value) {
@@ -343,7 +349,7 @@ export default class SubmitButton extends HTMLElement {
         body: JSON.stringify(Object.fromEntries(new FormData(form)))
       })
       let { link } = await response.json()
-      let { key, text, url } = link
+      let { key, text, url, published } = link
       let details = document.querySelector('details')
       details.removeAttribute('open')
       form.reset()
@@ -353,6 +359,7 @@ export default class SubmitButton extends HTMLElement {
       newNode.setAttribute('key', key)
       newNode.setAttribute('text', text)
       newNode.setAttribute('url', url)
+      newNode.setAttribute('published', published)
       detailsParent.insertBefore(newNode, details)
     } catch(error) {
       console.error("Whoops!", error)
