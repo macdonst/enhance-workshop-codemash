@@ -251,7 +251,7 @@ export default function LinkItemElement({ html, state }) {
         <div class="mb0">
             <p class="pb-2"><strong class="capitalize">text: </strong><span>${text}</span></p>
             <p class="pb-2"><strong class="capitalize">url: </strong><span>${url}</span></p>
-            <p class="pb-2"><strong class="capitalize">published: </strong>${published}</p>
+            <p class="pb-2"><strong class="capitalize">published: </strong><span>${published}</span></p>
             <p class="pb-2"><strong class="capitalize">key: </strong><span>${key}</span></p>
         </div>
         <p class="mb-1">
@@ -397,7 +397,7 @@ export default function Html ({ html, state }) {
   return html`<enhance-page-container>
   <main>
     <h1 class="mb1 font-semibold text3">Links page</h1>
-    ${links.map(item => `<link-item id="${item.key}" key="${item.key}" text="${item.text}" url="${item.url}"></link-item>`).join('\n')}
+    ${links.map(item => `<link-item id="${item.key}" key="${item.key}" text="${item.text}" url="${item.url}" published="${item.published}"></link-item>`).join('\n')}
 <details class="mb0" ${Object.keys(problems).length ? 'open' : ''}>
     <summary>New link</summary>
     <enhance-form

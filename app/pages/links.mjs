@@ -11,7 +11,7 @@ export default function Html ({ html, state }) {
   return html`<enhance-page-container>
   <main>
     <h1 class="mb1 font-semibold text3">Links page</h1>
-      ${links.map(item => `<link-item id="${item.key}" key="${item.key}" text="${item.text}" url="${item.url}" ${item.published ? "published" : "" } ></link-item>`).join('\n')}
+      ${links.map(item => `<link-item id="${item.key}" key="${item.key}" text="${item.text}" url="${item.url}" published="${item.published}"></link-item>`).join('\n')}
 <details class="mb0" ${Object.keys(problems).length ? 'open' : ''}>
     <summary>New link</summary>
     <enhance-form

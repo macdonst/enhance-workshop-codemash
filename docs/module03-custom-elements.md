@@ -282,7 +282,7 @@ export default function SiteContainer({ html }) {
 
 ### Script Tags
 - This is an Enhance Single File Component.
-- In addition to hoising and deduplicating the style tags (discussed above) it also has special treatment for script tags.
+- In addition to hoisting and deduplicating the style tags (discussed above) it also has special treatment for script tags.
 - This component (and the majority of components using HTML-first) don't need JavaScript.
 But some do. In those cases Enhance will pull these script tags out of the components and move them to the bottom of the body of the document.
 - This ensures the visible HTML will load and render as fast as possible.

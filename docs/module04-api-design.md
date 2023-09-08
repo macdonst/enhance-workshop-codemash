@@ -352,7 +352,7 @@ But what if we wanted to pass some data to all the pages instead of just a singl
 
 We briefly mentioned the `head.mjs` in the custom elements module.
 It is where we put a link tag for styles if we want to pull in custom stylesheets.
-Your project already has one that looks like this:
+Your project already has one, let's update it so that looks like this:
 
 ```javascript
 // /app/head.mjs
