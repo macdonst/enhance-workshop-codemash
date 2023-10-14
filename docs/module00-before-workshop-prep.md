@@ -135,8 +135,8 @@ curl -sS https://dl.begin.com/install.sh | sh
 - In the terminal enter the following commands and hit enter:
 
 ```
-git clone https://github.com/begginner-corp/enhance-workshop.git
-cd enhance-workshop
+git clone https://github.com/begginner-corp/enhance-workshop-web-unleashed.git
+cd enhance-workshop-web-unleashed
 npm i
 ```
 
@@ -277,8 +277,8 @@ iwr https://dl.begin.com/install.ps1 -useb | iex
 - In the terminal enter the following commands and hit enter:
 
 ```
-git clone https://github.com/begginner-corp/enhance-workshop.git
-cd enhance-workshop
+git clone https://github.com/begginner-corp/enhance-workshop-web-unleashed.git
+cd enhance-workshop-web-unleashed
 npm i
 ```
 
