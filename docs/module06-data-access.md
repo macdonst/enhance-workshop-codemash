@@ -1,12 +1,12 @@
 ---
-title: "Module 6b: Data Access"
+title: "Module 6: Data Access"
 layout: default
 ---
 
 [Module Index](/enhance-workshop)
 
 
-# Module 6b: Data Access
+# Module 6: Data Access
 
 Up to now we have built plain HTML pages and pages backed by data from API routes.
 Now we will go to the next level using a database to build very dynamic pages.
