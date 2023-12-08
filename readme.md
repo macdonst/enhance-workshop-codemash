@@ -1,4 +1,4 @@
-# enhance-example-portfolio
+# enhance-workshop-codemash
 
 **An example of a portfolio built with [Enhance](https://enhance.dev) — the HTML first full stack web framework.**
 
