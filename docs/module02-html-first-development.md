@@ -3,7 +3,7 @@ title: "Module 2: HTML-First Development"
 layout: default
 ---
 
-[Module Index](/enhance-workshop)
+[Module Index](/enhance-workshop-codemash)
 
 
 # Module 2: HTML-First Development

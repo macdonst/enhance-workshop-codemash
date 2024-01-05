@@ -3,13 +3,13 @@ title: "Module 4: API Design"
 layout: default
 ---
 
-[Module Index](/enhance-workshop)
+[Module Index](/enhance-workshop-codemash)
 
 
 
 # Module 4: API Design
 
-## Finish index.html
+## Exercise 1:  Finish index.html
 
 Before we move on lets put some finishing touches on our home page.
 We have all the pieces in place to write HTML pages using web components.
@@ -116,14 +116,13 @@ There is a grain of truth to this but this thinking lead to Gatsby sites that to
 It also spread the scourge of SPA's, because if your site is pregenerated markup all dynamic behavior must be done on the client.
 
 
-## Adding API Routes
+## Exercise 2: Adding API Routes
 API routes are a way to combine data in response to an HTTP request.
 
 They can respond with data (JSON, XML, etc).
 Or the data can be passed to a page route make dynamic HTML markup based on the data.
 
 Add the following code to a new API route at `/app/api/resume.mjs`:
-
 
 ```javascript
 // /app/api/resume.mjs
@@ -157,13 +156,17 @@ export async function get(req){
 }
 ```
 
-Here we create an array of Jobs for our résumé.
+Here we created an array of Jobs for our résumé. You can test that the API route is working by using curl.
+
+```bash
+curl http://localhost:3333/resume -H "Accept: application/json"
+```
 
 ## API Routes
 The API route data can be hard coded (as it is here), read from a database, fetched from other third party API's, or imported from anywhere.
 This is where the backend work happens to respond to requests.
 
-**Notice that this function recieves the request object as an argument (show as `req`) which can be used for preparing the response.**
+**Notice that this function receives the request object as an argument (show as `req`) which can be used for preparing the response.**
 
 The exported function from this api file is named for the method that it will handle.
 In the above example it is name `get` and will respond only to GET requests.
@@ -189,7 +192,7 @@ The response can include other properties including:
 Note: you may return any type of data from an API request. See [Responses](https://arc.codes/docs/en/reference/runtime-helpers/node.js#responses) for more details.
 
 
-## Dynamic HTML pages
+## Exercise 3: Dynamic HTML pages
 
 Now that we have résumé data passed to our `/app/pages/resume.mjs` how do we make use of it?
 Lets create an element to show our résumé data.
@@ -560,8 +563,6 @@ We also add the path to the data store so that any other elements can access it 
 
 
 ```javascript
-
-
 import titlesByPath from './lib/titles-by-path.mjs'
 import { getStyles }  from '@enhance/arc-plugin-styles'
 
@@ -630,11 +631,10 @@ export default function Head(state) {
     <body class='font-sans'>
 `
 }
-
 ```
 
 
-Now we have data flowing thougout our site.
+Now we have data flowing throughout our site.
 At this point the source of the data is mostly static, but the same tools can be used to pass any kind of data around.
 
 

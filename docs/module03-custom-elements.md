@@ -3,7 +3,7 @@ title: "Module 3: Custom Elements and Web Components"
 layout: default
 ---
 
-[Module Index](/enhance-workshop)
+[Module Index](/enhance-workshop-codemash)
 
 
 # Module 3: Custom Elements and Web Components
@@ -38,7 +38,7 @@ but it is important because there is a lot of outdated or incorrect information 
     - Custom Elements: Define custom HTML elements and add behavior defined in JavaScript.
     - HTML Templates: The `<template>` and `<slot>` elements enable you to write markup templates that are not displayed in the rendered page. These can then be reused multiple times as the basis of a custom element's structure.
     - Shadow DOM: A JavaScript API for attaching an encapsulated "shadow" DOM tree to an element in order to keep an element's features private.
-      - CSS shadow parts: Related to the shadow DOM there are some new CSS API's like `:slotted()` and `:host` that help with styling
+      - CSS shadow parts: Related to the shadow DOM there are some new CSS API's like `::slotted()` and `:host` that help with styling
 
 ## Web Component Example
 
@@ -95,16 +95,21 @@ Now add the following code to `app/pages/wc.html`
 
 - The Web Component above is JavaScript dependent.
 - Without JavaScript, stuff breaks.
+- Let's examine a couple of different ways things break down.
+
+### Exercise 1: FOUCE happens
+
 - Lets add some artificial delay to initializing the javascript
     - Replace the `customElements.define` call at the bottom of the script tag with the following line:
     - `setTimeout(() => customElements.define('user-card', UserCard), 5 * 1000)`
+- Reload `app/pages/wc.html`
 - You get a momentary [flash of unstyled custom element (FOUCE)](https://www.abeautifulsite.net/posts/flash-of-undefined-custom-elements/).
 - This is at minimum ugly.
 - If JavaScript fails to load at all the page may be completely broken.
 - We can simulate this by disabling JavaScript in your browser by clicking on the `Toggle JavaScript` extension we  installed earlier.
 - Once you do this you'll notice our styling is never applied as the web component is never registered.
 
-###  The Shadow DOM
+### Exercise 2: The Shadow DOM
 
 - Most problems with Web Components are downstream of the shadow DOM
 - The Shadow DOM encapsulation breaks platform APIs
@@ -250,12 +255,12 @@ It does a couple of really helpful things with those styles:
 1. It lifts them to the document head for performance.
 2. It deduplicates so that only one occurrence of each of the styles is needed.
 3. The rules in the tag are scoped to the element by prepending the element name to each rule.
-4. Shadow style rules like `:host` and `:slotted()` are changed to equivalent non-shadow CSS.
+4. Shadow style rules like `:host` and `::slotted()` are changed to equivalent non-shadow CSS.
 
 The CSS shadow rules are a really useful shorthand:
 - `:host` applies rules to the outer element.
-- `:slotted` allows you to target content that is slotted in.
-- `:part()` is a special API used to pierce the shadow DOM in targeted ways.
+- `::slotted` allows you to target content that is slotted in.
+- `::part()` is a special API used to pierce the shadow DOM in targeted ways.
 
 Part is included but not recommend as it generally causes confusion.
 
@@ -264,7 +269,6 @@ Copy and paste the styles here into our site-container file.
 
 ```javascript
 // /app/elements/site-container.mjs
-
 export default function SiteContainer({ html }) {
   return html`
     <style>
@@ -288,7 +292,7 @@ But some do. In those cases Enhance will pull these script tags out of the compo
 - This ensures the visible HTML will load and render as fast as possible.
 
 
-## `<nav-bar>` Finally
+## Exercise 3: `<nav-bar>` Finally
 
 Now we have components to DRY up our nav bar from the last module.
 Lets rewrite that the nav bar using these tools.

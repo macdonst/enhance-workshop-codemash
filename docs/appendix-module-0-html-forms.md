@@ -3,10 +3,10 @@ title: "Module 6: HTML Forms"
 layout: default
 ---
 
-[Module Index](/enhance-workshop)
+[Module Index](/enhance-workshop-codemash)
 
 
-# Module 6: HTML Forms 
+# Module 6: HTML Forms
 
 
 
@@ -91,8 +91,8 @@ layout: default
 </form>
 ```
 
-Right now this will send data to the server. 
-There is no one listening and we need to add a few parts to make it complete, but it is a start. 
+Right now this will send data to the server.
+There is no one listening and we need to add a few parts to make it complete, but it is a start.
 
 ## Validation:
 
@@ -127,7 +127,7 @@ There is no one listening and we need to add a few parts to make it complete, bu
 
 
 
-- The HTML-first approach is to build a form using as many of the built-in validation as possible. 
+- The HTML-first approach is to build a form using as many of the built-in validation as possible.
 Then, we can add additional features later if needed.
 - Here are some of the most important built-in validation features:
   - `required` Attribute: Marks an input as required.
@@ -195,7 +195,7 @@ export default function Registration({ html }) {
       confirm_password.setCustomValidity('')
     }
     // If you want to report the error as soon as it checks add the following
-    // confirm_password.reportValidity() 
+    // confirm_password.reportValidity()
   }
 
   confirm_password.addEventListener('blur', validatePasswords);
@@ -216,7 +216,7 @@ Add the following to `/app/pages/registration.html`
 
 - `setCustomValidity` will report a validation message.
 - Must be set to an empty string for the input to be valid
-- `reportValidity` must be called to set the validity immediatly. 
+- `reportValidity` must be called to set the validity immediatly.
 Otherwise the error will be reported when the user tries to submit the form.
 
 
@@ -251,8 +251,8 @@ console.log(req.body)
 - Values are strings: All the values above are read as strings.
 - This includes the password “123” above.
 - Lists: The multiple values with the same name “item” are read into an array.
-- Some servers have special treatment of dots(.) or braces([]) in order to create nested objects and arrays. 
-This is up to server implementation (i.e. user.firstname, or class[ ], or class[1]), and it is not a property of HTTP itself. 
+- Some servers have special treatment of dots(.) or braces([]) in order to create nested objects and arrays.
+This is up to server implementation (i.e. user.firstname, or class[ ], or class[1]), and it is not a property of HTTP itself.
 - Booleans(checkboxes): Check box inputs return their value if checked but they are omitted completely from the response if not checked.
     - By default, if a checkbox has no value attribute, it will return a value of “on” to the server.
     - If a value is set that value string will be returned if the the box it checked.
@@ -293,8 +293,8 @@ agree=yes&gender=female&age=25&name=Jane&newsletter=on
 
 - Now that we have a baseline understanding of what the raw HTTP response from a form looks like, we can decide how best to validate and normalize that data on the server.
 - For this, we are going to look at the [begin validator](https://github.com/beginner-corp/validator/blob/main/README.md).
-- It is a small package specifically built to normalize form data and help with server-side validation. 
-All servers handle this problem differently and you can opt out of using it entirely. 
+- It is a small package specifically built to normalize form data and help with server-side validation.
+All servers handle this problem differently and you can opt out of using it entirely.
 But it gives an example of what you can do.
 - First install the validator: `npm i @begin/validator`
 - Then include it in an API route: `import validator from '@begin/validator'`
@@ -317,8 +317,8 @@ But it gives an example of what you can do.
 
 
 
-- Forms return all values as strings. 
-Including boolean and number values. 
+- Forms return all values as strings.
+Including boolean and number values.
 In addition, false booleans (i.e. radio button not checked) will not be included in the submitted form data.
 - There is no way to know for sure what type the data was without some kind of schema.
 - If a schema is used these types (and missing booleans) can be coerced into the expected outputs.
@@ -395,8 +395,8 @@ export async function post(request) {
 
 ### JavaScript `new FormData()`
 
-HTML forms are often all you need. 
-They should be the baseline starting point for an app. 
+HTML forms are often all you need.
+They should be the baseline starting point for an app.
 But sometimes as a progressive enhancement, it is useful to submit the form with JavaScript.
 
 
@@ -461,6 +461,6 @@ But sometimes as a progressive enhancement, it is useful to submit the form with
 
 
 - Multi-part form data is for uploading files from client or encoding binary.
-- These forms send the data with different encoding. 
+- These forms send the data with different encoding.
 - Here is a blog series on sending multipart forms using Enhance ([https://begin.com/blog/posts/2023-02-08-upload-files-in-forms-part-1)](https://begin.com/blog/posts/2023-02-08-upload-files-in-forms-part-1))
 

@@ -3,7 +3,7 @@ title: Enhance Workshop Preparation
 layout: default
 ---
 
-[Module Index](/enhance-workshop)
+[Module Index](/enhance-workshop-codemash)
 
 # Module 0: Preliminary Setup (complete before the workshop)
 

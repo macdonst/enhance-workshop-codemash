@@ -3,9 +3,7 @@ title: "Module 5: Static assets"
 layout: default
 ---
 
-[Module Index](/enhance-workshop)
-
-
+[Module Index](/enhance-workshop-codemash)
 
 # Module 5: Static assets
 
@@ -29,6 +27,8 @@ They may be used on only one page or shared on all pages.
 These files should be cached so that they only have to be downloaded by the browser if the file changes.
 
 If the asset meets these requirements it can be put in the public folder.
+
+## Exercise 1: Create a print only stylesheet
 
 Our print only stylesheet does so lets put it there.
 Copy and past the file below to `/public/print-resume.css`.
@@ -143,7 +143,8 @@ The only caveat is if you dynamically generate a reference to `/_public` route o
 You can do it yourself by using `/_public/static.json` to find the correct fingerprint reference to use.
 Enhance does redirect if you use the un-fingerprinted name so the asset will load without caching.
 
-## Extra Credit PDF Download for Résumé
+## Exercise 2: Extra Credit PDF Download for Résumé
+
 Another way to make the résumé more accessible it to add a link to download a PDF.
 
 You can use the printing css to print to a pdf and add that pdf to the public folder.

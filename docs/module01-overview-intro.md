@@ -3,7 +3,7 @@ title: "Module 1: Workshop Overview"
 layout: default
 ---
 
-[Module Index](/enhance-workshop)
+[Module Index](/enhance-workshop-codemash)
 
 
 # Module 1: Workshop Overview

@@ -3,7 +3,7 @@ title: "Appendix 1: Authentication for a Username and Password flow"
 layout: default
 ---
 
-[Module Index](/enhance-workshop)
+[Module Index](/enhance-workshop-codemash)
 
 
 

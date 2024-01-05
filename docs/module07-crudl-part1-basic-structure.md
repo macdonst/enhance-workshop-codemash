@@ -3,7 +3,7 @@ title: "Module 7: CRUDL Part 1"
 layout: default
 ---
 
-[Module Index](/enhance-workshop)
+[Module Index](/enhance-workshop-codemash)
 
 
 # Module 7: CRUDL
@@ -42,7 +42,6 @@ We want to be able to do all the CRUDL operations on these links.
     - POST - Deletes object
 
 > Why do we have a POST `/links/$id/delete` route instead of a DELETE `/links/$id` route? It is because browsers only support GET and POST and we want to be able to support non-JavaScript use cases with our forms.
-
 
 - Files
   - API routes
@@ -94,6 +93,8 @@ export default SubmitButton
 
 But to save you lots of copy paste we have done that for you already.
 
+### Exercise 1: Creating a link
+
 Lets make a page with a form to create a new link at `/app/pages/links.mjs`:
 
 ```javascript
@@ -139,8 +140,9 @@ Lets finish the loop so that we can see the links we created.
 
 We want to view the list the links we've created. Instead of creating a new route. We will provide the UI for viewing and creating new links in the same page.
 
-Add the list at the top of `/app/pages/links.mjs`
+### Exercise 1: Listing a links
 
+Add the list at the top of `/app/pages/links.mjs`
 
 ```javascript
 // /app/pages/links
@@ -219,6 +221,8 @@ export async function post (req) {
 We have a button to update links from the list view,
 but we need to add the page and API to support that feature.
 
+## Exercise 3: Updating links
+
 First lets start with the update page and form.
 This will be similar to the create form except with the addition of a key.
 We will also need to pre-populate the form with the previous values so that only the updated values change.
@@ -281,6 +285,8 @@ Notice the id comes from the path parameter ($id) rather than from the form inpu
 We already added a form in the List view that will POST to delete an object.
 We just need to add the API route that handles that POST request.
 
+## Exercise 4: Deleting links
+
 - Add the following code to the `/app/api/links/$id/delete.mjs` file.
 
 ```javascript
@@ -295,7 +301,6 @@ export async function post (req) {
     location: '/links'
   }
 }
-
 ```
 
 We now have working CRUDL routes! For a toy app this might be enough, but we are missing some critical pieces. There is no validation of the data for one thing. Lets fix that.

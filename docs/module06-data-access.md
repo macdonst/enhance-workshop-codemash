@@ -3,7 +3,7 @@ title: "Module 6: Data Access"
 layout: default
 ---
 
-[Module Index](/enhance-workshop)
+[Module Index](/enhance-workshop-codemash)
 
 
 # Module 6: Data Access
@@ -66,7 +66,7 @@ export {
 
 That was all it takes! Every Enhance app comes with its own database. How is that for batteries included? `@begin/data` is just a thin wrapper around DynamoDB which is an incredibly fast, truly serverless database. If you don't need or use it, it will not get in your way nor will you be charged for it.
 
-## Seeding Data for Local Development
+## Exercise 2: Seeding Data for Local Development
 
 In local development we get a clean database every time we start the server.
 It is helpful to be able to seed some data so that we start with something.
@@ -133,12 +133,10 @@ This is also a good way to build around your data. We put some seed data in the 
 
 We now have working data access layer.
 
-## Data Schema
+## Exercise 3: Data Schema
 
 Our data access layer above allows for storing objects to the database. It does not have any concept of the shape of that data. We are going to need to validate the data in a later module. To do that we will need to know the shape we expect for that data.
 A data schema will allow us to compare given objects to the expected schema to verify. There are many ways to write a schema. We will chose JSON Schema ([JSON Schema](https://json-schema.org/)) for this app.
-
-
 
 Copy the following JSON schema into the `/app/models/schemas/link.mjs`.
 
