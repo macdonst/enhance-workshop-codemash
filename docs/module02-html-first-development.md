@@ -169,19 +169,13 @@ The second part of Enhance Styles is the component scoped styles. Some CSS can n
 
 More details on this in upcomming modules.
 
-### Add a Résumé page
+### Exercise 1: Add a Résumé page
 
 Since this is a developer portfolio lets add a page for a résumé.
 
 - Make another page called `app/pages/resume.html`
-
-```html
-<!-- /app/pages/resume.html--->
-<main>
-  <h1 class='mb6 text5 font-light text-center tracking-2'>Résumé</h1>
-  <p>Hello World</p>
-</main>
-```
+- Copy the code from `app/pages/index.html` but change the header text to be "Résumé"
+- Navigate to `http://localhost:3333/resume.html`
 
 Now that we have two pages, we will need to navigate between them.
 
@@ -208,7 +202,12 @@ Lets add a navigation bar at the top of the page.
 </main>
 ```
 
-Now we need to add the same navigation to the top of the home page.
+### Exercise 2: Add nav header to our Home page.
+
+- Now we need to add the same navigation to the top of the home page.
+- Use the navigation header to switch between pages.
+
+## Wrap-Up
 
 We now have some duplicated markup across these two pages. This duplication feels wrong. As our site continues to grow by adding new pages, we will need to update our navigation section in each one of them. This will get unwieldy very quickly so we immediately want to DRY it up.
 
