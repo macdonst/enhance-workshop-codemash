@@ -346,26 +346,26 @@ If an early middleware returns something it will send the response immediately a
 
 Another problem with using the API for this is that if our page does not need an API we will have to add it just to pass the authorized status.
 
-So the solution for this ends up being something we have already seen. We can use the `head.mjs` to get the `req.session.authorized` and put it in the `state.store.authorized` to make it available in every page.
+So the solution for this ends up being something we have already seen. We can use the `preflight.mjs` to get the `req.session.authorized` and put it in the `state.store.authorized` to make it available in every page.
 
 Lets add a logout button to our `nav-bar` using this approach.
 
-Add the following code in the `head.mjs` (only the top of the file is show).
+Add the following code in the `preflight.mjs` (only the top of the file is show).
 
 ```javascript
-// code removed ...
-export default function Head(state) {
-  const { req, store } = state
-  const { path, session } = req
-
-  if (store.authorized === undefined) {
-    store.authorized = session.authorized || false
+export default async function Preflight ({ req }) {
+  return {
+    author: {
+      name: 'Axol Lotl',
+      title: 'Web Developer',
+      githubUsername: 'enhance-dev',
+    },
+    path: req.path,
+    pageTitle: getPageTitle(req.path),
+    authorized: req.session?.authorized || false
   }
-  if (store.path === undefined) {
-    store.path = path
-  }
-  // code removed ...
-
+}
+// code removed
 ```
 
 Now we can go back to our `/app/elements/nav-bar.mjs` and add the log out button.

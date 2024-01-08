@@ -61,8 +61,8 @@ export default class DeleteButton extends CustomElement {
   }
 
   render({ html, state  }) {
-    const { attrs } = state
-    const { key } = attrs
+    const { attrs = {} } = state
+    const { key = '' } = attrs
     return html`
       <form action="/links/${key}/delete" method="POST" class="mb-1">
           <enhance-submit-button><span slot="label">Delete this link</span></enhance-submit-button>
@@ -129,4 +129,4 @@ with
 - In order for this to work we need to make one more change to `app/pages/links.mjs`. When we map through all the links we will add an `id` to the `article` tag so we can do some DOM surgery.
 - Navigate to `https://localhost:3333/links` and delete a few links. You'll notice, no more page refresh.
 
-For a longer explanation of progressive enhancement see: [Appendix 3](/appendix-module-3-progressive-enhancement)
+For a longer explanation of progressive enhancement see: [Appendix 3](/enhance-workshop-codemash/appendix-module-3-progressive-enhancement)
