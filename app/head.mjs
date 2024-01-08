@@ -48,6 +48,11 @@ export default function Head(state) {
           text-decoration-thickness: 0.0625em;
           text-underline-offset: 0.0625em;
         }
+
+        :root {
+          --fore: black;
+          --back: white;
+        }
       </style>
     </head>
     <body class='font-sans'>
