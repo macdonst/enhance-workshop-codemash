@@ -11,6 +11,7 @@ export default function Head () {
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Enhance Starter Project</title>
       ${linkTag()}
+      <style>html, body { color: black; background: white; }</style>
       <link rel="icon" href="/_public/favicon.svg">
       <meta name="description" content="The HTML first full stack web framework.">
     </head>
