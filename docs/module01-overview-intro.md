@@ -40,7 +40,7 @@ See [enhance-workshop.com](https://enhance-workshop.com)
 Or launch the app locally:
 
   ```bash
-  cd enhance-workshop
+  cd enhance-workshop-codemash
   npm start
   ```
 

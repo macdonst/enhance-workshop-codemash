@@ -45,7 +45,7 @@ but it is important because there is a lot of outdated or incorrect information 
 Checkout the Module 3 code as follows:
 
 ```bash
-cd enhance-workshop
+cd enhance-workshop-codemash
 git checkout module03-start
 ```
 

@@ -74,7 +74,7 @@ Now lets start building a developer portfolio.
 ### Get the code for this module:
 
 ```bash
-cd enhance-workshop
+cd enhance-workshop-codemash
 git checkout module02-start
 ```
 
