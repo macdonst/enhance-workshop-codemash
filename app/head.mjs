@@ -5,7 +5,7 @@ const { linkTag } = getStyles
 
 export default function Head(state) {
   const { store = {} } = state
-  const { pageTitle = 'Enhance Starter Project' } = store
+  const { path = '/', pageTitle = 'Enhance Starter Project' } = store
   return `
     <!DOCTYPE html>
     <html lang="en">
@@ -17,7 +17,7 @@ export default function Head(state) {
       <title>Axol Lotl: ${pageTitle}</title>
       <meta name="description" content="Portfolio for Axol Lotl, Senior Developer" />
       ${linkTag()}
-
+      ${(path === '/resume') ? '<link rel="stylesheet" href="/_public/print-resume.css">' : ''}
       <style>
         @font-face {
           font-family: "HK Grotesk";
