@@ -1,5 +1,7 @@
 // /app/models/links.mjs
 import data from '@begin/data'
+import { validator } from '@begin/validator'
+import { Link } from './schemas/link.mjs'
 
 const deleteLink = async function (key) {
   await data.destroy({ table: 'links', key })
@@ -31,9 +33,29 @@ const getLinks = async function () {
   return links
 }
 
+const validate = {
+  shared (req) {
+    return validator(req, Link)
+  },
+  async create (req) {
+    let { valid, problems, data } = validate.shared(req)
+    if (req.body.key) {
+      problems['key'] = { errors: '<p>should not be included on a create</p>' }
+    }
+    // Insert your custom validation here
+    return !valid ? { problems, link: data } : { link: data }
+  },
+  async update (req) {
+    let { valid, problems, data } = validate.shared(req)
+    // Insert your custom validation here
+    return !valid ? { problems, link: data } : { link: data }
+  }
+}
+
 export {
   deleteLink,
   getLink,
   getLinks,
   upsertLink,
+  validate
 }

@@ -1,10 +1,18 @@
-import { getLink, upsertLink } from '../../models/links.mjs'
+// /app/api/links/$id.mjs
+import { getLink, upsertLink, validate } from '../../models/links.mjs'
 import { checkAuth } from '../../lib/check-auth.mjs'
 
-export const get = [checkAuth,getOneLink]
-export const post = [checkAuth,updateLink]
+export const get = [checkAuth, listLink]
 
-async function getOneLink (req) {
+export async function listLink (req) {
+  if (req.session.problems) {
+    let { problems, link, ...session } = req.session
+    return {
+      session,
+      json: { problems, link }
+    }
+  }
+
   const id = req.pathParameters?.id
   const result = await getLink(id)
   return {
@@ -12,11 +20,37 @@ async function getOneLink (req) {
   }
 }
 
-async function updateLink (req) {
+export const post = [checkAuth, updateLink]
+
+export async function updateLink (req) {
   const id = req.pathParameters?.id
-  const result = await upsertLink({ ...req.body, key: id })
-  return {
-    json: { link: result },
-    location: '/links'
+
+  const session = req.session
+  // Validate
+  let { problems, link } = await validate.update(req)
+  if (problems) {
+    return {
+      session: {...session, problems, link },
+      json: { problems, link },
+      location: `/links/${link.key}`
+    }
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  let { problems: removedProblems, link: removed, ...newSession } = session
+  try {
+    const result = await upsertLink({ key: id, ...link })
+    return {
+      session: newSession,
+      json: { link: result },
+      location: '/links'
+    }
+  }
+  catch (err) {
+    return {
+      session: { ...newSession, error: err.message },
+      json: { error: err.message },
+      location: '/links'
+    }
   }
 }

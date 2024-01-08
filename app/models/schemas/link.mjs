@@ -5,7 +5,7 @@ export const Link = {
   "properties": {
     "text": {
       "type": "string",
-      "minLength": 1,
+      "minLength": 2,
     },
     "url": {
       "type": "string",
