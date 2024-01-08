@@ -3,7 +3,7 @@ title: "Module 8: Sessions and Simple Authentication"
 layout: default
 ---
 
-[Module Index](/enhance-workshop)
+[Module Index](/enhance-workshop-codemash)
 
 # Module 8: Sessions and Simple Authentication
 
@@ -118,7 +118,7 @@ Stateless sessions are nice because they don’t involve more moving parts like 
 
 Enhance, supports both.
 
-# Implementing a basic login flow on top of session
+# Excercise 1: Implementing a basic login flow on top of session
 
 Getting back to the portfolio we are building one of the things that we need sessions for is authentication.
 We want any guests to be able to see the portfolio, résumé, and link tree pages, but we don't want them to be able to create new links.
@@ -275,7 +275,7 @@ But there is a better way.
 Enhance has an affordance for lightweight middleware.
 Lets use that to add auth checks to our protected routes.
 
-## Authentication Middleware
+## Exercise 2: Authentication Middleware
 
 In an API handler we can export an array of handlers instead of one function.
 
@@ -334,7 +334,7 @@ Now do the same for the other two protected routes at `/app/api/links/$id.mjs` a
 
 Finally our protected routes are actually protected.
 
-## Auth Status in HTML pages
+## Exercise 3: Auth Status in HTML pages
 
 The Authentication check used here protects an unauthorized user from ever seeing a page. In some cases you will want users to be able to access a page either way with UI changes depending on their auth status. This may be an avatar in the header or a log out button only shown if they are authenticated. For that we need to pass the `authorized` property from the `session` to the page using the store.
 

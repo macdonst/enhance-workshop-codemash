@@ -3,7 +3,7 @@ title: "Module 9: CRUDL Part 2"
 layout: default
 ---
 
-[Module Index](/enhance-workshop)
+[Module Index](/enhance-workshop-codemash)
 
 
 # Module 9: CRUDL with Validation
@@ -15,7 +15,7 @@ layout: default
 
 The code we have works and for a toy app that might be sufficient. But for a real app we need to validate the data to avoid user error or intentional misuse.
 
-## Data Validator
+## Exercise 1: Data Validator
 
 For a simple form like this we could add validation logic in the handler ad-hoc.
 But as the data gets more complex that becomes a challenge.
@@ -130,7 +130,7 @@ export async function postLinks (req) {
 Now we are running the server-side validation which returns our problems, if there are any.
 But what do we do with them?
 
-## Form Problems Loop
+## Exercise 2: Form Problems Loop
 
 To close the loop on server-side validation we will need a way to keep maintain state between requests so that we can pass those problems back and forth and fix them.
 

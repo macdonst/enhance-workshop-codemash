@@ -3,13 +3,13 @@ title: "Module 12: Deployment and DNS"
 layout: default
 ---
 
-[Module Index](/enhance-workshop)
+[Module Index](/enhance-workshop-codemash)
 
 # Module 12: Deploying and DNS
 
 Up until this point we've been taking advantage of the ability to rapidly prototype our site locally. Now it's time to deploy our application to the cloud.
 
-## Deploying to the Cloud
+## Exercise 1: Deploying to the Cloud
 
 For this part of the workshop we will use the Begin CLI to deploy your app to Begin's cloud infrastructure which is backed by AWS. We think that using Begin is the easiest way to get your application on AWS but we don't believe in vendor lock-in so we will also provide two escape hatches to enable you to do the deployment yourself.
 
@@ -18,7 +18,7 @@ For this part of the workshop we will use the Begin CLI to deploy your app to Be
 - For `Would you like to create a Begin app based on this project? (Y/n)` hit `Enter` or type `y`.
 - Give your project a meaningful name when asked `What would you like to name your app?`
 - When queried `What would you like to name your first environment?` accept the default `staging` by hitting `Enter`.
-- Accept the default for `Would you like to specify the geographical region your project will be deployed to? (This cannot be changed) (Y/n)` by hitting `Enter`. This will deploy your app to the Oregon, US region. For a list of all supported regions see [region support](https://begin.com/blog/posts/2023-05-30-region-support-for-begin).
+- Accept the default for `Would you like to specify the geographical region your project will be deployed to? (This cannot be changed) (Y/n)` by hitting `Enter`. This will deploy your app to one of the US regions. For a list of all supported regions see [region support](https://begin.com/blog/posts/2023-05-30-region-support-for-begin).
 - Then wait a few minutes for your application to be deployed. The initial deploy will take a bit longer than subsequent deployments as the cloud gremlins are busy creating stacks of CloudFormation resources for you.
 - Here's an example of what an initial deploy would look like.
 
@@ -70,7 +70,7 @@ begin deploy
 
 - Once the deploy completes, and it will run faster this time, you will be able to login.
 
-## Production Environment
+## Exercise 2: Production Environment
 
 We recommend you create a separate environment for production. This way you get to test out new code changes in your staging environment before your users see it in production.
 
@@ -84,7 +84,7 @@ begin deploy --env production
 
 > Note: now that we have more than one environment for this application we need to specify which environment we want to deploy.
 
-## Continuous Integration/Continuous Deployment
+## Exercise 3 (Optional): Continuous Integration/Continuous Deployment
 
 Begin makes it easier to deploy from CI by providing integration with [GitHub Actions](https://github.com/beginner-corp/actions).
 

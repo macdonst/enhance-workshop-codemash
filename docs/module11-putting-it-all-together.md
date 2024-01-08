@@ -3,7 +3,7 @@ title: "Module 11: Putting it all together"
 layout: default
 ---
 
-[Module Index](/enhance-workshop)
+[Module Index](/enhance-workshop-codemash)
 
 # Module 11: Putting it all together
 
@@ -13,7 +13,7 @@ Like this one about custom CSS properties.
 
 ![custom css properties](./images/linktree.png)
 
-## Getting the data
+## Exercise 1: Getting the data
 
 - We are pretty experienced working with API routes by this point so let's create a new file `app/api/linktree.mjs` and populate it with the following code.
 
@@ -37,7 +37,7 @@ export async function get() {
 - We get to re-use the same database code to list all the links and we'll pass those links along to our page component.
 - Speaking of our page component.
 
-## Displaying the links
+## Exercise 2: Displaying the links
 
 - Create a new file called `app/pages/linktree.html` and populate it with the folling code.
 
@@ -157,7 +157,7 @@ export default function LinktreeLink({ html, state }) {
 
 - The element itself is quite simple as it just returns an styled anchor tag. Eagle eyed workshop attendees may have spotted something new in this component as well as the `linktree-container` element.
 
-## Custom CSS Properties
+## Exercise 3: Custom CSS Properties
 
 > Custom properties (sometimes referred to as CSS variables or cascading variables) are entities defined by CSS authors that contain specific values to be reused throughout a document. They are set using custom property notation (e.g., --main-color: black;) and are accessed using the var() function (e.g., color: var(--main-color);).
 
@@ -206,7 +206,7 @@ with
 
 There are two good reasons why you should care about custom properties.
 
-1. Theming: custom properites allow you to easily theme your component by ensuring they are using the same value for css properties like color, border, etc.
+1. Theming: custom properties allow you to easily theme your component by ensuring they are using the same value for css properties like color, border, etc.
 2. Shadow DOM: We talked earlier that web components that use the shadow DOM are not affected by the regular cascade of CSS as they are effectively in another DOM. However CSS custom properties can pierce this barrier allowing you to pass in values from the light DOM. This allows you to do consistent style of your light and shadow DOM components.
 
 For more information on CSS custom properties click on any of the default links on the linktree.
