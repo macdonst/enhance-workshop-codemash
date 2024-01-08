@@ -351,7 +351,7 @@ We have a decent looking Résumé page along with tools to add data to create pa
 
 But what if we wanted to pass some data to all the pages instead of just a single page.
 
-## Passing Data Using `head.mjs`
+## Updating `head.mjs`
 
 We briefly mentioned the `head.mjs` in the custom elements module.
 It is where we put a link tag for styles if we want to pull in custom stylesheets.
@@ -399,7 +399,8 @@ export default function Head() {
         }
 
         body {
-          color: var(--dark);
+          color: black;
+          background-color: white;
           text-rendering: optimizeLegibility;
         }
 
@@ -420,46 +421,27 @@ Otherwise this file generates the string for the html, head, and body tags.
 
 It is the first element processed by enhance to create the page.
 It is a special element because the head cannot be a custom element.
-But when it is processed we have access to the request and the store.
 
-This gives us an opportunity to inject data into the store here that will be available to every other element processed.
+## Passing data using `preflight.mjs`
 
-For instance we have a nav bar and footer where the author info is hard coded.
+The purpose of the preflight file is to populate the server-side store with default application state. The preflight function is passed the request object enabling you to populate the server-side store with customized data per route.
 
-Lets make that dynamic and pull it from the store.
+You can use the preflight file as a way to incrementally build your data layer. Start with a static version of your store data to get everything working then progress to using API functions and a database as needed.
 
-The first argument of `head.mjs` is an object that contains the request and the store.
-We could read the store here to put something in the head, but instead we will inject our author data.
+In our nav bar and footer the author info is hard coded. Lets make that dynamic and pull it from the store.
 
-Just in case we want to override this for a specific route we will check to see if an author is already passed and leave it there if it is.
+The first argument of `preflight.mjs` is an object that contains the request. Let's use it to inject our author data into the store.
 
 ```javascript
-
-import { getStyles }  from '@enhance/arc-plugin-styles'
-
-const { linkTag } = getStyles
-
-export default function Head(state) {
-  const { req, store } = state
-
-  if (store.author === undefined) {
-    store.author = {
+export default async function Preflight ({ req }) {
+  return {
+    author: {
       name: 'Axol Lotl',
       title: 'Web Developer',
       githubUsername: 'enhance-dev',
     }
   }
-
-  return `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      /* shortened */
-    </head>
-    <body class='font-sans'>
-`
 }
-
 ```
 
 That data is now available.
@@ -542,49 +524,45 @@ export default function SiteFooter({ html, state }) {
     </footer>
   `
 }
-
 ```
 
-Since we are updating the head.mjs lets make the title metadata dynamic.
-Lets make an object with titles for different paths and put that in the `/app/lib/titles-by-path.mjs`.
+Since we are updating `preflight.mjs` lets make the title metadata dynamic.
 
 ```javascript
 // /app/lib/titles-by-path.mjs
-export default {
-  '/': 'Senior Developer',
-  '/resume': 'Résumé',
-  '/linktree': 'Links',
+export default async function Preflight ({ req }) {
+  return {
+    author: {
+      name: 'Axol Lotl',
+      title: 'Web Developer',
+      githubUsername: 'enhance-dev',
+    },
+    pageTitle: getPageTitle(req.path)
+  }
+}
+
+function getPageTitle (path) {
+  const titleMap = {
+    '/': 'Senior Developer',
+    '/resume': 'Résumé',
+    '/linktree': 'Links',
+  }
+
+  return titleMap[path] || ''
 }
 ```
 
-We can use the `state.req.path` in the `head.mjs` to find the current path that we are on and put that in the `<title>`.
-
-We also add the path to the data store so that any other elements can access it if needed (i.e. highlighting current location in nav bar).
-
+We can now update `head.mjs` with the current `<title>`.
 
 ```javascript
-import titlesByPath from './lib/titles-by-path.mjs'
+// /app/head.mjs
 import { getStyles }  from '@enhance/arc-plugin-styles'
 
 const { linkTag } = getStyles
 
 export default function Head(state) {
-  const { req, store } = state
-  const { path, session } = req
-
-  if (store.path === undefined) {
-    store.path = path
-  }
-  if (store.author === undefined) {
-    store.author = {
-      name: 'Axol Lotl',
-      title: 'Web Developer',
-      githubUsername: 'enhance-dev',
-    }
-  }
-
-  const title = titlesByPath[path] || ''
-
+  const { store = {} } = state
+  const { pageTitle = 'Enhance Starter Project' } = store
   return `
     <!DOCTYPE html>
     <html lang="en">
@@ -593,7 +571,7 @@ export default function Head(state) {
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="og:type" content="website" />
       <link rel="icon" href="/_public/favicon.svg">
-      <title>Axol Lotl: ${title}</title>
+      <title>Axol Lotl: ${pageTitle}</title>
       <meta name="description" content="Portfolio for Axol Lotl, Senior Developer" />
       ${linkTag()}
 
@@ -617,7 +595,8 @@ export default function Head(state) {
         }
 
         body {
-          color: var(--dark);
+          color: black;
+          background-color: white;
           text-rendering: optimizeLegibility;
         }
 
