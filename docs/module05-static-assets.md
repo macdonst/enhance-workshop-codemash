@@ -99,15 +99,15 @@ Add the last link in the head.mjs shown below.
 ```javascript
 // /app/head.mjs
 export default function Head(state) {
-  const { req, store } = state
-  const { path, session } = req
+  const { store = {} } = state
+  const { path = '/', pageTitle = 'Enhance Starter Project' } = store
 
   return `
     <!DOCTYPE html>
     <html lang="en">
     <head>
 
-      ${(req.path === '/resume') ? '<link rel="stylesheet" href="/_public/print-resume.css">' : ''}
+      ${(path === '/resume') ? '<link rel="stylesheet" href="/_public/print-resume.css">' : ''}
 ```
 
 >Note some of the code has been removed to just leave the relevant context.
