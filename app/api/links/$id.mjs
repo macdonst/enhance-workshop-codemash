@@ -1,6 +1,10 @@
 import { getLink, upsertLink } from '../../models/links.mjs'
+import { checkAuth } from '../../lib/check-auth.mjs'
 
-export async function get (req) {
+export const get = [checkAuth,getOneLink]
+export const post = [checkAuth,updateLink]
+
+async function getOneLink (req) {
   const id = req.pathParameters?.id
   const result = await getLink(id)
   return {
@@ -8,7 +12,7 @@ export async function get (req) {
   }
 }
 
-export async function post (req) {
+async function updateLink (req) {
   const id = req.pathParameters?.id
   const result = await upsertLink({ ...req.body, key: id })
   return {

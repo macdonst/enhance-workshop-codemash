@@ -6,7 +6,8 @@ export default async function Preflight ({ req }) {
       githubUsername: 'enhance-dev',
     },
     path: req.path,
-    pageTitle: getPageTitle(req.path)
+    pageTitle: getPageTitle(req.path),
+    authorized: req.session?.authorized || false
   }
 }
 
