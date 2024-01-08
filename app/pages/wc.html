@@ -1,0 +1,30 @@
+<form action="/" method="post">
+    <fieldset>
+        <legend>Shadow DOM</legend>
+        <my-input label="Shadow Input"></my-input>
+    </fieldset>
+    <fieldset>
+        <legend>Light DOM</legend>
+        <label>Light Input
+            <input/>
+        </label>
+    </fieldset>
+</form>
+
+<script>
+  class MyInput extends HTMLElement {
+    constructor() {
+      super()
+
+      let shadow = this.attachShadow({mode: 'open'})
+
+      shadow.innerHTML = `
+        <label>${this.getAttribute('label')}
+          <input/>
+        </label>
+      `
+    }
+  }
+
+  customElements.define('my-input', MyInput)
+</script>
