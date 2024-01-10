@@ -135,7 +135,7 @@ curl -sS https://dl.begin.com/install.sh | sh
 - In the terminal enter the following commands and hit enter:
 
 ```
-git clone https://github.com/beginner-corp/enhance-workshop-codemash.git
+git clone https://github.com/macdonst/enhance-workshop-codemash.git
 cd enhance-workshop-codemash
 npm i
 ```
@@ -277,7 +277,7 @@ iwr https://dl.begin.com/install.ps1 -useb | iex
 - In the terminal enter the following commands and hit enter:
 
 ```
-git clone https://github.com/beginner-corp/enhance-workshop-codemash.git
+git clone https://github.com/macdonst/enhance-workshop-codemash.git
 cd enhance-workshop-codemash
 npm i
 ```
